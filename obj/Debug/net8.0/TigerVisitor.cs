@@ -33,6 +33,222 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface ITigerVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
+	/// Visit a parse tree produced by the <c>LeftVal</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLeftVal([NotNull] TigerParser.LeftValContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>Nil</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitNil([NotNull] TigerParser.NilContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>IntegerLiteral</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIntegerLiteral([NotNull] TigerParser.IntegerLiteralContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>StringLiteral</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitStringLiteral([NotNull] TigerParser.StringLiteralContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>FunctionCall</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitFunctionCall([NotNull] TigerParser.FunctionCallContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>RecordCreation</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRecordCreation([NotNull] TigerParser.RecordCreationContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>ArrayCreation</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitArrayCreation([NotNull] TigerParser.ArrayCreationContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>NegationExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitNegationExpr([NotNull] TigerParser.NegationExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>MultExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitMultExpr([NotNull] TigerParser.MultExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>DivExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitDivExpr([NotNull] TigerParser.DivExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>AddExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAddExpr([NotNull] TigerParser.AddExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>SubExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSubExpr([NotNull] TigerParser.SubExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>NeqExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitNeqExpr([NotNull] TigerParser.NeqExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>LtExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLtExpr([NotNull] TigerParser.LtExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>GtExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitGtExpr([NotNull] TigerParser.GtExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>LeExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLeExpr([NotNull] TigerParser.LeExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>GeExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitGeExpr([NotNull] TigerParser.GeExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>EqExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitEqExpr([NotNull] TigerParser.EqExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>AndExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAndExpr([NotNull] TigerParser.AndExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>OrExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitOrExpr([NotNull] TigerParser.OrExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>ParenNestExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParenNestExpr([NotNull] TigerParser.ParenNestExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>Assignment</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAssignment([NotNull] TigerParser.AssignmentContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>IfExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIfExpr([NotNull] TigerParser.IfExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>WhileExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitWhileExpr([NotNull] TigerParser.WhileExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>ForExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitForExpr([NotNull] TigerParser.ForExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>BreakExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBreakExpr([NotNull] TigerParser.BreakExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>LetExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLetExpr([NotNull] TigerParser.LetExprContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="TigerParser.program"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -40,94 +256,80 @@ public interface ITigerVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitProgram([NotNull] TigerParser.ProgramContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="TigerParser.line"/>.
+	/// Visit a parse tree produced by <see cref="TigerParser.decs"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitLine([NotNull] TigerParser.LineContext context);
+	Result VisitDecs([NotNull] TigerParser.DecsContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="TigerParser.statement"/>.
+	/// Visit a parse tree produced by <see cref="TigerParser.dec"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitStatement([NotNull] TigerParser.StatementContext context);
+	Result VisitDec([NotNull] TigerParser.DecContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="TigerParser.ifStmt"/>.
+	/// Visit a parse tree produced by <see cref="TigerParser.tydec"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitIfStmt([NotNull] TigerParser.IfStmtContext context);
+	Result VisitTydec([NotNull] TigerParser.TydecContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="TigerParser.elseIfStmt"/>.
+	/// Visit a parse tree produced by <see cref="TigerParser.ty"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitElseIfStmt([NotNull] TigerParser.ElseIfStmtContext context);
+	Result VisitTy([NotNull] TigerParser.TyContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="TigerParser.block"/>.
+	/// Visit a parse tree produced by <see cref="TigerParser.tyfields"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitBlock([NotNull] TigerParser.BlockContext context);
+	Result VisitTyfields([NotNull] TigerParser.TyfieldsContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="TigerParser.whileStmt"/>.
+	/// Visit a parse tree produced by <see cref="TigerParser.typeid"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitWhileStmt([NotNull] TigerParser.WhileStmtContext context);
+	Result VisitTypeid([NotNull] TigerParser.TypeidContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="TigerParser.assignment"/>.
+	/// Visit a parse tree produced by <see cref="TigerParser.vardec"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitAssignment([NotNull] TigerParser.AssignmentContext context);
+	Result VisitVardec([NotNull] TigerParser.VardecContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="TigerParser.type"/>.
+	/// Visit a parse tree produced by <see cref="TigerParser.fundec"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitType([NotNull] TigerParser.TypeContext context);
+	Result VisitFundec([NotNull] TigerParser.FundecContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="TigerParser.functionCall"/>.
+	/// Visit a parse tree produced by <see cref="TigerParser.lvalue"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitFunctionCall([NotNull] TigerParser.FunctionCallContext context);
+	Result VisitLvalue([NotNull] TigerParser.LvalueContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="TigerParser.expression"/>.
+	/// Visit a parse tree produced by <see cref="TigerParser.exprs"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitExpression([NotNull] TigerParser.ExpressionContext context);
+	Result VisitExprs([NotNull] TigerParser.ExprsContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="TigerParser.mathOp"/>.
+	/// Visit a parse tree produced by <see cref="TigerParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitMathOp([NotNull] TigerParser.MathOpContext context);
-
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="TigerParser.boolOp"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitBoolOp([NotNull] TigerParser.BoolOpContext context);
-
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="TigerParser.constant"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitConstant([NotNull] TigerParser.ConstantContext context);
+	Result VisitExpr([NotNull] TigerParser.ExprContext context);
 }
 } // namespace Tiger.ANTLR

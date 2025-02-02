@@ -32,6 +32,357 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface ITigerListener : IParseTreeListener {
 	/// <summary>
+	/// Enter a parse tree produced by the <c>LeftVal</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterLeftVal([NotNull] TigerParser.LeftValContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>LeftVal</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitLeftVal([NotNull] TigerParser.LeftValContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>Nil</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNil([NotNull] TigerParser.NilContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>Nil</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNil([NotNull] TigerParser.NilContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>IntegerLiteral</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterIntegerLiteral([NotNull] TigerParser.IntegerLiteralContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>IntegerLiteral</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitIntegerLiteral([NotNull] TigerParser.IntegerLiteralContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>StringLiteral</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterStringLiteral([NotNull] TigerParser.StringLiteralContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>StringLiteral</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitStringLiteral([NotNull] TigerParser.StringLiteralContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>FunctionCall</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterFunctionCall([NotNull] TigerParser.FunctionCallContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>FunctionCall</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitFunctionCall([NotNull] TigerParser.FunctionCallContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RecordCreation</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRecordCreation([NotNull] TigerParser.RecordCreationContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RecordCreation</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRecordCreation([NotNull] TigerParser.RecordCreationContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>ArrayCreation</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterArrayCreation([NotNull] TigerParser.ArrayCreationContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>ArrayCreation</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitArrayCreation([NotNull] TigerParser.ArrayCreationContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>NegationExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNegationExpr([NotNull] TigerParser.NegationExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>NegationExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNegationExpr([NotNull] TigerParser.NegationExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>MultExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMultExpr([NotNull] TigerParser.MultExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>MultExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMultExpr([NotNull] TigerParser.MultExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>DivExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterDivExpr([NotNull] TigerParser.DivExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>DivExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitDivExpr([NotNull] TigerParser.DivExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>AddExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAddExpr([NotNull] TigerParser.AddExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>AddExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAddExpr([NotNull] TigerParser.AddExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>SubExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSubExpr([NotNull] TigerParser.SubExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>SubExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSubExpr([NotNull] TigerParser.SubExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>NeqExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNeqExpr([NotNull] TigerParser.NeqExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>NeqExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNeqExpr([NotNull] TigerParser.NeqExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>LtExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterLtExpr([NotNull] TigerParser.LtExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>LtExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitLtExpr([NotNull] TigerParser.LtExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>GtExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterGtExpr([NotNull] TigerParser.GtExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>GtExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitGtExpr([NotNull] TigerParser.GtExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>LeExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterLeExpr([NotNull] TigerParser.LeExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>LeExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitLeExpr([NotNull] TigerParser.LeExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>GeExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterGeExpr([NotNull] TigerParser.GeExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>GeExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitGeExpr([NotNull] TigerParser.GeExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>EqExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterEqExpr([NotNull] TigerParser.EqExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>EqExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitEqExpr([NotNull] TigerParser.EqExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>AndExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAndExpr([NotNull] TigerParser.AndExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>AndExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAndExpr([NotNull] TigerParser.AndExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>OrExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterOrExpr([NotNull] TigerParser.OrExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>OrExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitOrExpr([NotNull] TigerParser.OrExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>ParenNestExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterParenNestExpr([NotNull] TigerParser.ParenNestExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>ParenNestExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitParenNestExpr([NotNull] TigerParser.ParenNestExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>Assignment</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAssignment([NotNull] TigerParser.AssignmentContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>Assignment</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAssignment([NotNull] TigerParser.AssignmentContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>IfExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterIfExpr([NotNull] TigerParser.IfExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>IfExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitIfExpr([NotNull] TigerParser.IfExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>WhileExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterWhileExpr([NotNull] TigerParser.WhileExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>WhileExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitWhileExpr([NotNull] TigerParser.WhileExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>ForExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterForExpr([NotNull] TigerParser.ForExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>ForExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitForExpr([NotNull] TigerParser.ForExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>BreakExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterBreakExpr([NotNull] TigerParser.BreakExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>BreakExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitBreakExpr([NotNull] TigerParser.BreakExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>LetExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterLetExpr([NotNull] TigerParser.LetExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>LetExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitLetExpr([NotNull] TigerParser.LetExprContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="TigerParser.program"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
@@ -43,146 +394,124 @@ public interface ITigerListener : IParseTreeListener {
 	void ExitProgram([NotNull] TigerParser.ProgramContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.line"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.decs"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterLine([NotNull] TigerParser.LineContext context);
+	void EnterDecs([NotNull] TigerParser.DecsContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.line"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.decs"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitLine([NotNull] TigerParser.LineContext context);
+	void ExitDecs([NotNull] TigerParser.DecsContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.statement"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.dec"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterStatement([NotNull] TigerParser.StatementContext context);
+	void EnterDec([NotNull] TigerParser.DecContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.statement"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.dec"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitStatement([NotNull] TigerParser.StatementContext context);
+	void ExitDec([NotNull] TigerParser.DecContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.ifStmt"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.tydec"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterIfStmt([NotNull] TigerParser.IfStmtContext context);
+	void EnterTydec([NotNull] TigerParser.TydecContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.ifStmt"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.tydec"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitIfStmt([NotNull] TigerParser.IfStmtContext context);
+	void ExitTydec([NotNull] TigerParser.TydecContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.elseIfStmt"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.ty"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterElseIfStmt([NotNull] TigerParser.ElseIfStmtContext context);
+	void EnterTy([NotNull] TigerParser.TyContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.elseIfStmt"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.ty"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitElseIfStmt([NotNull] TigerParser.ElseIfStmtContext context);
+	void ExitTy([NotNull] TigerParser.TyContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.block"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.tyfields"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterBlock([NotNull] TigerParser.BlockContext context);
+	void EnterTyfields([NotNull] TigerParser.TyfieldsContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.block"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.tyfields"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitBlock([NotNull] TigerParser.BlockContext context);
+	void ExitTyfields([NotNull] TigerParser.TyfieldsContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.whileStmt"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.typeid"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterWhileStmt([NotNull] TigerParser.WhileStmtContext context);
+	void EnterTypeid([NotNull] TigerParser.TypeidContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.whileStmt"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.typeid"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitWhileStmt([NotNull] TigerParser.WhileStmtContext context);
+	void ExitTypeid([NotNull] TigerParser.TypeidContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.assignment"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.vardec"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterAssignment([NotNull] TigerParser.AssignmentContext context);
+	void EnterVardec([NotNull] TigerParser.VardecContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.assignment"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.vardec"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitAssignment([NotNull] TigerParser.AssignmentContext context);
+	void ExitVardec([NotNull] TigerParser.VardecContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.type"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.fundec"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterType([NotNull] TigerParser.TypeContext context);
+	void EnterFundec([NotNull] TigerParser.FundecContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.type"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.fundec"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitType([NotNull] TigerParser.TypeContext context);
+	void ExitFundec([NotNull] TigerParser.FundecContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.functionCall"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.lvalue"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterFunctionCall([NotNull] TigerParser.FunctionCallContext context);
+	void EnterLvalue([NotNull] TigerParser.LvalueContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.functionCall"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.lvalue"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitFunctionCall([NotNull] TigerParser.FunctionCallContext context);
+	void ExitLvalue([NotNull] TigerParser.LvalueContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.expression"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.exprs"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterExpression([NotNull] TigerParser.ExpressionContext context);
+	void EnterExprs([NotNull] TigerParser.ExprsContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.expression"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.exprs"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitExpression([NotNull] TigerParser.ExpressionContext context);
+	void ExitExprs([NotNull] TigerParser.ExprsContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.mathOp"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterMathOp([NotNull] TigerParser.MathOpContext context);
+	void EnterExpr([NotNull] TigerParser.ExprContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.mathOp"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitMathOp([NotNull] TigerParser.MathOpContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.boolOp"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterBoolOp([NotNull] TigerParser.BoolOpContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.boolOp"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitBoolOp([NotNull] TigerParser.BoolOpContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.constant"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterConstant([NotNull] TigerParser.ConstantContext context);
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.constant"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitConstant([NotNull] TigerParser.ConstantContext context);
+	void ExitExpr([NotNull] TigerParser.ExprContext context);
 }
 } // namespace Tiger.ANTLR

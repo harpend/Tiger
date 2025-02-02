@@ -1,11 +1,11 @@
-﻿namespace Tut
-{
-    class Program {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello, World!");
+﻿using Tiger.ANTLR;
 
-            Console.ReadLine();
-        }
+namespace Tut;
+
+public class TigerVisitor: TigerBaseVisitor<object?>
+{
+    static void Main(string[] args)
+    {
+        Console.WriteLine("test");
     }
 }

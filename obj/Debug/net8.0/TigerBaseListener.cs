@@ -36,6 +36,411 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 [System.CLSCompliant(false)]
 public partial class TigerBaseListener : ITigerListener {
 	/// <summary>
+	/// Enter a parse tree produced by the <c>LeftVal</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterLeftVal([NotNull] TigerParser.LeftValContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>LeftVal</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitLeftVal([NotNull] TigerParser.LeftValContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>Nil</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterNil([NotNull] TigerParser.NilContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>Nil</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitNil([NotNull] TigerParser.NilContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>IntegerLiteral</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterIntegerLiteral([NotNull] TigerParser.IntegerLiteralContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>IntegerLiteral</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitIntegerLiteral([NotNull] TigerParser.IntegerLiteralContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>StringLiteral</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterStringLiteral([NotNull] TigerParser.StringLiteralContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>StringLiteral</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitStringLiteral([NotNull] TigerParser.StringLiteralContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>FunctionCall</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterFunctionCall([NotNull] TigerParser.FunctionCallContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>FunctionCall</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitFunctionCall([NotNull] TigerParser.FunctionCallContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>RecordCreation</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterRecordCreation([NotNull] TigerParser.RecordCreationContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>RecordCreation</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitRecordCreation([NotNull] TigerParser.RecordCreationContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>ArrayCreation</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterArrayCreation([NotNull] TigerParser.ArrayCreationContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>ArrayCreation</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitArrayCreation([NotNull] TigerParser.ArrayCreationContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>NegationExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterNegationExpr([NotNull] TigerParser.NegationExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>NegationExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitNegationExpr([NotNull] TigerParser.NegationExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>MultExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterMultExpr([NotNull] TigerParser.MultExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>MultExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitMultExpr([NotNull] TigerParser.MultExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>DivExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterDivExpr([NotNull] TigerParser.DivExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>DivExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitDivExpr([NotNull] TigerParser.DivExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>AddExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterAddExpr([NotNull] TigerParser.AddExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>AddExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitAddExpr([NotNull] TigerParser.AddExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>SubExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterSubExpr([NotNull] TigerParser.SubExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>SubExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitSubExpr([NotNull] TigerParser.SubExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>NeqExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterNeqExpr([NotNull] TigerParser.NeqExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>NeqExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitNeqExpr([NotNull] TigerParser.NeqExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>LtExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterLtExpr([NotNull] TigerParser.LtExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>LtExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitLtExpr([NotNull] TigerParser.LtExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>GtExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterGtExpr([NotNull] TigerParser.GtExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>GtExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitGtExpr([NotNull] TigerParser.GtExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>LeExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterLeExpr([NotNull] TigerParser.LeExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>LeExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitLeExpr([NotNull] TigerParser.LeExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>GeExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterGeExpr([NotNull] TigerParser.GeExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>GeExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitGeExpr([NotNull] TigerParser.GeExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>EqExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterEqExpr([NotNull] TigerParser.EqExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>EqExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitEqExpr([NotNull] TigerParser.EqExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>AndExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterAndExpr([NotNull] TigerParser.AndExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>AndExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitAndExpr([NotNull] TigerParser.AndExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>OrExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterOrExpr([NotNull] TigerParser.OrExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>OrExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitOrExpr([NotNull] TigerParser.OrExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>ParenNestExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterParenNestExpr([NotNull] TigerParser.ParenNestExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>ParenNestExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitParenNestExpr([NotNull] TigerParser.ParenNestExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>Assignment</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterAssignment([NotNull] TigerParser.AssignmentContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>Assignment</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitAssignment([NotNull] TigerParser.AssignmentContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>IfExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterIfExpr([NotNull] TigerParser.IfExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>IfExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitIfExpr([NotNull] TigerParser.IfExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>WhileExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterWhileExpr([NotNull] TigerParser.WhileExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>WhileExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitWhileExpr([NotNull] TigerParser.WhileExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>ForExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterForExpr([NotNull] TigerParser.ForExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>ForExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitForExpr([NotNull] TigerParser.ForExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>BreakExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBreakExpr([NotNull] TigerParser.BreakExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>BreakExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBreakExpr([NotNull] TigerParser.BreakExprContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>LetExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterLetExpr([NotNull] TigerParser.LetExprContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>LetExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitLetExpr([NotNull] TigerParser.LetExprContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="TigerParser.program"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
@@ -49,173 +454,147 @@ public partial class TigerBaseListener : ITigerListener {
 	public virtual void ExitProgram([NotNull] TigerParser.ProgramContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.line"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.decs"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterLine([NotNull] TigerParser.LineContext context) { }
+	public virtual void EnterDecs([NotNull] TigerParser.DecsContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.line"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.decs"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitLine([NotNull] TigerParser.LineContext context) { }
+	public virtual void ExitDecs([NotNull] TigerParser.DecsContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.statement"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.dec"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterStatement([NotNull] TigerParser.StatementContext context) { }
+	public virtual void EnterDec([NotNull] TigerParser.DecContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.statement"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.dec"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitStatement([NotNull] TigerParser.StatementContext context) { }
+	public virtual void ExitDec([NotNull] TigerParser.DecContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.ifStmt"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.tydec"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterIfStmt([NotNull] TigerParser.IfStmtContext context) { }
+	public virtual void EnterTydec([NotNull] TigerParser.TydecContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.ifStmt"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.tydec"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitIfStmt([NotNull] TigerParser.IfStmtContext context) { }
+	public virtual void ExitTydec([NotNull] TigerParser.TydecContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.elseIfStmt"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.ty"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterElseIfStmt([NotNull] TigerParser.ElseIfStmtContext context) { }
+	public virtual void EnterTy([NotNull] TigerParser.TyContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.elseIfStmt"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.ty"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitElseIfStmt([NotNull] TigerParser.ElseIfStmtContext context) { }
+	public virtual void ExitTy([NotNull] TigerParser.TyContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.block"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.tyfields"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterBlock([NotNull] TigerParser.BlockContext context) { }
+	public virtual void EnterTyfields([NotNull] TigerParser.TyfieldsContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.block"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.tyfields"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitBlock([NotNull] TigerParser.BlockContext context) { }
+	public virtual void ExitTyfields([NotNull] TigerParser.TyfieldsContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.whileStmt"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.typeid"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterWhileStmt([NotNull] TigerParser.WhileStmtContext context) { }
+	public virtual void EnterTypeid([NotNull] TigerParser.TypeidContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.whileStmt"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.typeid"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitWhileStmt([NotNull] TigerParser.WhileStmtContext context) { }
+	public virtual void ExitTypeid([NotNull] TigerParser.TypeidContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.assignment"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.vardec"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterAssignment([NotNull] TigerParser.AssignmentContext context) { }
+	public virtual void EnterVardec([NotNull] TigerParser.VardecContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.assignment"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.vardec"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitAssignment([NotNull] TigerParser.AssignmentContext context) { }
+	public virtual void ExitVardec([NotNull] TigerParser.VardecContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.type"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.fundec"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterType([NotNull] TigerParser.TypeContext context) { }
+	public virtual void EnterFundec([NotNull] TigerParser.FundecContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.type"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.fundec"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitType([NotNull] TigerParser.TypeContext context) { }
+	public virtual void ExitFundec([NotNull] TigerParser.FundecContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.functionCall"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.lvalue"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterFunctionCall([NotNull] TigerParser.FunctionCallContext context) { }
+	public virtual void EnterLvalue([NotNull] TigerParser.LvalueContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.functionCall"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.lvalue"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitFunctionCall([NotNull] TigerParser.FunctionCallContext context) { }
+	public virtual void ExitLvalue([NotNull] TigerParser.LvalueContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.expression"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.exprs"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterExpression([NotNull] TigerParser.ExpressionContext context) { }
+	public virtual void EnterExprs([NotNull] TigerParser.ExprsContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.expression"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.exprs"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitExpression([NotNull] TigerParser.ExpressionContext context) { }
+	public virtual void ExitExprs([NotNull] TigerParser.ExprsContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.mathOp"/>.
+	/// Enter a parse tree produced by <see cref="TigerParser.expr"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void EnterMathOp([NotNull] TigerParser.MathOpContext context) { }
+	public virtual void EnterExpr([NotNull] TigerParser.ExprContext context) { }
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.mathOp"/>.
+	/// Exit a parse tree produced by <see cref="TigerParser.expr"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	public virtual void ExitMathOp([NotNull] TigerParser.MathOpContext context) { }
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.boolOp"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterBoolOp([NotNull] TigerParser.BoolOpContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.boolOp"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitBoolOp([NotNull] TigerParser.BoolOpContext context) { }
-
-	/// <summary>
-	/// Enter a parse tree produced by <see cref="TigerParser.constant"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterConstant([NotNull] TigerParser.ConstantContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by <see cref="TigerParser.constant"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitConstant([NotNull] TigerParser.ConstantContext context) { }
+	public virtual void ExitExpr([NotNull] TigerParser.ExprContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>
