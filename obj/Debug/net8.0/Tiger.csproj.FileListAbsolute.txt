@@ -1,0 +1,14 @@
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\bin\Debug\net8.0\Tiger.exe
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\bin\Debug\net8.0\Tiger.deps.json
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\bin\Debug\net8.0\Tiger.runtimeconfig.json
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\bin\Debug\net8.0\Tiger.dll
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\bin\Debug\net8.0\Tiger.pdb
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\Tiger.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\Tiger.AssemblyInfoInputs.cache
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\Tiger.AssemblyInfo.cs
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\Tiger.csproj.CoreCompileInputs.cache
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\Tiger.dll
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\refint\Tiger.dll
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\Tiger.pdb
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\Tiger.genruntimeconfig.cache
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\ref\Tiger.dll
