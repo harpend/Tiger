@@ -12,3 +12,14 @@ C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\refint\
 C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\Tiger.pdb
 C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\Tiger.genruntimeconfig.cache
 C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\ref\Tiger.dll
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\Tiger.csproj.AssemblyReference.cache
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\bin\Debug\net8.0\Antlr4.Runtime.dll
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\TigerLexer.cs
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\TigerParser.cs
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\TigerListener.cs
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\TigerBaseListener.cs
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\TigerVisitor.cs
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\TigerBaseVisitor.cs
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\Tiger.csproj.Antlr4GeneratedCodeFileListAbsolute.txt
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\Tiger.sourcelink.json
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\Tiger.csproj.Up2Date

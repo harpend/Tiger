@@ -1,0 +1,6 @@
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\TigerLexer.cs
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\TigerParser.cs
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\TigerListener.cs
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\TigerBaseListener.cs
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\TigerVisitor.cs
+C:\Users\jackt\OneDrive\Documents\Compilers\Tiger\Tiger\obj\Debug\net8.0\TigerBaseVisitor.cs
