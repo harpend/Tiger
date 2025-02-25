@@ -1,9 +1,10 @@
 ﻿using Antlr4.Runtime;
 using Tiger.ANTLR;
+using Tiger.ANTLR.AST;
 
 namespace Tut;
 
-public class TigerVisitor: TigerBaseVisitor<object?>
+public class Program
 {
     static void Main(string[] args)
     {
