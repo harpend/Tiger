@@ -41,15 +41,15 @@ namespace Tiger.ANTLR.AST.Node
 
     class CallExprNode : ASTExprNode
     {
-        public string Symbol { get; }
-        public ASTExprNode[] Exprs { get; }
+        public string FuncSymbol { get; }
+        public ASTExprNode[] Args { get; }
         public int Pos { get; }
 
-        public CallExprNode(ASTExprNode[] exprs, int pos, string Symbol)
+        public CallExprNode(ASTExprNode[] args, int pos, string funcSymbol)
         {
-            this.Exprs = exprs;
+            this.Args = args;
             this.Pos = pos;
-            this.Symbol = Symbol;
+            this.FuncSymbol = funcSymbol;
         }
     }
 
@@ -57,24 +57,24 @@ namespace Tiger.ANTLR.AST.Node
     {
         public ASTExprNode Left { get; }
         public ASTExprNode Right { get; }
-        public ASTOpNode op { get; }
+        public ASTOpNode Op { get; }
 
         public OpExprNode(ASTExprNode left, ASTExprNode right, ASTOpNode op)
         {
             this.Left = left;
             this.Right = right;
-            this.op = op;
+            this.Op = op;
         }
     }
 
     class RecordExprNode : ASTExprNode
     {
-        public class Field
+        public class RecordField
         {
             public string Symbol { get; }
             public ASTExprNode Expr { get; }
             public int Pos { get; }
-            public Field(string symbol, ASTExprNode expr, int pos)
+            public RecordField(string symbol, ASTExprNode expr, int pos)
             {
                 this.Symbol = symbol;
                 this.Expr = expr;
@@ -82,13 +82,13 @@ namespace Tiger.ANTLR.AST.Node
             }
         }
 
-        public Field[] Fields { get; }
-        public string Symbol { get; }
+        public RecordField[] Fields { get; }
+        public string TypeSymbol { get; }
         public int Pos { get; }
-        public RecordExprNode(Field[] fields, string symbol, int pos)
+        public RecordExprNode(RecordField[] fields, string typeSymbol, int pos)
         {
             this.Fields = fields;
-            this.Symbol = symbol;
+            this.TypeSymbol = typeSymbol;
             this.Pos = pos;
         }
     }
