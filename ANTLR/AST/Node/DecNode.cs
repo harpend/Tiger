@@ -21,7 +21,7 @@ namespace Tiger.ANTLR.AST.Node
                 this.Pos = pos;
             }
         }
-        public Option Type { get; } // not technically a simple var node just shares same fields
+        public Option Type { get; }
         public ASTExprNode Init { get; }
         public int Pos { get; }
         public string NameSymbol { get; }
@@ -59,9 +59,9 @@ namespace Tiger.ANTLR.AST.Node
                 Pos = pos;
             }
         }
-        public TypeSubClass[] TypeSubs { get; }
+        public List<TypeSubClass> TypeSubs { get; }
 
-        public TypeDecNode(TypeSubClass[] typeSubs)
+        public TypeDecNode(List<TypeSubClass> typeSubs)
         {
             this.TypeSubs = typeSubs;
         }

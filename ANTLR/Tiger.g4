@@ -5,26 +5,30 @@ program: (expr | decs)+ EOF;
 
 decs: dec+;
 
-dec: tydec
-	| vardec
-	| fundec
-	| IMPORT STRLIT;
+dec: tydec # DecTyDec
+	| vardec # DecVarDec
+	| fundec # DecFunDec
+	| IMPORT STRLIT # DecImport
+	;
 
 tydec: TYPE ID EQ ty;
 
-ty: typeid
-	| LBRACE tyfields RBRACE
-	| ARRAY OF typeid;
+ty: typeid # TyTypeId
+	| LBRACE tyfields RBRACE # TyBraced
+	| ARRAY OF typeid # TyArray
+	;
 
 tyfields: (ID COLON typeid (COMMA ID COLON typeid)*)?;
 
 typeid: ID;
 
-vardec: VAR ID ASGN expr
-		| VAR ID COLON typeid ASGN expr;
+vardec: VAR ID ASGN expr # SimpleVarDec
+		| VAR ID COLON typeid ASGN expr # TypeVarDec
+		;
 
-fundec: FUNCTION ID LPAREN tyfields RPAREN EQ expr
-		| FUNCTION ID LPAREN tyfields RPAREN COLON typeid EQ expr;
+fundec: FUNCTION ID LPAREN tyfields RPAREN EQ expr # SimpleFuncDec
+		| FUNCTION ID LPAREN tyfields RPAREN COLON typeid EQ expr # TypeFuncDec
+		;
 
 lvalue: ID
 		| lvalue DOT ID
@@ -36,15 +40,15 @@ expr: lvalue	#LeftVal
 	  | NIL		#Nil
 	  | INTLIT	#IntegerLiteral
 	  | STRLIT	#StringLiteral
-	  | ID LPAREN (expr (COMMA expr)*)? RPAREN  #FunctionCall
-	  | typeid LBRACE (ID EQ expr (COMMA ID EQ expr)*)? RBRACE #RecordCreation
-	  | typeid LBRACKET expr RBRACKET OF expr		#ArrayCreation
+	  | ID LPAREN (expr (COMMA expr)*)? RPAREN  # FunctionCall
+	  | typeid LBRACE (ID EQ expr (COMMA ID EQ expr)*)? RBRACE # RecordCreation
+	  | typeid LBRACKET expr RBRACKET OF expr		# ArrayCreation
       | MINUS expr                                 # NegationExpr
       | expr MULT expr                            # MultExpr
       | expr DIV expr                            # DivExpr
       | expr PLUS expr                            # AddExpr
       | expr MINUS expr                            # SubExpr
-	  | expr NE expr							#NeqExpr
+	  | expr NE expr							# NeqExpr
       | expr LT expr                            # LtExpr
       | expr GT expr                            # GtExpr
       | expr LE expr                           # LeExpr
@@ -52,13 +56,13 @@ expr: lvalue	#LeftVal
       | expr EQ expr                           # EqExpr
       | expr AND expr                           # AndExpr
       | expr OR expr						     # OrExpr
-	  | LPAREN expr RPAREN						#ParenNestExpr
-	  | lvalue ASGN expr						#Assignment
-	  | IF expr THEN expr (ELSE expr)?			#IfExpr
-	  | WHILE expr DO expr						#WhileExpr
-	  | FOR ID ASGN expr TO expr DO expr		#ForExpr
-	  | BREAK									#BreakExpr
-	  |	LET decs IN exprs END					#LetExpr
+	  | LPAREN expr RPAREN						# ParenNestExpr
+	  | lvalue ASGN expr						# Assignment
+	  | IF expr THEN expr (ELSE expr)?			# IfExpr
+	  | WHILE expr DO expr						# WhileExpr
+	  | FOR ID ASGN expr TO expr DO expr		# ForExpr
+	  | BREAK									# BreakExpr
+	  |	LET decs IN exprs END					# LetExpr
 	  ;
 
 

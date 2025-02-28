@@ -14,7 +14,7 @@ public class Program
         CommonTokenStream tokens = new CommonTokenStream(tigerLexer);
         TigerParser parser = new TigerParser(tokens);
         TigerParser.ProgramContext program = parser.program();
-        TigerVisitor visitor = new TigerVisitor(program);
+        //TigerVisitor visitor = new TigerVisitor(program);
 
     }
 }

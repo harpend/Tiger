@@ -30,8 +30,8 @@ namespace Tiger.ANTLR.AST.Node
 
     class RecordTypeNode : ASTTypeNode
     {
-        public Field[] Fields { get; }
-        public RecordTypeNode(Field[] fields)
+        public List<Field> Fields { get; }
+        public RecordTypeNode(List<Field> fields)
         {
             this.Fields = fields;
         }

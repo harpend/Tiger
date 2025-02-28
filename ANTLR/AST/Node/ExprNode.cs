@@ -42,10 +42,10 @@ namespace Tiger.ANTLR.AST.Node
     class CallExprNode : ASTExprNode
     {
         public string FuncSymbol { get; }
-        public ASTExprNode[] Args { get; }
+        public List<ASTExprNode> Args { get; }
         public int Pos { get; }
 
-        public CallExprNode(ASTExprNode[] args, int pos, string funcSymbol)
+        public CallExprNode(List<ASTExprNode> args, int pos, string funcSymbol)
         {
             this.Args = args;
             this.Pos = pos;
@@ -82,10 +82,10 @@ namespace Tiger.ANTLR.AST.Node
             }
         }
 
-        public RecordField[] Fields { get; }
+        public List<RecordField> Fields { get; }
         public string TypeSymbol { get; }
         public int Pos { get; }
-        public RecordExprNode(RecordField[] fields, string typeSymbol, int pos)
+        public RecordExprNode(List<RecordField> fields, string typeSymbol, int pos)
         {
             this.Fields = fields;
             this.TypeSymbol = typeSymbol;
@@ -106,8 +106,8 @@ namespace Tiger.ANTLR.AST.Node
             }
         }
 
-        public Sequence[] Sequences { get; }
-        public SeqExprNode(Sequence[] sequences)
+        public List<Sequence> Sequences { get; }
+        public SeqExprNode(List<Sequence> sequences)
         {
             this.Sequences = sequences;
         }
@@ -119,7 +119,7 @@ namespace Tiger.ANTLR.AST.Node
         public ASTExprNode Expr { get; }
         public int Pos { get; }
 
-        public AssignExprNode(AssignExprNode assignExpr, int pos, ASTVarNode var)
+        public AssignExprNode(ASTExprNode assignExpr, int pos, ASTVarNode var)
         {
             this.Var = var;
             this.Expr = assignExpr;
@@ -180,10 +180,10 @@ namespace Tiger.ANTLR.AST.Node
 
     class LetExprNode : ASTExprNode
     {
-        public ASTDecNode[] Decs { get; }
+        public List<ASTDecNode> Decs { get; }
         public ASTExprNode Body { get; }
         public int Pos { get; }
-        public LetExprNode(ASTDecNode[] decs, ASTExprNode body, int pos)
+        public LetExprNode(List<ASTDecNode> decs, ASTExprNode body, int pos)
         {
             this.Decs = decs;
             this.Body = body;
