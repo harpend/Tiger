@@ -8,6 +8,14 @@ namespace Tiger.ANTLR.AST.Node
 {
     abstract class ASTDecNode : ASTNode { }
 
+    class DecsNode : ASTDecNode
+    {
+        public List<ASTDecNode> Decs { get; }
+        public DecsNode(List<ASTDecNode> decs)
+        {
+            this.Decs = decs;
+        }
+    }
     class VarDecNode : ASTDecNode
     {
         public bool BoolRef { get; } // escape

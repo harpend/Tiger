@@ -10,6 +10,14 @@ namespace Tiger.ANTLR.AST.Node
 {
     abstract class ASTExprNode : ASTNode { }
 
+    class ExprsNode : ASTExprNode
+    {
+        public List<ASTExprNode> Exprs { get; }
+        public ExprsNode(List<ASTExprNode> exprs)
+        {
+            this.Exprs = exprs;
+        }
+    }
     class VarExprNode : ASTExprNode
     {
         public ASTVarNode Var { get; }
@@ -180,10 +188,10 @@ namespace Tiger.ANTLR.AST.Node
 
     class LetExprNode : ASTExprNode
     {
-        public List<ASTDecNode> Decs { get; }
-        public ASTExprNode Body { get; }
+        public DecsNode Decs { get; }
+        public ExprsNode Body { get; }
         public int Pos { get; }
-        public LetExprNode(List<ASTDecNode> decs, ASTExprNode body, int pos)
+        public LetExprNode(DecsNode decs, ExprsNode body, int pos)
         {
             this.Decs = decs;
             this.Body = body;

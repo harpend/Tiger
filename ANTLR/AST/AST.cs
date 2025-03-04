@@ -1,7 +1,9 @@
 ﻿using Antlr4.Runtime.Misc;
+using Antlr4.Runtime.Tree;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Tiger.ANTLR.AST.Node;
@@ -194,7 +196,105 @@ namespace Tiger.ANTLR.AST
 
         public override ASTNode VisitWhileExpr([NotNull] TigerParser.WhileExprContext context)
         {
-            return new WhileExprNode();
+            ASTExprNode test = Visit(context.expr()[0]) as ASTExprNode;
+            ASTExprNode body = Visit(context.expr()[1]) as ASTExprNode;
+            int pos = context.Start.StopIndex;
+            return new WhileExprNode(test, pos, body);
         }
+
+        public override ASTNode VisitForExpr([NotNull] TigerParser.ForExprContext context)
+        {
+            string varName = context.ID().GetText();
+            int pos = context.ID().Symbol.StartIndex; // Assuming position is based on line number
+            VarExprNode loopVar = new VarExprNode(new SimpleVarNode(varName, pos));
+            ASTExprNode lo = Visit(context.expr()[0]) as ASTExprNode ;
+            ASTExprNode hi = Visit(context.expr()[1]) as ASTExprNode ;
+            ASTExprNode body = Visit(context.expr()[2]) as ASTExprNode;
+            pos = context.Start.StartIndex;
+            bool escape = true;
+            return new ForExprNode(loopVar, escape, lo, hi, body, pos);
+        }
+
+        public override ASTNode VisitBreakExpr([NotNull] TigerParser.BreakExprContext context)
+        {
+            return new BreakExprNode(context.Start.StartIndex);
+        }
+
+        public override ASTNode VisitLetExpr([NotNull] TigerParser.LetExprContext context)
+        {
+            DecsNode decs = Visit(context.decs()) as DecsNode; 
+            ExprsNode exprs = Visit(context.exprs()) as ExprsNode;
+            int pos = context.Start.StartIndex;
+            return new LetExprNode(decs, exprs, pos);
+        }
+
+        public override ASTNode VisitExprs([NotNull] TigerParser.ExprsContext context)
+        {
+            List<ASTExprNode> exprs = context.expr()
+                .Select(exprCtx => Visit(exprCtx) as ASTExprNode)
+                .ToList();
+            return new ExprsNode(exprs);
+        }
+        public override ASTNode VisitDecs([NotNull] TigerParser.DecsContext context)
+        {
+            List<ASTDecNode> decs = context.dec()
+                .Select(exprCtx => Visit(exprCtx) as ASTDecNode)
+                .ToList();
+            return new DecsNode(decs);
+        }
+
+        public override ASTNode VisitTyTypeId([NotNull] TigerParser.TyTypeIdContext context)
+        {
+            string symbol = context.typeid().ID().GetText();
+            int pos = context.Start.StartIndex;
+            return new NameTypeNode(symbol, pos);
+        }
+
+        public override ASTNode VisitTyArray([NotNull] TigerParser.TyArrayContext context)
+        {
+            string symbol = context.typeid().ID().GetText();
+            int pos = context.Start.StartIndex;
+            return new ArrayTypeNode(symbol, pos);
+        }
+
+        public override ASTNode VisitTyBraced([NotNull] TigerParser.TyBracedContext context)
+        {
+            return Visit(context.tyfields());
+        }
+
+        public override ASTNode VisitTyfields([NotNull] TigerParser.TyfieldsContext context)
+        {
+            List<Field> fields = context.field()
+                .Select(fieldCtx => Visit(fieldCtx) as Field)
+                .ToList();
+            return new RecordTypeNode(fields);
+        }
+
+        public override ASTNode VisitField([NotNull] TigerParser.FieldContext context)
+        {
+            string name = context.ID().GetText();
+            int pos = context.start.StartIndex;
+            string type = context.typeid().GetText();
+            return new Field(name, true, type, pos);
+        }
+
+        //public override ASTNode VisitTydec([NotNull] TigerParser.TydecContext context)
+        //{
+        //    List<TypeDecNode> typeDecNodes = new List<TypeDecNode>();
+
+        //    // Loop through the children of the context to process the type declarations
+        //    do
+        //    {
+        //        string name = context.ID().GetText();  
+        //        string type = context.typeid().GetText();  
+
+        //        // Create a TypeDecNode and add it to the list
+        //        typeDecNodes.Add(new TypeDecNode(name, type));
+
+        //        context = context.parent as TigerParser.TydecContext;
+        //        // https://stackoverflow.com/questions/28457534/antlr4-get-left-and-right-sibling-of-rule-context
+
+        //    } while (context != null && context is TigerParser.TydecContext);
+        //}
     }
 }

@@ -33,22 +33,6 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface ITigerVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <summary>
-	/// Visit a parse tree produced by the <c>SimpleFuncDec</c>
-	/// labeled alternative in <see cref="TigerParser.fundec"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitSimpleFuncDec([NotNull] TigerParser.SimpleFuncDecContext context);
-
-	/// <summary>
-	/// Visit a parse tree produced by the <c>TypeFuncDec</c>
-	/// labeled alternative in <see cref="TigerParser.fundec"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context);
-
-	/// <summary>
 	/// Visit a parse tree produced by the <c>DecFunDec</c>
 	/// labeled alternative in <see cref="TigerParser.dec"/>.
 	/// </summary>
@@ -81,22 +65,6 @@ public interface ITigerVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitDecTyDec([NotNull] TigerParser.DecTyDecContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by the <c>SimpleVarDec</c>
-	/// labeled alternative in <see cref="TigerParser.vardec"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitSimpleVarDec([NotNull] TigerParser.SimpleVarDecContext context);
-
-	/// <summary>
-	/// Visit a parse tree produced by the <c>TypeVarDec</c>
-	/// labeled alternative in <see cref="TigerParser.vardec"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitTypeVarDec([NotNull] TigerParser.TypeVarDecContext context);
-
-	/// <summary>
 	/// Visit a parse tree produced by the <c>TyTypeId</c>
 	/// labeled alternative in <see cref="TigerParser.ty"/>.
 	/// </summary>
@@ -119,6 +87,38 @@ public interface ITigerVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitTyBraced([NotNull] TigerParser.TyBracedContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>SimpleFuncDec</c>
+	/// labeled alternative in <see cref="TigerParser.fundec"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSimpleFuncDec([NotNull] TigerParser.SimpleFuncDecContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>TypeFuncDec</c>
+	/// labeled alternative in <see cref="TigerParser.fundec"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>SimpleVarDec</c>
+	/// labeled alternative in <see cref="TigerParser.vardec"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitSimpleVarDec([NotNull] TigerParser.SimpleVarDecContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>TypeVarDec</c>
+	/// labeled alternative in <see cref="TigerParser.vardec"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitTypeVarDec([NotNull] TigerParser.TypeVarDecContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by the <c>AndExpr</c>
@@ -377,6 +377,13 @@ public interface ITigerVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitTyfields([NotNull] TigerParser.TyfieldsContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by <see cref="TigerParser.field"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitField([NotNull] TigerParser.FieldContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="TigerParser.typeid"/>.

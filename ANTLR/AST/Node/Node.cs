@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Tiger.ANTLR.AST.Node
 {
     abstract class ASTNode { }
-    class Field
+    class Field : ASTNode
     {
         public string NameSymbol { get; }
         public bool BoolRef { get; }

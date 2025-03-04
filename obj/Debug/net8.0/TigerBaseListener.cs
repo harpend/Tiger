@@ -36,36 +36,6 @@ using ParserRuleContext = Antlr4.Runtime.ParserRuleContext;
 [System.CLSCompliant(false)]
 public partial class TigerBaseListener : ITigerListener {
 	/// <summary>
-	/// Enter a parse tree produced by the <c>SimpleFuncDec</c>
-	/// labeled alternative in <see cref="TigerParser.fundec"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterSimpleFuncDec([NotNull] TigerParser.SimpleFuncDecContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>SimpleFuncDec</c>
-	/// labeled alternative in <see cref="TigerParser.fundec"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitSimpleFuncDec([NotNull] TigerParser.SimpleFuncDecContext context) { }
-
-	/// <summary>
-	/// Enter a parse tree produced by the <c>TypeFuncDec</c>
-	/// labeled alternative in <see cref="TigerParser.fundec"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>TypeFuncDec</c>
-	/// labeled alternative in <see cref="TigerParser.fundec"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context) { }
-
-	/// <summary>
 	/// Enter a parse tree produced by the <c>DecFunDec</c>
 	/// labeled alternative in <see cref="TigerParser.dec"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -126,36 +96,6 @@ public partial class TigerBaseListener : ITigerListener {
 	public virtual void ExitDecTyDec([NotNull] TigerParser.DecTyDecContext context) { }
 
 	/// <summary>
-	/// Enter a parse tree produced by the <c>SimpleVarDec</c>
-	/// labeled alternative in <see cref="TigerParser.vardec"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterSimpleVarDec([NotNull] TigerParser.SimpleVarDecContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>SimpleVarDec</c>
-	/// labeled alternative in <see cref="TigerParser.vardec"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitSimpleVarDec([NotNull] TigerParser.SimpleVarDecContext context) { }
-
-	/// <summary>
-	/// Enter a parse tree produced by the <c>TypeVarDec</c>
-	/// labeled alternative in <see cref="TigerParser.vardec"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void EnterTypeVarDec([NotNull] TigerParser.TypeVarDecContext context) { }
-	/// <summary>
-	/// Exit a parse tree produced by the <c>TypeVarDec</c>
-	/// labeled alternative in <see cref="TigerParser.vardec"/>.
-	/// <para>The default implementation does nothing.</para>
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	public virtual void ExitTypeVarDec([NotNull] TigerParser.TypeVarDecContext context) { }
-
-	/// <summary>
 	/// Enter a parse tree produced by the <c>TyTypeId</c>
 	/// labeled alternative in <see cref="TigerParser.ty"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -199,6 +139,66 @@ public partial class TigerBaseListener : ITigerListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitTyBraced([NotNull] TigerParser.TyBracedContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>SimpleFuncDec</c>
+	/// labeled alternative in <see cref="TigerParser.fundec"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterSimpleFuncDec([NotNull] TigerParser.SimpleFuncDecContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>SimpleFuncDec</c>
+	/// labeled alternative in <see cref="TigerParser.fundec"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitSimpleFuncDec([NotNull] TigerParser.SimpleFuncDecContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>TypeFuncDec</c>
+	/// labeled alternative in <see cref="TigerParser.fundec"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>TypeFuncDec</c>
+	/// labeled alternative in <see cref="TigerParser.fundec"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>SimpleVarDec</c>
+	/// labeled alternative in <see cref="TigerParser.vardec"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterSimpleVarDec([NotNull] TigerParser.SimpleVarDecContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>SimpleVarDec</c>
+	/// labeled alternative in <see cref="TigerParser.vardec"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitSimpleVarDec([NotNull] TigerParser.SimpleVarDecContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>TypeVarDec</c>
+	/// labeled alternative in <see cref="TigerParser.vardec"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterTypeVarDec([NotNull] TigerParser.TypeVarDecContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>TypeVarDec</c>
+	/// labeled alternative in <see cref="TigerParser.vardec"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitTypeVarDec([NotNull] TigerParser.TypeVarDecContext context) { }
 
 	/// <summary>
 	/// Enter a parse tree produced by the <c>AndExpr</c>
@@ -682,6 +682,19 @@ public partial class TigerBaseListener : ITigerListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitTyfields([NotNull] TigerParser.TyfieldsContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TigerParser.field"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterField([NotNull] TigerParser.FieldContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TigerParser.field"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitField([NotNull] TigerParser.FieldContext context) { }
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="TigerParser.typeid"/>.

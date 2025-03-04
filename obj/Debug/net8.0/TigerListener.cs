@@ -32,32 +32,6 @@ using IToken = Antlr4.Runtime.IToken;
 [System.CLSCompliant(false)]
 public interface ITigerListener : IParseTreeListener {
 	/// <summary>
-	/// Enter a parse tree produced by the <c>SimpleFuncDec</c>
-	/// labeled alternative in <see cref="TigerParser.fundec"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSimpleFuncDec([NotNull] TigerParser.SimpleFuncDecContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>SimpleFuncDec</c>
-	/// labeled alternative in <see cref="TigerParser.fundec"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSimpleFuncDec([NotNull] TigerParser.SimpleFuncDecContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by the <c>TypeFuncDec</c>
-	/// labeled alternative in <see cref="TigerParser.fundec"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>TypeFuncDec</c>
-	/// labeled alternative in <see cref="TigerParser.fundec"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context);
-
-	/// <summary>
 	/// Enter a parse tree produced by the <c>DecFunDec</c>
 	/// labeled alternative in <see cref="TigerParser.dec"/>.
 	/// </summary>
@@ -110,32 +84,6 @@ public interface ITigerListener : IParseTreeListener {
 	void ExitDecTyDec([NotNull] TigerParser.DecTyDecContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by the <c>SimpleVarDec</c>
-	/// labeled alternative in <see cref="TigerParser.vardec"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterSimpleVarDec([NotNull] TigerParser.SimpleVarDecContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>SimpleVarDec</c>
-	/// labeled alternative in <see cref="TigerParser.vardec"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitSimpleVarDec([NotNull] TigerParser.SimpleVarDecContext context);
-
-	/// <summary>
-	/// Enter a parse tree produced by the <c>TypeVarDec</c>
-	/// labeled alternative in <see cref="TigerParser.vardec"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterTypeVarDec([NotNull] TigerParser.TypeVarDecContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>TypeVarDec</c>
-	/// labeled alternative in <see cref="TigerParser.vardec"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitTypeVarDec([NotNull] TigerParser.TypeVarDecContext context);
-
-	/// <summary>
 	/// Enter a parse tree produced by the <c>TyTypeId</c>
 	/// labeled alternative in <see cref="TigerParser.ty"/>.
 	/// </summary>
@@ -173,6 +121,58 @@ public interface ITigerListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitTyBraced([NotNull] TigerParser.TyBracedContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>SimpleFuncDec</c>
+	/// labeled alternative in <see cref="TigerParser.fundec"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSimpleFuncDec([NotNull] TigerParser.SimpleFuncDecContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>SimpleFuncDec</c>
+	/// labeled alternative in <see cref="TigerParser.fundec"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSimpleFuncDec([NotNull] TigerParser.SimpleFuncDecContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>TypeFuncDec</c>
+	/// labeled alternative in <see cref="TigerParser.fundec"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>TypeFuncDec</c>
+	/// labeled alternative in <see cref="TigerParser.fundec"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>SimpleVarDec</c>
+	/// labeled alternative in <see cref="TigerParser.vardec"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterSimpleVarDec([NotNull] TigerParser.SimpleVarDecContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>SimpleVarDec</c>
+	/// labeled alternative in <see cref="TigerParser.vardec"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitSimpleVarDec([NotNull] TigerParser.SimpleVarDecContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>TypeVarDec</c>
+	/// labeled alternative in <see cref="TigerParser.vardec"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterTypeVarDec([NotNull] TigerParser.TypeVarDecContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>TypeVarDec</c>
+	/// labeled alternative in <see cref="TigerParser.vardec"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitTypeVarDec([NotNull] TigerParser.TypeVarDecContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by the <c>AndExpr</c>
@@ -590,6 +590,17 @@ public interface ITigerListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitTyfields([NotNull] TigerParser.TyfieldsContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="TigerParser.field"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterField([NotNull] TigerParser.FieldContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="TigerParser.field"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitField([NotNull] TigerParser.FieldContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="TigerParser.typeid"/>.

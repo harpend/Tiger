@@ -3,6 +3,7 @@
 // non-terminals
 program: (expr | decs)+ EOF;
 
+// done
 decs: dec+;
 
 dec: tydec # DecTyDec
@@ -13,12 +14,17 @@ dec: tydec # DecTyDec
 
 tydec: TYPE ID EQ ty;
 
+// done
 ty: typeid # TyTypeId
 	| LBRACE tyfields RBRACE # TyBraced
 	| ARRAY OF typeid # TyArray
 	;
 
-tyfields: (ID COLON typeid (COMMA ID COLON typeid)*)?;
+// done
+tyfields: (field (COMMA field)*)?;
+
+// done
+field: ID COLON typeid;
 
 typeid: ID;
 
@@ -34,8 +40,10 @@ lvalue: ID
 		| lvalue DOT ID
 		| lvalue LBRACKET expr RBRACKET;
 
+// done
 exprs: (expr (SC expr)*)?;
 
+// done
 expr: lvalue	#LeftVal
 	  | NIL		#Nil
 	  | INTLIT	#IntegerLiteral
