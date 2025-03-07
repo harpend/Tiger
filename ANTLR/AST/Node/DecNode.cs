@@ -46,8 +46,8 @@ namespace Tiger.ANTLR.AST.Node
 
     class FuncDecNode : ASTDecNode
     {
-        public FuncDec[] FuncDecs { get; }
-        public FuncDecNode(FuncDec[] funcDecs)
+        public List<FuncDec> FuncDecs { get; }
+        public FuncDecNode(List<FuncDec> funcDecs)
         {
             this.FuncDecs = funcDecs;
         }

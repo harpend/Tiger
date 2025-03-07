@@ -1,4 +1,5 @@
-﻿using Antlr4.Runtime.Misc;
+﻿using Antlr4.Runtime;
+using Antlr4.Runtime.Misc;
 using Antlr4.Runtime.Tree;
 using System;
 using System.Collections.Generic;
@@ -278,23 +279,89 @@ namespace Tiger.ANTLR.AST
             return new Field(name, true, type, pos);
         }
 
-        //public override ASTNode VisitTydec([NotNull] TigerParser.TydecContext context)
-        //{
-        //    List<TypeDecNode> typeDecNodes = new List<TypeDecNode>();
+        public override ASTNode VisitTydec([NotNull] TigerParser.TydecContext context)
+        {
+            List<TypeDecNode.TypeSubClass> typeDecNodes = new List<TypeDecNode.TypeSubClass>();
 
-        //    // Loop through the children of the context to process the type declarations
-        //    do
-        //    {
-        //        string name = context.ID().GetText();  
-        //        string type = context.typeid().GetText();  
+            // Loop through the children of the context to process the type declarations
+            do
+            {
+                string name = context.ID().GetText();
+                ASTTypeNode type = Visit(context.ty()) as ASTTypeNode;
+                int pos = context.ty().start.StartIndex;
+                // Create a TypeDecNode and add it to the list
+                typeDecNodes.Add(new TypeDecNode.TypeSubClass(name, type, pos));
 
-        //        // Create a TypeDecNode and add it to the list
-        //        typeDecNodes.Add(new TypeDecNode(name, type));
+                context = Helpers.GetRightTyDecSibling(context);
 
-        //        context = context.parent as TigerParser.TydecContext;
-        //        // https://stackoverflow.com/questions/28457534/antlr4-get-left-and-right-sibling-of-rule-context
+            } while (context != null && context is TigerParser.TydecContext);
+            return new TypeDecNode(typeDecNodes);
+        }
 
-        //    } while (context != null && context is TigerParser.TydecContext);
-        //}
+        public override ASTNode VisitDecFunDec([NotNull] TigerParser.DecFunDecContext context)
+        {
+            List<FuncDec> funDecNodes = new List<FuncDec>();
+
+            // Loop through the children of the context to process the type declarations
+            do
+            {
+                FuncDec func = Visit(context.fundec()) as FuncDec;
+                // Create a TypeDecNode and add it to the list
+                funDecNodes.Add(func);
+
+                context = Helpers.GetRightFunDecSibling(context);
+            } while (context != null && context is TigerParser.DecFunDecContext);
+
+            return new FuncDecNode(funDecNodes);
+        }
+
+        public override ASTNode VisitSimpleFuncDec([NotNull] TigerParser.SimpleFuncDecContext context) {
+            string name = context.ID().GetText();
+            ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
+            SimpleVarNode option = null;
+            RecordTypeNode rNode = Visit(context.tyfields()) as RecordTypeNode;
+            int pos = context.start.StartIndex;
+            return new FuncDec(name, rNode.Fields, option, expr, pos);
+        }
+        public override ASTNode VisitTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context)
+        {
+            string name = context.ID().GetText();
+            ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
+            string typeString = context.typeid().GetText();
+            int pos2 = context.typeid().start.StartIndex;
+            SimpleVarNode option = new SimpleVarNode(typeString, pos2);
+            RecordTypeNode rNode = Visit(context.tyfields()) as RecordTypeNode;
+            int pos = context.start.StartIndex;
+            return new FuncDec(name, rNode.Fields, option, expr, pos);
+        }
+        public override ASTNode VisitSimpleVarDec([NotNull] TigerParser.SimpleVarDecContext context)
+        {
+            VarDecNode.Option option = null;
+            ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
+            int pos = context.start.StartIndex;
+            string sym = context.ID().GetText();
+            return new VarDecNode(true, option, expr, pos, sym);
+        }
+
+        public override ASTNode VisitTypeVarDec([NotNull] TigerParser.TypeVarDecContext context)
+        {
+            int pos2 = context.typeid().start.StartIndex;
+            string sym2 = context.typeid().GetText();
+            VarDecNode.Option option = new VarDecNode.Option(sym2, pos2);
+            ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
+            int pos = context.start.StartIndex;
+            string sym = context.ID().GetText();
+            return new VarDecNode(true, option, expr, pos, sym);
+        }
+
+        public override ASTNode VisitDecVarDec([NotNull] TigerParser.DecVarDecContext context)
+        {
+            return Visit(context.vardec());
+        }
+
+        public override ASTNode VisitDecTyDec([NotNull] TigerParser.DecTyDecContext context)
+        {
+            return Visit(context.tydec());
+        }
     }
 }

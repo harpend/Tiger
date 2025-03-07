@@ -21,7 +21,7 @@ namespace Tiger.ANTLR.AST.Node
             this.Pos = pos;
         }
    }
-    class FuncDec
+    class FuncDec : ASTNode
     {
         public string NameSymbol { get; }
         public List<Field> Fields { get; }

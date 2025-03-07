@@ -12,6 +12,7 @@ dec: tydec # DecTyDec
 	| IMPORT STRLIT # DecImport
 	;
 
+// done
 tydec: TYPE ID EQ ty;
 
 // done
@@ -26,7 +27,7 @@ tyfields: (field (COMMA field)*)?;
 // done
 field: ID COLON typeid;
 
-typeid: ID;
+typeid: ID | INT | STRING;
 
 vardec: VAR ID ASGN expr # SimpleVarDec
 		| VAR ID COLON typeid ASGN expr # TypeVarDec
