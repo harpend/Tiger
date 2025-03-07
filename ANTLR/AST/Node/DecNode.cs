@@ -15,6 +15,17 @@ namespace Tiger.ANTLR.AST.Node
         {
             this.Decs = decs;
         }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "DecsNode {");
+            foreach (var dec in this.Decs)
+            {
+                dec.printNode(tab + "\t");
+            }
+
+            Console.WriteLine(tab + "}");
+        }
     }
     class VarDecNode : ASTDecNode
     {
@@ -41,6 +52,25 @@ namespace Tiger.ANTLR.AST.Node
             this.Pos = pos;
             this.NameSymbol = symbol;
         }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "VarDecNode {");
+            Console.WriteLine(tab + "\tName: " + this.NameSymbol);
+            Console.WriteLine(tab + "\tType: " + this.Type.Symbol);
+
+            if (this.Init != null)
+            {
+                Console.WriteLine(tab + "\tInit: ");
+                this.Init.printNode(tab + "\t\t");
+            }
+            else
+            {
+                Console.WriteLine(tab + "\tInit: null");
+            }
+
+            Console.WriteLine(tab + "}");
+        }
     }
 
 
@@ -50,6 +80,19 @@ namespace Tiger.ANTLR.AST.Node
         public FuncDecNode(List<FuncDec> funcDecs)
         {
             this.FuncDecs = funcDecs;
+        }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "FuncDecNode {");
+
+            foreach (var funcDec in FuncDecs)
+            {
+                Console.WriteLine(tab + "\tFunction:");
+                funcDec.printNode(tab + "\t\t");
+            }
+
+            Console.WriteLine(tab + "}");
         }
     }
 
@@ -73,6 +116,21 @@ namespace Tiger.ANTLR.AST.Node
         {
             this.TypeSubs = typeSubs;
         }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "TypeDecNode {");
+            foreach (var typeSub in TypeSubs)
+            {
+                Console.WriteLine(tab + "\t\tName: " + typeSub.NameSymbol);
+                Console.WriteLine(tab + "\tType:");
+                Console.WriteLine(tab + "\t\tType: ");
+                typeSub.Ty.printNode(tab + "\t\t");  
+            }
+
+            Console.WriteLine(tab + "}");
+        }
+
     }
 
 }

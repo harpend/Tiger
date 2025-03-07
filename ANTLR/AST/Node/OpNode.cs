@@ -7,14 +7,59 @@ using System.Threading.Tasks;
 namespace Tiger.ANTLR.AST.Node
 {
     abstract class ASTOpNode : ASTNode { }
-    class PlusOpNode : ASTOpNode { }
-    class MinusOpNode : ASTOpNode { }
-    class TimesOpNode : ASTOpNode { }
-    class DivideOpNode : ASTOpNode { }
-    class EqOpNode : ASTOpNode { }
-    class NeqOpNode : ASTOpNode { }
-    class LtOpNode : ASTOpNode { }
-    class LeOpNode : ASTOpNode { }
-    class GtOpNode : ASTOpNode { }
-    class GeOpNode : ASTOpNode { }
+    class PlusOpNode : ASTOpNode {
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab+ "+");
+        }
+    }
+    class MinusOpNode : ASTOpNode {
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "-");
+        }
+    }
+    class TimesOpNode : ASTOpNode {
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "*");
+        }
+    }
+    class DivideOpNode : ASTOpNode {
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "/");
+        }
+    }
+    class EqOpNode : ASTOpNode {
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "=");
+        }
+    }
+    class NeqOpNode : ASTOpNode { 
+    public override void printNode(string tab)
+        {
+            Console.WriteLine(tab+ "!=");
+        }}
+    class LtOpNode : ASTOpNode { 
+    public override void printNode(string tab)
+        {
+            Console.WriteLine(tab+ "<");
+        }}
+    class LeOpNode : ASTOpNode { 
+    public override void printNode(string tab)
+        {
+            Console.WriteLine(tab+ "<=");
+        }}
+    class GtOpNode : ASTOpNode { 
+    public override void printNode(string tab)
+        {
+            Console.WriteLine(tab+ ">");
+        }}
+    class GeOpNode : ASTOpNode { 
+    public override void printNode(string tab)
+        {
+            Console.WriteLine(tab+ ">=");
+        }}
 }

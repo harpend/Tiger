@@ -16,6 +16,13 @@ namespace Tiger.ANTLR.AST.Node
             this.Symbol = symbol;
             this.Pos = pos;
         }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab+"NameType{");
+            Console.WriteLine(tab+"\tSymbol: "+ Symbol);
+            Console.WriteLine(tab+"}");
+        }
     }
     class ArrayTypeNode : ASTTypeNode
     {
@@ -26,6 +33,13 @@ namespace Tiger.ANTLR.AST.Node
             this.Symbol = symbol;
             this.Pos = pos;
         }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "NameType{");
+            Console.WriteLine(tab + "\tSymbol: " + Symbol);
+            Console.WriteLine(tab + "}");
+        }
     }
 
     class RecordTypeNode : ASTTypeNode
@@ -34,6 +48,19 @@ namespace Tiger.ANTLR.AST.Node
         public RecordTypeNode(List<Field> fields)
         {
             this.Fields = fields;
+        }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "RecordType{");
+            Console.WriteLine(tab + "\tFields[");
+            foreach (Field f in  Fields)
+            {
+                f.printNode(tab+"\t\t");
+
+            }
+            Console.WriteLine(tab + "\t]");
+            Console.WriteLine(tab + "}");
         }
     }
 

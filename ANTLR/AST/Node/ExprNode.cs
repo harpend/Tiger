@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Tiger.ANTLR.AST.Node
 {
-    abstract class ASTExprNode : ASTNode { }
+    abstract class ASTExprNode : ASTNode { 
+    }
 
     class ExprsNode : ASTExprNode
     {
@@ -16,6 +17,17 @@ namespace Tiger.ANTLR.AST.Node
         public ExprsNode(List<ASTExprNode> exprs)
         {
             this.Exprs = exprs;
+        }
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "Exprs {");
+            Console.WriteLine(tab + "\tExprs[ ");
+            foreach (ASTExprNode e in this.Exprs)
+            {
+                e.printNode(tab + "\t\t");
+            }
+            Console.WriteLine("]");
+            Console.WriteLine(tab + "}");
         }
     }
     class VarExprNode : ASTExprNode
@@ -25,9 +37,22 @@ namespace Tiger.ANTLR.AST.Node
         {
             this.Var = var;
         }
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "VarExpr {");
+            Console.WriteLine(tab + "\tvar: ");
+            this.Var.printNode(tab + "\t");
+            Console.WriteLine(tab + "}");
+        }
     }
 
-    class NilExprNode : ASTExprNode { }
+    class NilExprNode : ASTExprNode {
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "Null {");
+            Console.WriteLine(tab + "}");
+        }
+    }
 
     class IntExprNode : ASTExprNode
     {
@@ -35,6 +60,12 @@ namespace Tiger.ANTLR.AST.Node
         public IntExprNode(int value)
         {
             this.Value = value;
+        }
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "Int {");
+            Console.WriteLine(tab + "\tint: ", this.Value);
+            Console.WriteLine(tab + "}");
         }
     }
 
@@ -44,6 +75,12 @@ namespace Tiger.ANTLR.AST.Node
         public StringExprNode(string value)
         {
             this.Value = value;
+        }
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "String {");
+            Console.WriteLine(tab + "\tstring: ", this.Value);
+            Console.WriteLine(tab + "}");
         }
     }
 
@@ -59,6 +96,18 @@ namespace Tiger.ANTLR.AST.Node
             this.Pos = pos;
             this.FuncSymbol = funcSymbol;
         }
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "Call {");
+            Console.WriteLine(tab + "\tName: ", this.FuncSymbol);
+            Console.WriteLine(tab + "\tArgs[ ");
+            foreach (ASTExprNode e in this.Args)
+            {
+                e.printNode(tab + "\t\t");
+            }
+            Console.WriteLine("]");
+            Console.WriteLine(tab + "}");
+        }
     }
 
     class OpExprNode : ASTExprNode
@@ -72,6 +121,18 @@ namespace Tiger.ANTLR.AST.Node
             this.Left = left;
             this.Right = right;
             this.Op = op;
+        }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "Op {");
+            Console.WriteLine(tab + "\tLeft: ");
+            this.Left.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "\tOp: ");
+            this.Op.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "\tRight: ");
+            this.Right.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "}");
         }
     }
 
@@ -99,6 +160,23 @@ namespace Tiger.ANTLR.AST.Node
             this.TypeSymbol = typeSymbol;
             this.Pos = pos;
         }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "Record {");
+            Console.WriteLine(tab + "\tTypeSymbol: " + this.TypeSymbol);
+
+            foreach (var field in Fields)
+            {
+                Console.WriteLine(tab + "\tRecordField {");
+                Console.WriteLine(tab + "\t\tSymbol: " + field.Symbol);
+                Console.WriteLine(tab + "\t\tExpr: ");
+                field.Expr.printNode(tab + "\t\t\t");
+                Console.WriteLine(tab + "\t}");
+            }
+
+            Console.WriteLine(tab + "}");
+        }
     }
 
     class SeqExprNode : ASTExprNode
@@ -119,6 +197,20 @@ namespace Tiger.ANTLR.AST.Node
         {
             this.Sequences = sequences;
         }
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "Seq {");
+
+            foreach (var sequence in Sequences)
+            {
+                Console.WriteLine(tab + "\tSequence {");
+                Console.WriteLine(tab + "\t\tExpr: ");
+                sequence.Expr.printNode(tab + "\t\t\t");
+                Console.WriteLine(tab + "\t}");
+            }
+
+            Console.WriteLine(tab + "}");
+        }
     }
 
     class AssignExprNode : ASTExprNode
@@ -133,6 +225,16 @@ namespace Tiger.ANTLR.AST.Node
             this.Expr = assignExpr;
             this.Pos = pos;
         }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "AssignExpr {");
+            Console.WriteLine(tab + "\tVar: ");
+            Var.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "\tExpr: ");
+            Expr.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "}");
+        }
     }
 
     class IfExprNode : ASTExprNode
@@ -146,7 +248,27 @@ namespace Tiger.ANTLR.AST.Node
             this.Then_ = then_;
             this.Else_ = else_;
         }
-    }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "IfExpr {");
+            Console.WriteLine(tab + "\tTest: ");
+            Test.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "\tThen: ");
+            Then_.printNode(tab + "\t\t");
+            if (Else_ != null)
+            {
+                Console.WriteLine(tab + "\tElse: ");
+                Else_.printNode(tab + "\t\t");
+            }
+            else
+            {
+                Console.WriteLine(tab + "\tElse: null");
+            }
+
+            Console.WriteLine(tab + "}");
+        }
+        }
 
     class WhileExprNode : ASTExprNode
     {
@@ -158,6 +280,18 @@ namespace Tiger.ANTLR.AST.Node
             this.Pos = pos;
             this.Body = body;
             this.Test = test;
+        }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "WhileExpr {");
+            Console.WriteLine(tab + "\tTest: ");
+            Test.printNode(tab + "\t\t");
+
+            Console.WriteLine(tab + "\tBody: ");
+            Body.printNode(tab + "\t\t");
+
+            Console.WriteLine(tab + "}");
         }
     }
 
@@ -178,12 +312,32 @@ namespace Tiger.ANTLR.AST.Node
             this.Body = body;
             this.Pos = pos;
         }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "ForExpr {");
+            Console.WriteLine(tab + "\tVar: ");
+            Var.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "\tLo: ");
+            Lo.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "\tHi: ");
+            Hi.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "\tBody: ");
+            Body.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "}");
+        }
     }
 
     class BreakExprNode : ASTExprNode
     {
         public int Pos { get; }
         public BreakExprNode(int pos) { this.Pos = pos; }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "Break {");
+            Console.WriteLine(tab + "}");
+        }
     }
 
     class LetExprNode : ASTExprNode
@@ -196,6 +350,16 @@ namespace Tiger.ANTLR.AST.Node
             this.Decs = decs;
             this.Body = body;
             this.Pos = pos;
+        }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "LetExpr {");
+            Console.WriteLine(tab + "\tDeclarations: ");
+            Decs.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "\tBody: ");
+            Body.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "}");
         }
     }
 
@@ -211,6 +375,17 @@ namespace Tiger.ANTLR.AST.Node
             this.Size = size;
             this.Init = init;
             this.Pos = pos;
+        }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "ArrayExpr {");
+            Console.WriteLine(tab + "\tSymbol: " + this.Symbol);
+            Console.WriteLine(tab + "\tSize: ");
+            this.Size.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "\tInit: ");
+            this.Init.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "}");
         }
     }
 }

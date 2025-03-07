@@ -23,6 +23,12 @@ namespace Tiger.ANTLR.AST.Node
         {
             this.Symbol = symbol;
         }
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "SimpleVar{");
+            Console.WriteLine(tab + "\tSymbol: ", Symbol);
+            Console.WriteLine(tab + "}");
+        }
     }
 
     class FieldVarNode : ASTVarNode
@@ -35,6 +41,15 @@ namespace Tiger.ANTLR.AST.Node
             this.Symbol = symbol;
             this.Var = var;
         }
+
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "SimpleVar{");
+            Console.WriteLine(tab + "\tSymbol: ", Symbol);
+            Console.WriteLine(tab + "\tVar: ");
+            this.Var.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "}");
+        }
     }
 
     class SubscriptVarNode : ASTVarNode
@@ -46,6 +61,15 @@ namespace Tiger.ANTLR.AST.Node
         {
             this.Expr = expr;
             this.Var = var;
+        }
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "SimpleVar{");
+            Console.WriteLine(tab + "\tExpr: ");
+            this.Expr.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "\tVar: ");
+            this.Var.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "}");
         }
     }
 }

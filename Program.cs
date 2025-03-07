@@ -18,7 +18,7 @@ public class Program
         var errorListener = new CustomErrorListener();
         parser.AddErrorListener(errorListener);
         TigerParser.ProgramContext program = parser.program();
-        Console.WriteLine(program.ToStringTree());
+        //Console.WriteLine(program.ToStringTree());
         if (parser.NumberOfSyntaxErrors > 0)
         {
             Console.WriteLine("Parsing failed. Check syntax errors.");
@@ -38,7 +38,12 @@ public class Program
 
     static void PrintAST(ASTNode node, int indent = 0)
     {
-        Console.WriteLine(new string(' ', indent) + node.ToString());
+        if (!(node is ProgramNode))
+        {
+            Console.WriteLine("Unexpected ASTNode");
+        }
+
+        node.printNode("");
     }
 
     public class CustomErrorListener : BaseErrorListener

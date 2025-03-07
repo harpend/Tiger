@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Tiger.ANTLR.AST.Node
 {
-    abstract class ASTNode { }
+    abstract class ASTNode {
+        public abstract void printNode(string tab);
+    }
     class Field : ASTNode
     {
         public string NameSymbol { get; }
@@ -19,6 +21,13 @@ namespace Tiger.ANTLR.AST.Node
             this.BoolRef = boolRef;
             this.TypeSymbol = typeSymbol;
             this.Pos = pos;
+        }
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "Field {");
+            Console.WriteLine(tab + "\tName: ", this.NameSymbol);
+            Console.WriteLine(tab + "\tType: ", this.TypeSymbol);
+            Console.WriteLine(tab + "}");
         }
    }
     class FuncDec : ASTNode
@@ -36,6 +45,19 @@ namespace Tiger.ANTLR.AST.Node
             this.Body = body;
             this.Pos = pos;
         }
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "FuncDec {");
+            Console.WriteLine(tab + "\tName: ", this.NameSymbol);
+            Console.WriteLine(tab + "\tFields[ ");
+            foreach (Field f in this.Fields)
+            {
+                f.printNode(tab + "\t\t");
+            }
+            Console.WriteLine("]");
+            this.Body.printNode(tab + "\t\t");
+            Console.WriteLine(tab + "}");
+        }
     }
 
     class ProgramNode : ASTNode
@@ -46,6 +68,23 @@ namespace Tiger.ANTLR.AST.Node
         {
             this.Decs = decs;
             this.Expressions = expressions;
+        }
+        public override void printNode(string tab)
+        {
+            Console.WriteLine(tab + "Program {");
+            Console.WriteLine(tab + "\tDecs[ ");
+            foreach (DecsNode ds in this.Decs)
+            {
+                ds.printNode(tab + "\t\t");
+            }
+            Console.WriteLine(tab+"]");
+            Console.WriteLine(tab + "\tExprs[ ");
+            foreach (ASTExprNode e in this.Expressions)
+            {
+                e.printNode(tab + "\t\t");
+            }
+            Console.WriteLine(tab+"]");
+            Console.WriteLine(tab + "}");
         }
     }
 }
