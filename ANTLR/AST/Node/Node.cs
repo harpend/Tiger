@@ -38,4 +38,14 @@ namespace Tiger.ANTLR.AST.Node
         }
     }
 
+    class ProgramNode : ASTNode
+    {
+        public List<DecsNode> Decs { get; }
+        public List<ASTExprNode> Expressions { get; }
+        public ProgramNode(List<DecsNode> decs, List<ASTExprNode> expressions)
+        {
+            this.Decs = decs;
+            this.Expressions = expressions;
+        }
+    }
 }

@@ -13,6 +13,13 @@ namespace Tiger.ANTLR.AST
 {
     class TigerVisitor : TigerBaseVisitor<ASTNode>
     {
+        public override ASTNode VisitProgram([NotNull] TigerParser.ProgramContext context)
+        {
+            List<DecsNode> declarations = context.decs().Select(Visit).Cast<DecsNode>().ToList();
+            List<ASTExprNode> expressions = context.expr().Select(Visit).Cast<ASTExprNode>().ToList();
+
+            return new ProgramNode(declarations, expressions);
+        }
         public override ASTNode VisitIntegerLiteral([NotNull] TigerParser.IntegerLiteralContext context)
         {
             return new IntExprNode(int.Parse(context.INTLIT().GetText()));

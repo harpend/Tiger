@@ -26,7 +26,14 @@ public class Program
         }
         TigerVisitor visitor = new TigerVisitor();
         ASTNode ast = visitor.Visit(program);
+        if (ast == null)
+        {
+            Console.WriteLine("AST is null");
+        } else
+        {
         PrintAST(ast);
+
+        }
     }
 
     static void PrintAST(ASTNode node, int indent = 0)
