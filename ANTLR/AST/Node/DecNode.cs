@@ -57,7 +57,10 @@ namespace Tiger.ANTLR.AST.Node
         {
             Console.WriteLine(tab + "VarDecNode {");
             Console.WriteLine(tab + "\tName: " + this.NameSymbol);
-            Console.WriteLine(tab + "\tType: " + this.Type.Symbol);
+            if (this.Type != null)
+            {
+                Console.WriteLine(tab + "\tType: " + this.Type.Symbol);
+            }
 
             if (this.Init != null)
             {
@@ -122,9 +125,8 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "TypeDecNode {");
             foreach (var typeSub in TypeSubs)
             {
-                Console.WriteLine(tab + "\t\tName: " + typeSub.NameSymbol);
-                Console.WriteLine(tab + "\tType:");
-                Console.WriteLine(tab + "\t\tType: ");
+                Console.WriteLine(tab + "\tName: " + typeSub.NameSymbol);
+                Console.WriteLine(tab + "\tType: ");
                 typeSub.Ty.printNode(tab + "\t\t");  
             }
 

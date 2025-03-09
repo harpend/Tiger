@@ -171,6 +171,51 @@ public partial class TigerBaseListener : ITigerListener {
 	public virtual void ExitTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context) { }
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>LvalNest</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterLvalNest([NotNull] TigerParser.LvalNestContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>LvalNest</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitLvalNest([NotNull] TigerParser.LvalNestContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>LvalAttr</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterLvalAttr([NotNull] TigerParser.LvalAttrContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>LvalAttr</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitLvalAttr([NotNull] TigerParser.LvalAttrContext context) { }
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>LvalID</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterLvalID([NotNull] TigerParser.LvalIDContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>LvalID</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitLvalID([NotNull] TigerParser.LvalIDContext context) { }
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>SimpleVarDec</c>
 	/// labeled alternative in <see cref="TigerParser.vardec"/>.
 	/// <para>The default implementation does nothing.</para>

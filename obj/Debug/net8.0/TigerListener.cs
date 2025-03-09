@@ -149,6 +149,45 @@ public interface ITigerListener : IParseTreeListener {
 	void ExitTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context);
 
 	/// <summary>
+	/// Enter a parse tree produced by the <c>LvalNest</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterLvalNest([NotNull] TigerParser.LvalNestContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>LvalNest</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitLvalNest([NotNull] TigerParser.LvalNestContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>LvalAttr</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterLvalAttr([NotNull] TigerParser.LvalAttrContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>LvalAttr</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitLvalAttr([NotNull] TigerParser.LvalAttrContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>LvalID</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterLvalID([NotNull] TigerParser.LvalIDContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>LvalID</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitLvalID([NotNull] TigerParser.LvalIDContext context);
+
+	/// <summary>
 	/// Enter a parse tree produced by the <c>SimpleVarDec</c>
 	/// labeled alternative in <see cref="TigerParser.vardec"/>.
 	/// </summary>

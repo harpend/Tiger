@@ -998,32 +998,76 @@ public partial class TigerParser : Parser {
 	}
 
 	public partial class LvalueContext : ParserRuleContext {
-		public ITerminalNode ID() { return GetToken(TigerParser.ID, 0); }
-		public LvalueContext lvalue() {
-			return GetRuleContext<LvalueContext>(0);
-		}
-		public ITerminalNode DOT() { return GetToken(TigerParser.DOT, 0); }
-		public ITerminalNode LBRACKET() { return GetToken(TigerParser.LBRACKET, 0); }
-		public ExprContext expr() {
-			return GetRuleContext<ExprContext>(0);
-		}
-		public ITerminalNode RBRACKET() { return GetToken(TigerParser.RBRACKET, 0); }
 		public LvalueContext(ParserRuleContext parent, int invokingState)
 			: base(parent, invokingState)
 		{
 		}
 		public override int RuleIndex { get { return RULE_lvalue; } }
+	 
+		public LvalueContext() { }
+		public virtual void CopyFrom(LvalueContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class LvalNestContext : LvalueContext {
+		public LvalueContext lvalue() {
+			return GetRuleContext<LvalueContext>(0);
+		}
+		public ITerminalNode LBRACKET() { return GetToken(TigerParser.LBRACKET, 0); }
+		public ExprContext expr() {
+			return GetRuleContext<ExprContext>(0);
+		}
+		public ITerminalNode RBRACKET() { return GetToken(TigerParser.RBRACKET, 0); }
+		public LvalNestContext(LvalueContext context) { CopyFrom(context); }
 		public override void EnterRule(IParseTreeListener listener) {
 			ITigerListener typedListener = listener as ITigerListener;
-			if (typedListener != null) typedListener.EnterLvalue(this);
+			if (typedListener != null) typedListener.EnterLvalNest(this);
 		}
 		public override void ExitRule(IParseTreeListener listener) {
 			ITigerListener typedListener = listener as ITigerListener;
-			if (typedListener != null) typedListener.ExitLvalue(this);
+			if (typedListener != null) typedListener.ExitLvalNest(this);
 		}
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			ITigerVisitor<TResult> typedVisitor = visitor as ITigerVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitLvalue(this);
+			if (typedVisitor != null) return typedVisitor.VisitLvalNest(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class LvalAttrContext : LvalueContext {
+		public LvalueContext lvalue() {
+			return GetRuleContext<LvalueContext>(0);
+		}
+		public ITerminalNode DOT() { return GetToken(TigerParser.DOT, 0); }
+		public ITerminalNode ID() { return GetToken(TigerParser.ID, 0); }
+		public LvalAttrContext(LvalueContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			ITigerListener typedListener = listener as ITigerListener;
+			if (typedListener != null) typedListener.EnterLvalAttr(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ITigerListener typedListener = listener as ITigerListener;
+			if (typedListener != null) typedListener.ExitLvalAttr(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ITigerVisitor<TResult> typedVisitor = visitor as ITigerVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitLvalAttr(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class LvalIDContext : LvalueContext {
+		public ITerminalNode ID() { return GetToken(TigerParser.ID, 0); }
+		public LvalIDContext(LvalueContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			ITigerListener typedListener = listener as ITigerListener;
+			if (typedListener != null) typedListener.EnterLvalID(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			ITigerListener typedListener = listener as ITigerListener;
+			if (typedListener != null) typedListener.ExitLvalID(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			ITigerVisitor<TResult> typedVisitor = visitor as ITigerVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitLvalID(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -1045,6 +1089,10 @@ public partial class TigerParser : Parser {
 			EnterOuterAlt(_localctx, 1);
 			{
 			{
+			_localctx = new LvalIDContext(_localctx);
+			_ctx = _localctx;
+			_prevctx = _localctx;
+
 			State = 111; Match(ID);
 			}
 			_ctx.stop = _input.Lt(-1);
@@ -1061,7 +1109,7 @@ public partial class TigerParser : Parser {
 					switch ( Interpreter.AdaptivePredict(_input,9,_ctx) ) {
 					case 1:
 						{
-						_localctx = new LvalueContext(_parentctx, _parentState);
+						_localctx = new LvalAttrContext(new LvalueContext(_parentctx, _parentState));
 						PushNewRecursionContext(_localctx, _startState, RULE_lvalue);
 						State = 113;
 						if (!(Precpred(_ctx, 2))) throw new FailedPredicateException(this, "Precpred(_ctx, 2)");
@@ -1072,7 +1120,7 @@ public partial class TigerParser : Parser {
 
 					case 2:
 						{
-						_localctx = new LvalueContext(_parentctx, _parentState);
+						_localctx = new LvalNestContext(new LvalueContext(_parentctx, _parentState));
 						PushNewRecursionContext(_localctx, _startState, RULE_lvalue);
 						State = 116;
 						if (!(Precpred(_ctx, 1))) throw new FailedPredicateException(this, "Precpred(_ctx, 1)");

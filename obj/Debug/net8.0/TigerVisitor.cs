@@ -105,6 +105,30 @@ public interface ITigerVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context);
 
 	/// <summary>
+	/// Visit a parse tree produced by the <c>LvalNest</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLvalNest([NotNull] TigerParser.LvalNestContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>LvalAttr</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLvalAttr([NotNull] TigerParser.LvalAttrContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>LvalID</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitLvalID([NotNull] TigerParser.LvalIDContext context);
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>SimpleVarDec</c>
 	/// labeled alternative in <see cref="TigerParser.vardec"/>.
 	/// </summary>

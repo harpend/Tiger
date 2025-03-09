@@ -13,6 +13,8 @@ namespace Tiger.ANTLR.AST
 {
     class TigerVisitor : TigerBaseVisitor<ASTNode>
     {
+        private static HashSet<TigerParser.DecFunDecContext> processedFuncDecs = new HashSet<TigerParser.DecFunDecContext>();
+        private static HashSet<TigerParser.TydecContext> processedTyDecs = new HashSet<TigerParser.TydecContext>();
         public override ASTNode VisitProgram([NotNull] TigerParser.ProgramContext context)
         {
             List<DecsNode> declarations = context.decs().Select(Visit).Cast<DecsNode>().ToList();
@@ -245,9 +247,21 @@ namespace Tiger.ANTLR.AST
         }
         public override ASTNode VisitDecs([NotNull] TigerParser.DecsContext context)
         {
-            List<ASTDecNode> decs = context.dec()
-                .Select(exprCtx => Visit(exprCtx) as ASTDecNode)
-                .ToList();
+            //List<ASTDecNode> decs = context.dec()
+            //    .Select(exprCtx => Visit(exprCtx) as ASTDecNode)
+            //    .ToList();
+            List<ASTDecNode> decs = new List<ASTDecNode> ();
+            foreach (TigerParser.DecContext decCtx in context.dec())
+            {
+                ASTNode n = Visit(decCtx);
+                if (n != null)
+                {
+                    decs.Add(n as ASTDecNode);
+                }
+            }
+
+            if (decs.Count == 0) return null;
+
             return new DecsNode(decs);
         }
 
@@ -288,8 +302,12 @@ namespace Tiger.ANTLR.AST
 
         public override ASTNode VisitTydec([NotNull] TigerParser.TydecContext context)
         {
-            List<TypeDecNode.TypeSubClass> typeDecNodes = new List<TypeDecNode.TypeSubClass>();
+            if (processedTyDecs.Contains(context))
+            {
+                return null;
+            }
 
+            List<TypeDecNode.TypeSubClass> typeDecNodes = new List<TypeDecNode.TypeSubClass>();
             // Loop through the children of the context to process the type declarations
             do
             {
@@ -298,24 +316,29 @@ namespace Tiger.ANTLR.AST
                 int pos = context.ty().start.StartIndex;
                 // Create a TypeDecNode and add it to the list
                 typeDecNodes.Add(new TypeDecNode.TypeSubClass(name, type, pos));
-
+                processedTyDecs.Add(context);
                 context = Helpers.GetRightTyDecSibling(context);
 
             } while (context != null && context is TigerParser.TydecContext);
+            
             return new TypeDecNode(typeDecNodes);
         }
 
         public override ASTNode VisitDecFunDec([NotNull] TigerParser.DecFunDecContext context)
         {
-            List<FuncDec> funDecNodes = new List<FuncDec>();
+            if (processedFuncDecs.Contains(context))
+            {
+                return null;
+            }
 
+            List<FuncDec> funDecNodes = new List<FuncDec>();
             // Loop through the children of the context to process the type declarations
             do
             {
                 FuncDec func = Visit(context.fundec()) as FuncDec;
                 // Create a TypeDecNode and add it to the list
                 funDecNodes.Add(func);
-
+                processedFuncDecs.Add(context);
                 context = Helpers.GetRightFunDecSibling(context);
             } while (context != null && context is TigerParser.DecFunDecContext);
 
@@ -369,6 +392,35 @@ namespace Tiger.ANTLR.AST
         public override ASTNode VisitDecTyDec([NotNull] TigerParser.DecTyDecContext context)
         {
             return Visit(context.tydec());
+        }
+
+        public override ASTNode VisitLeftVal([NotNull] TigerParser.LeftValContext context)
+        {
+            ASTVarNode vn = Visit(context.lvalue()) as ASTVarNode;
+            return new VarExprNode(vn);
+        }
+
+        public override ASTNode VisitLvalID([NotNull] TigerParser.LvalIDContext context)
+        {
+            string symbol = context.ID().GetText();
+            int pos = context.start.StartIndex;
+            return new SimpleVarNode(symbol, pos);
+        }
+
+        public override ASTNode VisitLvalAttr([NotNull] TigerParser.LvalAttrContext context)
+        {
+            ASTVarNode vn = Visit(context.lvalue()) as ASTVarNode;
+            string sym = context.ID().GetText();
+            int pos = context.start.StartIndex;
+            return new FieldVarNode(vn, sym, pos);
+        }
+
+        public override ASTNode VisitLvalNest([NotNull] TigerParser.LvalNestContext context)
+        {
+            ASTVarNode vn = Visit(context.lvalue()) as ASTVarNode;
+            ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
+            int pos = context.start.StartIndex;
+            return new SubscriptVarNode(vn, expr, pos);
         }
     }
 }

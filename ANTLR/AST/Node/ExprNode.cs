@@ -64,7 +64,7 @@ namespace Tiger.ANTLR.AST.Node
         public override void printNode(string tab)
         {
             Console.WriteLine(tab + "Int {");
-            Console.WriteLine(tab + "\tint: ", this.Value);
+            Console.WriteLine(tab + "\tint: " + this.Value);
             Console.WriteLine(tab + "}");
         }
     }
@@ -99,13 +99,13 @@ namespace Tiger.ANTLR.AST.Node
         public override void printNode(string tab)
         {
             Console.WriteLine(tab + "Call {");
-            Console.WriteLine(tab + "\tName: ", this.FuncSymbol);
+            Console.WriteLine(tab + "\tName: " + this.FuncSymbol);
             Console.WriteLine(tab + "\tArgs[ ");
             foreach (ASTExprNode e in this.Args)
             {
                 e.printNode(tab + "\t\t");
             }
-            Console.WriteLine("]");
+            Console.WriteLine(tab + "\t]");
             Console.WriteLine(tab + "}");
         }
     }

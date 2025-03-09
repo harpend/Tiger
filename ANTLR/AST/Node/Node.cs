@@ -25,8 +25,8 @@ namespace Tiger.ANTLR.AST.Node
         public override void printNode(string tab)
         {
             Console.WriteLine(tab + "Field {");
-            Console.WriteLine(tab + "\tName: ", this.NameSymbol);
-            Console.WriteLine(tab + "\tType: ", this.TypeSymbol);
+            Console.WriteLine(tab + "\tName: " + this.NameSymbol);
+            Console.WriteLine(tab + "\tType: " + this.TypeSymbol);
             Console.WriteLine(tab + "}");
         }
    }
@@ -48,13 +48,13 @@ namespace Tiger.ANTLR.AST.Node
         public override void printNode(string tab)
         {
             Console.WriteLine(tab + "FuncDec {");
-            Console.WriteLine(tab + "\tName: ", this.NameSymbol);
+            Console.WriteLine(tab + "\tName: " + this.NameSymbol);
             Console.WriteLine(tab + "\tFields[ ");
             foreach (Field f in this.Fields)
             {
                 f.printNode(tab + "\t\t");
             }
-            Console.WriteLine("]");
+            Console.WriteLine(tab + "]");
             this.Body.printNode(tab + "\t\t");
             Console.WriteLine(tab + "}");
         }

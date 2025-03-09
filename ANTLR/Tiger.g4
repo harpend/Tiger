@@ -33,9 +33,10 @@ fundec: FUNCTION ID LPAREN tyfields RPAREN EQ expr # SimpleFuncDec
 		| FUNCTION ID LPAREN tyfields RPAREN COLON typeid EQ expr # TypeFuncDec
 		;
 
-lvalue: ID
-		| lvalue DOT ID
-		| lvalue LBRACKET expr RBRACKET;
+lvalue: ID # LvalID
+		| lvalue DOT ID # LvalAttr
+		| lvalue LBRACKET expr RBRACKET # LvalNest
+		;
 
 exprs: (expr (SC expr)*)?;
 

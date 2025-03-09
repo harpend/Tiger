@@ -143,6 +143,42 @@ public partial class TigerBaseVisitor<Result> : AbstractParseTreeVisitor<Result>
 	public virtual Result VisitTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context) { return VisitChildren(context); }
 
 	/// <summary>
+	/// Visit a parse tree produced by the <c>LvalNest</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitLvalNest([NotNull] TigerParser.LvalNestContext context) { return VisitChildren(context); }
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>LvalAttr</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitLvalAttr([NotNull] TigerParser.LvalAttrContext context) { return VisitChildren(context); }
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>LvalID</c>
+	/// labeled alternative in <see cref="TigerParser.lvalue"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitLvalID([NotNull] TigerParser.LvalIDContext context) { return VisitChildren(context); }
+
+	/// <summary>
 	/// Visit a parse tree produced by the <c>SimpleVarDec</c>
 	/// labeled alternative in <see cref="TigerParser.vardec"/>.
 	/// <para>
