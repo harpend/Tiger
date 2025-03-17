@@ -9,7 +9,7 @@ public class Program
 {
     static void Main(string[] args)
     {
-        var fileContents = File.ReadAllText("C:/Users/jackt/OneDrive/Documents/Compilers/Tiger/Tiger/Tests/test1.tgr");
+        var fileContents = File.ReadAllText("C:/Users/jackt/OneDrive/Documents/Compilers/Tiger/Tiger/Tests/test3.tgr");
         AntlrInputStream stream = new AntlrInputStream(fileContents);
         TigerLexer tigerLexer = new TigerLexer(stream);
         CommonTokenStream tokens = new CommonTokenStream(tigerLexer);
