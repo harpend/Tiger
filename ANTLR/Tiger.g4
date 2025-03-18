@@ -29,8 +29,8 @@ vardec: VAR ID ASGN expr # SimpleVarDec
 		| VAR ID COLON typeid ASGN expr # TypeVarDec
 		;
 
-fundec: FUNCTION ID LPAREN tyfields RPAREN EQ expr # SimpleFuncDec
-		| FUNCTION ID LPAREN tyfields RPAREN COLON typeid EQ expr # TypeFuncDec
+fundec: FUNCTION ID LPAREN tyfields RPAREN ASGN expr # SimpleFuncDec
+		| FUNCTION ID LPAREN tyfields RPAREN COLON typeid ASGN expr # TypeFuncDec
 		;
 
 lvalue: ID # LvalID

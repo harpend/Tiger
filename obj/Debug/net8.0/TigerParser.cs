@@ -896,7 +896,7 @@ public partial class TigerParser : Parser {
 			return GetRuleContext<TyfieldsContext>(0);
 		}
 		public ITerminalNode RPAREN() { return GetToken(TigerParser.RPAREN, 0); }
-		public ITerminalNode EQ() { return GetToken(TigerParser.EQ, 0); }
+		public ITerminalNode ASGN() { return GetToken(TigerParser.ASGN, 0); }
 		public ExprContext expr() {
 			return GetRuleContext<ExprContext>(0);
 		}
@@ -927,7 +927,7 @@ public partial class TigerParser : Parser {
 		public TypeidContext typeid() {
 			return GetRuleContext<TypeidContext>(0);
 		}
-		public ITerminalNode EQ() { return GetToken(TigerParser.EQ, 0); }
+		public ITerminalNode ASGN() { return GetToken(TigerParser.ASGN, 0); }
 		public ExprContext expr() {
 			return GetRuleContext<ExprContext>(0);
 		}
@@ -964,7 +964,7 @@ public partial class TigerParser : Parser {
 				State = 92; Match(LPAREN);
 				State = 93; tyfields();
 				State = 94; Match(RPAREN);
-				State = 95; Match(EQ);
+				State = 95; Match(ASGN);
 				State = 96; expr(0);
 				}
 				break;
@@ -980,7 +980,7 @@ public partial class TigerParser : Parser {
 				State = 102; Match(RPAREN);
 				State = 103; Match(COLON);
 				State = 104; typeid();
-				State = 105; Match(EQ);
+				State = 105; Match(ASGN);
 				State = 106; expr(0);
 				}
 				break;
@@ -2362,9 +2362,9 @@ public partial class TigerParser : Parser {
 		"\x2R[\x5\x1A\xE\x2ST\a\xF\x2\x2TU\a/\x2\x2UV\a&\x2\x2VW\x5\x10\t\x2WX"+
 		"\a$\x2\x2XY\x5\x1A\xE\x2Y[\x3\x2\x2\x2ZO\x3\x2\x2\x2ZS\x3\x2\x2\x2[\x13"+
 		"\x3\x2\x2\x2\\]\a\xE\x2\x2]^\a/\x2\x2^_\a(\x2\x2_`\x5\f\a\x2`\x61\a)\x2"+
-		"\x2\x61\x62\a \x2\x2\x62\x63\x5\x1A\xE\x2\x63o\x3\x2\x2\x2\x64\x65\a\xE"+
+		"\x2\x61\x62\a$\x2\x2\x62\x63\x5\x1A\xE\x2\x63o\x3\x2\x2\x2\x64\x65\a\xE"+
 		"\x2\x2\x65\x66\a/\x2\x2\x66g\a(\x2\x2gh\x5\f\a\x2hi\a)\x2\x2ij\a&\x2\x2"+
-		"jk\x5\x10\t\x2kl\a \x2\x2lm\x5\x1A\xE\x2mo\x3\x2\x2\x2n\\\x3\x2\x2\x2"+
+		"jk\x5\x10\t\x2kl\a$\x2\x2lm\x5\x1A\xE\x2mo\x3\x2\x2\x2n\\\x3\x2\x2\x2"+
 		"n\x64\x3\x2\x2\x2o\x15\x3\x2\x2\x2pq\b\f\x1\x2qr\a/\x2\x2r}\x3\x2\x2\x2"+
 		"st\f\x4\x2\x2tu\a.\x2\x2u|\a/\x2\x2vw\f\x3\x2\x2wx\a*\x2\x2xy\x5\x1A\xE"+
 		"\x2yz\a+\x2\x2z|\x3\x2\x2\x2{s\x3\x2\x2\x2{v\x3\x2\x2\x2|\x7F\x3\x2\x2"+

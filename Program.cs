@@ -2,11 +2,14 @@
 using Tiger.ANTLR;
 using Tiger.ANTLR.AST;
 using Tiger.ANTLR.AST.Node;
+using Tiger.Table;
 
 namespace Tut;
 
 public class Program
 {
+    public static TypeTable typeTable;
+    public static SymbolTable symbolTable;
     static void Main(string[] args)
     {
         var fileContents = File.ReadAllText("C:/Users/jackt/OneDrive/Documents/Compilers/Tiger/Tiger/Tests/test3.tgr");
@@ -25,6 +28,8 @@ public class Program
             return;
         }
         TigerVisitor visitor = new TigerVisitor();
+        typeTable = new TypeTable();
+        symbolTable = new SymbolTable();
         ASTNode ast = visitor.Visit(program);
         if (ast == null)
         {

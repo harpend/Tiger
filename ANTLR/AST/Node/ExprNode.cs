@@ -5,10 +5,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Tiger.Table;
 
 namespace Tiger.ANTLR.AST.Node
 {
-    abstract class ASTExprNode : ASTNode { 
+    abstract class ASTExprNode : ASTNode {
+        public abstract TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable);
     }
 
     class ExprsNode : ASTExprNode
@@ -44,6 +46,11 @@ namespace Tiger.ANTLR.AST.Node
             this.Var.printNode(tab + "\t");
             Console.WriteLine(tab + "}");
         }
+
+        public override TigerType CheckType(SymbolTable symbolTable)
+        {
+            return this.Var.CheckType(symbolTable);
+        }
     }
 
     class NilExprNode : ASTExprNode {
@@ -51,6 +58,11 @@ namespace Tiger.ANTLR.AST.Node
         {
             Console.WriteLine(tab + "Null {");
             Console.WriteLine(tab + "}");
+        }
+
+        public override TigerType CheckType(SymbolTable symbolTable)
+        {
+            return new NullType();
         }
     }
 
@@ -67,6 +79,10 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "\tint: " + this.Value);
             Console.WriteLine(tab + "}");
         }
+        public override TigerType CheckType(SymbolTable symbolTable)
+        {
+            return new IntType();
+        }
     }
 
     class StringExprNode : ASTExprNode
@@ -81,6 +97,10 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "String {");
             Console.WriteLine(tab + "\tstring: ", this.Value);
             Console.WriteLine(tab + "}");
+        }
+        public override TigerType CheckType(SymbolTable symbolTable)
+        {
+            return new StringType();
         }
     }
 
@@ -133,6 +153,17 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "\tRight: ");
             this.Right.printNode(tab + "\t\t");
             Console.WriteLine(tab + "}");
+        }
+
+        public override TigerType CheckType(SymbolTable symbolTable)
+        {
+            if (this.Left.CheckType(symbolTable) is StringType && this.Right.CheckType(symbolTable) is StringType) {
+                return new StringType();
+            } else if (this.Left.CheckType(symbolTable) is IntType && this.Right.CheckType(symbolTable) is IntType) {
+                return new IntType();
+            }
+
+            throw new Exception(Error.TypeError.InvalidOperation(this.Left.CheckType(symbolTable).ToString(), this.Right.CheckType(symbolTable).ToString()));
         }
     }
 

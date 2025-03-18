@@ -8,7 +8,10 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Tiger.ANTLR.AST.Node;
-
+using Tiger.Error;
+using Tiger.Table;
+using Tut;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Tiger.ANTLR.AST
 {
     class TigerVisitor : TigerBaseVisitor<ASTNode>
@@ -315,7 +318,9 @@ namespace Tiger.ANTLR.AST
                 ASTTypeNode type = Visit(context.ty()) as ASTTypeNode;
                 int pos = context.ty().start.StartIndex;
                 // Create a TypeDecNode and add it to the list
-                typeDecNodes.Add(new TypeDecNode.TypeSubClass(name, type, pos));
+                TypeDecNode.TypeSubClass tsc = new TypeDecNode.TypeSubClass(name, type, pos);
+                typeDecNodes.Add(tsc);
+                Program.typeTable = Program.typeTable.Put(name);
                 processedTyDecs.Add(context);
                 context = Helpers.GetRightTyDecSibling(context);
 
@@ -370,6 +375,7 @@ namespace Tiger.ANTLR.AST
             ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
             int pos = context.start.StartIndex;
             string sym = context.ID().GetText();
+            Program.symbolTable = Program.symbolTable.Put(sym, expr.CheckType(Program.symbolTable, Program.typeTable).ToString(), Program.typeTable);
             return new VarDecNode(true, option, expr, pos, sym);
         }
 
@@ -381,6 +387,10 @@ namespace Tiger.ANTLR.AST
             ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
             int pos = context.start.StartIndex;
             string sym = context.ID().GetText();
+            if (!Program.typeTable.Exists(sym2)) throw new Exception(TypeError.Undeclared(sym2));
+            TigerType exprType = Program.typeTable.Get(expr.CheckType(Program.symbolTable, Program.typeTable).ToString());
+            if (!Program.typeTable.Get(sym2).Equals(exprType)) throw new Exception(TypeError.Mismatched(sym2, exprType.ToString()));
+            Program.symbolTable = Program.symbolTable.Put(sym, expr.CheckType(Program.symbolTable, Program.typeTable).ToString(), Program.typeTable);
             return new VarDecNode(true, option, expr, pos, sym);
         }
 
