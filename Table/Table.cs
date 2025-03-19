@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Antlr4.Runtime.Atn;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -24,6 +25,19 @@ namespace Tiger.Table
         {
             return new SymbolTable(this.dict.SetItems(super.dict));
         }
+        public SymbolTable PutFn(string key, List<string> prms, string ret, TypeTable tt) // add other requirements later on such as scope
+        {
+            if (!tt.Exists(ret)) throw new Exception("Type doesn't exist");
+            List<TigerType> prmtypes = new List<TigerType>();
+            foreach (string prm in prms)
+            {
+                if (!tt.Exists(prm)) throw new Exception("Type doesn't exist");
+                prmtypes.Add(TigerType.type(prm));
+            }
+            TigerType typ = TigerType.type(ret);
+            Symbol symbol = Symbol.fnSymbol(key, prmtypes, typ);
+            return new SymbolTable(dict.SetItem(key, symbol));
+        }
         public SymbolTable Put(string key, string type, TypeTable tt) // add other requirements later on such as scope
         {
             if (!tt.Exists(type)) throw new Exception("Type doesn't exist");
@@ -44,7 +58,8 @@ namespace Tiger.Table
         public TypeTable() {
             this.dict = ImmutableSortedDictionary<string, TigerType>.Empty
                 .Add("int", TigerType.type("int"))
-                .Add("string", TigerType.type("string"));
+                .Add("string", TigerType.type("string"))
+                .Add("void", TigerType.type("void"));
         }
         
         private TypeTable(ImmutableSortedDictionary<string, TigerType> bindings) { 
