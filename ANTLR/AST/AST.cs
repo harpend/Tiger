@@ -356,7 +356,7 @@ namespace Tiger.ANTLR.AST
             SimpleVarNode option = null;
             RecordTypeNode rNode = Visit(context.tyfields()) as RecordTypeNode;
             List<string> prms = new List<string>();
-            rNode.Fields.ForEach(f => {prms.Add(f.NameSymbol.ToString()); });
+            rNode.Fields.ForEach(f => {prms.Add(f.TypeSymbol.ToString()); });
             int pos = context.start.StartIndex;
             Program.symbolTable = Program.symbolTable.PutFn(name, prms, "void", Program.typeTable);
             return new FuncDec(name, rNode.Fields, option, expr, pos);
@@ -370,7 +370,7 @@ namespace Tiger.ANTLR.AST
             SimpleVarNode option = new SimpleVarNode(typeString, pos2);
             RecordTypeNode rNode = Visit(context.tyfields()) as RecordTypeNode;
             List<string> prms = new List<string>();
-            rNode.Fields.ForEach(f => { prms.Add(f.NameSymbol.ToString()); });
+            rNode.Fields.ForEach(f => { prms.Add(f.TypeSymbol.ToString()); });
             int pos = context.start.StartIndex;
             Program.symbolTable = Program.symbolTable.PutFn(name, prms, typeString, Program.typeTable);
             return new FuncDec(name, rNode.Fields, option, expr, pos);

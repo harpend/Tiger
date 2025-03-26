@@ -10,7 +10,7 @@ namespace Tiger.Table
     public class Symbol
     {
         private string name;
-        private TigerType type;
+        public TigerType type { get; }
         public bool isFunction { get; }
         public List<TigerType> parameters { get; }
         public TigerType retType { get; }
@@ -33,8 +33,6 @@ namespace Tiger.Table
             this.parameters = prms;
             this.retType = ret;
         }
-
-
 
         public static Symbol symbol(string name, TigerType type)
         {

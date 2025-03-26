@@ -21,5 +21,9 @@ namespace Tiger.Error
         {
             return "TYPE ERROR: Type " + type1 + " cannot be op'd to Type " + type2;
         }
+        public static string NonExistantType()
+        {
+            return "An invalid assignment has most likely occurred";
+        }
     }
 }

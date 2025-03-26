@@ -59,7 +59,8 @@ namespace Tiger.Table
             this.dict = ImmutableSortedDictionary<string, TigerType>.Empty
                 .Add("int", TigerType.type("int"))
                 .Add("string", TigerType.type("string"))
-                .Add("void", TigerType.type("void"));
+                .Add("void", TigerType.type("void"))
+                .Add("nil", TigerType.type("nil"));
         }
         
         private TypeTable(ImmutableSortedDictionary<string, TigerType> bindings) { 

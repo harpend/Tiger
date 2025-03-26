@@ -1,4 +1,5 @@
 ﻿using Antlr4.Runtime.Tree;
+using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,11 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine("]");
             Console.WriteLine(tab + "}");
         }
+
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable) // not one type for this, therefore it should never be checked or maybe return the first type.
+        {
+            throw new Exception(Error.TypeError.NonExistantType());
+        }
     }
     class VarExprNode : ASTExprNode
     {
@@ -47,22 +53,22 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable)
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
         {
-            return this.Var.CheckType(symbolTable);
+            return this.Var.CheckType(symbolTable, typeTable);
         }
     }
 
     class NilExprNode : ASTExprNode {
         public override void printNode(string tab)
         {
-            Console.WriteLine(tab + "Null {");
+            Console.WriteLine(tab + "Nil {");
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable)
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
         {
-            return new NullType();
+            return typeTable.Get("nil");
         }
     }
 
@@ -79,9 +85,9 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "\tint: " + this.Value);
             Console.WriteLine(tab + "}");
         }
-        public override TigerType CheckType(SymbolTable symbolTable)
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
         {
-            return new IntType();
+            return typeTable.Get("int");
         }
     }
 
@@ -98,9 +104,9 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "\tstring: ", this.Value);
             Console.WriteLine(tab + "}");
         }
-        public override TigerType CheckType(SymbolTable symbolTable)
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
         {
-            return new StringType();
+            return typeTable.Get("string");
         }
     }
 
@@ -127,6 +133,13 @@ namespace Tiger.ANTLR.AST.Node
             }
             Console.WriteLine(tab + "\t]");
             Console.WriteLine(tab + "}");
+        }
+
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        {
+            Symbol fn = symbolTable.Get(this.FuncSymbol);
+            if (fn == null || !fn.isFunction) throw new Exception(Error.TypeError.NonExistantType());
+            return fn.retType;
         }
     }
 
@@ -155,15 +168,17 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable)
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
         {
-            if (this.Left.CheckType(symbolTable) is StringType && this.Right.CheckType(symbolTable) is StringType) {
-                return new StringType();
-            } else if (this.Left.CheckType(symbolTable) is IntType && this.Right.CheckType(symbolTable) is IntType) {
-                return new IntType();
+            TigerType leftType = this.Left.CheckType(symbolTable, typeTable);
+            TigerType rightType = this.Right.CheckType(symbolTable, typeTable);
+            if (leftType.typeName.Equals("string") && rightType.typeName.Equals("string")) {
+                return leftType;
+            } else if (leftType.Equals("int") && rightType.typeName.Equals("int")) {
+                return leftType;
             }
 
-            throw new Exception(Error.TypeError.InvalidOperation(this.Left.CheckType(symbolTable).ToString(), this.Right.CheckType(symbolTable).ToString()));
+            throw new Exception(Error.TypeError.InvalidOperation(leftType.typeName, rightType.typeName));
         }
     }
 
@@ -208,9 +223,16 @@ namespace Tiger.ANTLR.AST.Node
 
             Console.WriteLine(tab + "}");
         }
+
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        {
+            TigerType tt = typeTable.Get(this.TypeSymbol);
+            if (tt == null) throw new Exception(Error.TypeError.NonExistantType());
+            return tt;
+        }
     }
 
-    class SeqExprNode : ASTExprNode
+    class SeqExprNode : ASTExprNode // currently not used anywhere
     {
         public class Sequence
         {
@@ -242,6 +264,11 @@ namespace Tiger.ANTLR.AST.Node
 
             Console.WriteLine(tab + "}");
         }
+
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable) // not one type for this, therefore it should never be checked or maybe return the first type.
+        {
+            throw new Exception(Error.TypeError.NonExistantType());
+        }
     }
 
     class AssignExprNode : ASTExprNode
@@ -265,6 +292,11 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "\tExpr: ");
             Expr.printNode(tab + "\t\t");
             Console.WriteLine(tab + "}");
+        }
+
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        {
+            throw new Exception(Error.TypeError.NonExistantType());
         }
     }
 
@@ -299,7 +331,12 @@ namespace Tiger.ANTLR.AST.Node
 
             Console.WriteLine(tab + "}");
         }
+
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        {
+            throw new Exception(Error.TypeError.NonExistantType());
         }
+    }
 
     class WhileExprNode : ASTExprNode
     {
@@ -323,6 +360,11 @@ namespace Tiger.ANTLR.AST.Node
             Body.printNode(tab + "\t\t");
 
             Console.WriteLine(tab + "}");
+        }
+
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        {
+            throw new Exception(Error.TypeError.NonExistantType());
         }
     }
 
@@ -357,6 +399,11 @@ namespace Tiger.ANTLR.AST.Node
             Body.printNode(tab + "\t\t");
             Console.WriteLine(tab + "}");
         }
+
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        {
+            throw new Exception(Error.TypeError.NonExistantType());
+        }
     }
 
     class BreakExprNode : ASTExprNode
@@ -368,6 +415,11 @@ namespace Tiger.ANTLR.AST.Node
         {
             Console.WriteLine(tab + "Break {");
             Console.WriteLine(tab + "}");
+        }
+
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        {
+            throw new Exception(Error.TypeError.NonExistantType());
         }
     }
 
@@ -391,6 +443,11 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "\tBody: ");
             Body.printNode(tab + "\t\t");
             Console.WriteLine(tab + "}");
+        }
+
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable) 
+        {
+            throw new Exception(Error.TypeError.NonExistantType());
         }
     }
 
@@ -418,5 +475,13 @@ namespace Tiger.ANTLR.AST.Node
             this.Init.printNode(tab + "\t\t");
             Console.WriteLine(tab + "}");
         }
+
+        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        {
+            TigerType tt = typeTable.Get(this.Symbol);
+            if (tt == null) throw new Exception(Error.TypeError.NonExistantType());
+            return tt;
+        }
+    }
     }
 }
