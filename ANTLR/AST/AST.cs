@@ -284,7 +284,12 @@ namespace Tiger.ANTLR.AST
 
         public override ASTNode VisitTyBraced([NotNull] TigerParser.TyBracedContext context)
         {
-            return Visit(context.tyfields());
+            TigerParser.TydecContext p = context.parent as TigerParser.TydecContext;
+            string id = p.ID().GetText();
+            RecordTypeNode rtn =  Visit(context.tyfields()) as RecordTypeNode;
+            List<string> fields = rtn.Fields.Select(field => field.TypeSymbol.ToString()).ToList();
+            Program.typeTable = Program.typeTable.PutRecord(id, fields);
+            return rtn;
         }
 
         public override ASTNode VisitTyfields([NotNull] TigerParser.TyfieldsContext context)
@@ -320,7 +325,10 @@ namespace Tiger.ANTLR.AST
                 // Create a TypeDecNode and add it to the list
                 TypeDecNode.TypeSubClass tsc = new TypeDecNode.TypeSubClass(name, type, pos);
                 typeDecNodes.Add(tsc);
-                Program.typeTable = Program.typeTable.Put(name);
+                if (!(type is RecordTypeNode))
+                {
+                    Program.typeTable = Program.typeTable.Put(name);
+                }
                 processedTyDecs.Add(context);
                 context = Helpers.GetRightTyDecSibling(context);
 

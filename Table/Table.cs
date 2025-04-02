@@ -79,6 +79,11 @@ namespace Tiger.Table
             TigerType typ = TigerType.type(key);
             return new TypeTable(dict.SetItem(key, typ));
         }
+        public TypeTable PutRecord(string key, List<string> fields)
+        {
+            TigerType typ = TigerType.recordType(key, fields);
+            return new TypeTable(dict.SetItem(key, typ));
+        }
         public bool Exists(string key)
         {
             return dict.ContainsKey(key);
