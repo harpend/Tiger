@@ -45,7 +45,7 @@ expr: lvalue	#LeftVal
 	  | INTLIT	#IntegerLiteral
 	  | STRLIT	#StringLiteral
 	  | ID LPAREN (expr (COMMA expr)*)? RPAREN  # FunctionCall
-	  | typeid LBRACE (ID EQ expr (COMMA ID EQ expr)*)? RBRACE # RecordCreation
+	  | typeid LBRACE (ID ASGN expr (COMMA ID ASGN expr)*)? RBRACE # RecordCreation
 	  | typeid LBRACKET expr RBRACKET OF expr		# ArrayCreation
       | MINUS expr                                 # NegationExpr
       | expr MULT expr                            # MultExpr

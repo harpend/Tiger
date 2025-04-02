@@ -334,6 +334,14 @@ namespace Tiger.ANTLR.AST.Node
 
         public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
         {
+            TigerType t1 = this.Test.CheckType(symbolTable, typeTable);
+            TigerType t2 = this.Then_.CheckType(symbolTable, typeTable);
+            TigerType t3 = this.Else_.CheckType(symbolTable, typeTable);
+            if (t1 == t2 && t2 == t3)
+            {
+                return t1;
+            }
+
             throw new Exception(Error.TypeError.NonExistantType());
         }
     }

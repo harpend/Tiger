@@ -16,6 +16,7 @@ namespace Tiger.ANTLR.AST
 {
     class TigerVisitor : TigerBaseVisitor<ASTNode>
     {
+        private static Stack<bool> loopStack = new Stack<bool>();
         private static HashSet<TigerParser.DecFunDecContext> processedFuncDecs = new HashSet<TigerParser.DecFunDecContext>();
         private static HashSet<TigerParser.TydecContext> processedTyDecs = new HashSet<TigerParser.TydecContext>();
         public override ASTNode VisitProgram([NotNull] TigerParser.ProgramContext context)
@@ -209,8 +210,10 @@ namespace Tiger.ANTLR.AST
 
         public override ASTNode VisitWhileExpr([NotNull] TigerParser.WhileExprContext context)
         {
+            loopStack.Push(true);
             ASTExprNode test = Visit(context.expr()[0]) as ASTExprNode;
             ASTExprNode body = Visit(context.expr()[1]) as ASTExprNode;
+            loopStack.Pop();    
             int pos = context.Start.StopIndex;
             return new WhileExprNode(test, pos, body);
         }
@@ -220,9 +223,11 @@ namespace Tiger.ANTLR.AST
             string varName = context.ID().GetText();
             int pos = context.ID().Symbol.StartIndex; // Assuming position is based on line number
             VarExprNode loopVar = new VarExprNode(new SimpleVarNode(varName, pos));
+            loopStack.Push(true);
             ASTExprNode lo = Visit(context.expr()[0]) as ASTExprNode ;
             ASTExprNode hi = Visit(context.expr()[1]) as ASTExprNode ;
             ASTExprNode body = Visit(context.expr()[2]) as ASTExprNode;
+            loopStack.Pop();
             pos = context.Start.StartIndex;
             bool escape = true;
             return new ForExprNode(loopVar, escape, lo, hi, body, pos);
@@ -230,7 +235,17 @@ namespace Tiger.ANTLR.AST
 
         public override ASTNode VisitBreakExpr([NotNull] TigerParser.BreakExprContext context)
         {
-            return new BreakExprNode(context.Start.StartIndex);
+            if (loopStack.Count != 0)
+            {
+                return new BreakExprNode(context.Start.StartIndex);
+            }
+            else
+            {
+                Console.WriteLine(SemanticError.BreakPos());
+                Environment.Exit(1);
+            }
+
+            return null;
         }
 
         public override ASTNode VisitLetExpr([NotNull] TigerParser.LetExprContext context)
@@ -386,11 +401,21 @@ namespace Tiger.ANTLR.AST
         public override ASTNode VisitSimpleVarDec([NotNull] TigerParser.SimpleVarDecContext context)
         {
             VarDecNode.Option option = null;
-            ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
+            ASTExprNode? expr = Visit(context.expr()) as ASTExprNode;
             int pos = context.start.StartIndex;
             string sym = context.ID().GetText();
-            Program.symbolTable = Program.symbolTable.Put(sym, expr.CheckType(Program.symbolTable, Program.typeTable).ToString(), Program.typeTable);
-            return new VarDecNode(true, option, expr, pos, sym);
+            try
+            {
+                string type = expr.CheckType(Program.symbolTable, Program.typeTable).ToString();
+                Program.symbolTable = Program.symbolTable.Put(sym, type, Program.typeTable);
+                return new VarDecNode(true, option, expr, pos, sym);
+            } 
+            catch (Exception ex) {
+                Console.WriteLine(ex.ToString());
+                Environment.Exit(1);
+            }
+
+            return null;
         }
 
         public override ASTNode VisitTypeVarDec([NotNull] TigerParser.TypeVarDecContext context)
