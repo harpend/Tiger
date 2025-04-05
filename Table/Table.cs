@@ -42,7 +42,7 @@ namespace Tiger.Table
         {
             if (!tt.Exists(type)) throw new Exception("Type doesn't exist");
             TigerType typ = TigerType.type(type);
-            Symbol symbol = Symbol.symbol(key, typ);
+            Symbol symbol = Symbol.symbol(key, typ); // what is an access
             return new SymbolTable(dict.SetItem(key, symbol));
         }
         public Symbol? Get(string key)

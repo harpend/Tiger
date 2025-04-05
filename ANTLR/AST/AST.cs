@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tiger.ANTLR.AST.Node;
 using Tiger.Error;
+using Tiger.Frame;
 using Tiger.Table;
 using Tut;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -17,6 +18,7 @@ namespace Tiger.ANTLR.AST
     class TigerVisitor : TigerBaseVisitor<ASTNode>
     {
         private static Stack<bool> loopStack = new Stack<bool>();
+        private static Stack<IFrame> frameStack = new Stack<IFrame>();
         private static HashSet<TigerParser.DecFunDecContext> processedFuncDecs = new HashSet<TigerParser.DecFunDecContext>();
         private static HashSet<TigerParser.TydecContext> processedTyDecs = new HashSet<TigerParser.TydecContext>();
         public override ASTNode VisitProgram([NotNull] TigerParser.ProgramContext context)
@@ -375,11 +377,15 @@ namespace Tiger.ANTLR.AST
 
         public override ASTNode VisitSimpleFuncDec([NotNull] TigerParser.SimpleFuncDecContext context) {
             string name = context.ID().GetText();
-            ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
             SimpleVarNode option = null;
             RecordTypeNode rNode = Visit(context.tyfields()) as RecordTypeNode;
             List<string> prms = new List<string>();
-            rNode.Fields.ForEach(f => {prms.Add(f.TypeSymbol.ToString()); });
+            List<bool> formals = new List<bool>();
+            rNode.Fields.ForEach(f => {prms.Add(f.TypeSymbol.ToString()); formals.Add(true); });
+            Label label = new Label();
+            frameStack.Push(frameStack.Peek().NewFrame(label, formals));
+            ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
+            frameStack.Pop();
             int pos = context.start.StartIndex;
             Program.symbolTable = Program.symbolTable.PutFn(name, prms, "void", Program.typeTable);
             return new FuncDec(name, rNode.Fields, option, expr, pos);
@@ -387,13 +393,17 @@ namespace Tiger.ANTLR.AST
         public override ASTNode VisitTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context)
         {
             string name = context.ID().GetText();
-            ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
             string typeString = context.typeid().GetText();
             int pos2 = context.typeid().start.StartIndex;
             SimpleVarNode option = new SimpleVarNode(typeString, pos2);
             RecordTypeNode rNode = Visit(context.tyfields()) as RecordTypeNode;
             List<string> prms = new List<string>();
-            rNode.Fields.ForEach(f => { prms.Add(f.TypeSymbol.ToString()); });
+            List<bool> formals = new List<bool>();
+            rNode.Fields.ForEach(f => { prms.Add(f.TypeSymbol.ToString()); formals.Add(true); });
+            Label label = new Label();
+            frameStack.Push(frameStack.Peek().NewFrame(label, formals));
+            ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
+            frameStack.Pop();
             int pos = context.start.StartIndex;
             Program.symbolTable = Program.symbolTable.PutFn(name, prms, typeString, Program.typeTable);
             return new FuncDec(name, rNode.Fields, option, expr, pos);
@@ -407,6 +417,7 @@ namespace Tiger.ANTLR.AST
             try
             {
                 string type = expr.CheckType(Program.symbolTable, Program.typeTable).ToString();
+                IAccess access = frameStack.Peek().AllocLocal(frameStack.Peek(), true);
                 Program.symbolTable = Program.symbolTable.Put(sym, type, Program.typeTable);
                 return new VarDecNode(true, option, expr, pos, sym);
             } 
@@ -429,6 +440,7 @@ namespace Tiger.ANTLR.AST
             if (!Program.typeTable.Exists(sym2)) throw new Exception(TypeError.Undeclared(sym2));
             TigerType exprType = Program.typeTable.Get(expr.CheckType(Program.symbolTable, Program.typeTable).ToString());
             if (!Program.typeTable.Get(sym2).Equals(exprType)) throw new Exception(TypeError.Mismatched(sym2, exprType.ToString()));
+            IAccess access = frameStack.Peek().AllocLocal(frameStack.Peek(), true);
             Program.symbolTable = Program.symbolTable.Put(sym, expr.CheckType(Program.symbolTable, Program.typeTable).ToString(), Program.typeTable);
             return new VarDecNode(true, option, expr, pos, sym);
         }
