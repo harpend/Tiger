@@ -5,6 +5,8 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiger.Translate;
+using Tiger.Frame;
 
 namespace Tiger.Table
 {
@@ -25,7 +27,7 @@ namespace Tiger.Table
         {
             return new SymbolTable(this.dict.SetItems(super.dict));
         }
-        public SymbolTable PutFn(string key, List<string> prms, string ret, TypeTable tt) // add other requirements later on such as scope
+        public SymbolTable PutFn(string key, List<string> prms, string ret, Label label, Level level,TypeTable tt) // add other requirements later on such as scope
         {
             if (!tt.Exists(ret)) throw new Exception("Type doesn't exist");
             List<TigerType> prmtypes = new List<TigerType>();
@@ -35,14 +37,14 @@ namespace Tiger.Table
                 prmtypes.Add(TigerType.type(prm));
             }
             TigerType typ = TigerType.type(ret);
-            Symbol symbol = Symbol.fnSymbol(key, prmtypes, typ);
+            Symbol symbol = Symbol.fnSymbol(key, prmtypes, typ, label, level);
             return new SymbolTable(dict.SetItem(key, symbol));
         }
-        public SymbolTable Put(string key, string type, TypeTable tt) // add other requirements later on such as scope
+        public SymbolTable Put(string key, string type, Access access, TypeTable tt) // add other requirements later on such as scope
         {
             if (!tt.Exists(type)) throw new Exception("Type doesn't exist");
             TigerType typ = TigerType.type(type);
-            Symbol symbol = Symbol.symbol(key, typ); // what is an access
+            Symbol symbol = Symbol.symbol(key, typ, access); 
             return new SymbolTable(dict.SetItem(key, symbol));
         }
         public Symbol? Get(string key)

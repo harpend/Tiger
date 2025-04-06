@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 namespace Tiger.Frame
 {
     // holds information about formal parameters and variables located in the frame
-    interface IFrame
+    public interface IFrame
     {
         public IFrame NewFrame(Label name, List<bool> formals);
-        public Label Name(IFrame frame);
-        public List<IAccess> Formals(IFrame frame);
-        public IAccess AllocLocal(IFrame frame, bool formal);
+        public Label Name();
+        public List<IAccess> Formals();
+        public IAccess AllocLocal(bool formal);
     }
 
-    interface IAccess { }
+    public interface IAccess { }
 
     public class InFrame : IAccess
     {

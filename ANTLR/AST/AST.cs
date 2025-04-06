@@ -5,12 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Tiger.ANTLR.AST.Node;
 using Tiger.Error;
 using Tiger.Frame;
 using Tiger.Table;
+using Tiger.Translate;
 using Tut;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Tiger.ANTLR.AST
@@ -18,14 +20,14 @@ namespace Tiger.ANTLR.AST
     class TigerVisitor : TigerBaseVisitor<ASTNode>
     {
         private static Stack<bool> loopStack = new Stack<bool>();
-        private static Stack<IFrame> frameStack = new Stack<IFrame>();
+        private static Stack<Level> levelStack = new Stack<Level>();
         private static HashSet<TigerParser.DecFunDecContext> processedFuncDecs = new HashSet<TigerParser.DecFunDecContext>();
         private static HashSet<TigerParser.TydecContext> processedTyDecs = new HashSet<TigerParser.TydecContext>();
         public override ASTNode VisitProgram([NotNull] TigerParser.ProgramContext context)
         {
             List<DecsNode> declarations = context.decs().Select(Visit).Cast<DecsNode>().ToList();
             List<ASTExprNode> expressions = context.expr().Select(Visit).Cast<ASTExprNode>().ToList();
-
+            levelStack.Push(null); // push null so any functions at the outermost level have a null parent.
             return new ProgramNode(declarations, expressions);
         }
         public override ASTNode VisitIntegerLiteral([NotNull] TigerParser.IntegerLiteralContext context)
@@ -383,11 +385,13 @@ namespace Tiger.ANTLR.AST
             List<bool> formals = new List<bool>();
             rNode.Fields.ForEach(f => {prms.Add(f.TypeSymbol.ToString()); formals.Add(true); });
             Label label = new Label();
-            frameStack.Push(frameStack.Peek().NewFrame(label, formals));
+            Level parent = levelStack.Peek();
+            Level level = Translate.Translate.NewLevel(parent, label, formals);
+            levelStack.Push(level);
             ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
-            frameStack.Pop();
+            levelStack.Pop();
             int pos = context.start.StartIndex;
-            Program.symbolTable = Program.symbolTable.PutFn(name, prms, "void", Program.typeTable);
+            Program.symbolTable = Program.symbolTable.PutFn(name, prms, "void", label, level, Program.typeTable);
             return new FuncDec(name, rNode.Fields, option, expr, pos);
         }
         public override ASTNode VisitTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context)
@@ -401,11 +405,13 @@ namespace Tiger.ANTLR.AST
             List<bool> formals = new List<bool>();
             rNode.Fields.ForEach(f => { prms.Add(f.TypeSymbol.ToString()); formals.Add(true); });
             Label label = new Label();
-            frameStack.Push(frameStack.Peek().NewFrame(label, formals));
+            Level parent = levelStack.Peek();
+            Level level = Translate.Translate.NewLevel(parent, label, formals);
+            levelStack.Push(level);
             ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
-            frameStack.Pop();
+            levelStack.Pop();
             int pos = context.start.StartIndex;
-            Program.symbolTable = Program.symbolTable.PutFn(name, prms, typeString, Program.typeTable);
+            Program.symbolTable = Program.symbolTable.PutFn(name, prms, typeString, label, level, Program.typeTable);
             return new FuncDec(name, rNode.Fields, option, expr, pos);
         }
         public override ASTNode VisitSimpleVarDec([NotNull] TigerParser.SimpleVarDecContext context)
@@ -417,8 +423,8 @@ namespace Tiger.ANTLR.AST
             try
             {
                 string type = expr.CheckType(Program.symbolTable, Program.typeTable).ToString();
-                IAccess access = frameStack.Peek().AllocLocal(frameStack.Peek(), true);
-                Program.symbolTable = Program.symbolTable.Put(sym, type, Program.typeTable);
+                Access access = Translate.Translate.AllocLocal(levelStack.Peek(), true);
+                Program.symbolTable = Program.symbolTable.Put(sym, type, access, Program.typeTable);
                 return new VarDecNode(true, option, expr, pos, sym);
             } 
             catch (Exception ex) {
@@ -440,7 +446,7 @@ namespace Tiger.ANTLR.AST
             if (!Program.typeTable.Exists(sym2)) throw new Exception(TypeError.Undeclared(sym2));
             TigerType exprType = Program.typeTable.Get(expr.CheckType(Program.symbolTable, Program.typeTable).ToString());
             if (!Program.typeTable.Get(sym2).Equals(exprType)) throw new Exception(TypeError.Mismatched(sym2, exprType.ToString()));
-            IAccess access = frameStack.Peek().AllocLocal(frameStack.Peek(), true);
+            Access access = Translate.Translate.AllocLocal(levelStack.Peek(), true);
             Program.symbolTable = Program.symbolTable.Put(sym, expr.CheckType(Program.symbolTable, Program.typeTable).ToString(), Program.typeTable);
             return new VarDecNode(true, option, expr, pos, sym);
         }
