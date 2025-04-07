@@ -10,7 +10,7 @@ namespace Tiger.Frame
     // holds information about formal parameters and variables located in the frame
     public interface IFrame
     {
-        public IFrame NewFrame(Label name, List<bool> formals);
+        public IFrame NewFrame(Label name, LinkedList<bool> formals);
         public Label Name();
         public List<IAccess> Formals();
         public IAccess AllocLocal(bool formal);

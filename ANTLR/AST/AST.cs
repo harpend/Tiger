@@ -13,6 +13,7 @@ using Tiger.Error;
 using Tiger.Frame;
 using Tiger.Table;
 using Tiger.Translate;
+using static Tiger.Translate.Translate;
 using Tut;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Tiger.ANTLR.AST
@@ -27,7 +28,7 @@ namespace Tiger.ANTLR.AST
         {
             List<DecsNode> declarations = context.decs().Select(Visit).Cast<DecsNode>().ToList();
             List<ASTExprNode> expressions = context.expr().Select(Visit).Cast<ASTExprNode>().ToList();
-            levelStack.Push(null); // push null so any functions at the outermost level have a null parent.
+            levelStack.Push(GetOutermost()); 
             return new ProgramNode(declarations, expressions);
         }
         public override ASTNode VisitIntegerLiteral([NotNull] TigerParser.IntegerLiteralContext context)
@@ -382,11 +383,11 @@ namespace Tiger.ANTLR.AST
             SimpleVarNode option = null;
             RecordTypeNode rNode = Visit(context.tyfields()) as RecordTypeNode;
             List<string> prms = new List<string>();
-            List<bool> formals = new List<bool>();
-            rNode.Fields.ForEach(f => {prms.Add(f.TypeSymbol.ToString()); formals.Add(true); });
+            LinkedList<bool> formals = new LinkedList<bool>();
+            rNode.Fields.ForEach(f => {prms.Add(f.TypeSymbol.ToString()); formals.Append(true); });
             Label label = new Label();
             Level parent = levelStack.Peek();
-            Level level = Translate.Translate.NewLevel(parent, label, formals);
+            Level level = NewLevel(parent, label, formals);
             levelStack.Push(level);
             ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
             levelStack.Pop();
@@ -402,11 +403,11 @@ namespace Tiger.ANTLR.AST
             SimpleVarNode option = new SimpleVarNode(typeString, pos2);
             RecordTypeNode rNode = Visit(context.tyfields()) as RecordTypeNode;
             List<string> prms = new List<string>();
-            List<bool> formals = new List<bool>();
-            rNode.Fields.ForEach(f => { prms.Add(f.TypeSymbol.ToString()); formals.Add(true); });
+            LinkedList<bool> formals = new LinkedList<bool>();
+            rNode.Fields.ForEach(f => { prms.Add(f.TypeSymbol.ToString()); formals.Append(true); });
             Label label = new Label();
             Level parent = levelStack.Peek();
-            Level level = Translate.Translate.NewLevel(parent, label, formals);
+            Level level = NewLevel(parent, label, formals);
             levelStack.Push(level);
             ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
             levelStack.Pop();

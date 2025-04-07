@@ -36,15 +36,13 @@ namespace Tiger.Translate
     {
         public static IFrame curFrame;
         public static string target = "x86_64";
-        
-        public static Level NewLevel(Level parent, Label name, List<bool> formals)
+        private static Level outermost = new Level(null, new x86_64());
+      
+        public static Level NewLevel(Level parent, Label name, LinkedList<bool> formals)
         {
+            formals.AddFirst(true); // this is the static link
             IFrame frame = null;
-            if (target == "x86_64")
-            {
-                frame = parent.frame.NewFrame(name, formals);
-            }
-
+            frame = parent.frame.NewFrame(name, formals);
             Level level = new Level(parent, frame);
             List<IAccess> iAccessList = frame.Formals();
             List<Access> accessList = new List<Access>();
@@ -53,7 +51,7 @@ namespace Tiger.Translate
             return level;
         }
 
-        public static Level Outermost()
+        public static Level GetOutermost()
         {
             return outermost;
         }
