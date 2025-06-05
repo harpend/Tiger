@@ -20,8 +20,9 @@ namespace Tiger.Frame
 
     public class InFrame : IAccess
     {
+        public IFrame frame;
         public int offset { get; } // this is the offset from fp
-        public InFrame(int offset)
+        public InFrame(IFrame frame, int offset)
         {
             this.offset = offset;
         }

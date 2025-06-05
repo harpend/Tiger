@@ -448,7 +448,7 @@ namespace Tiger.ANTLR.AST
             TigerType exprType = Program.typeTable.Get(expr.CheckType(Program.symbolTable, Program.typeTable).ToString());
             if (!Program.typeTable.Get(sym2).Equals(exprType)) throw new Exception(TypeError.Mismatched(sym2, exprType.ToString()));
             Access access = Translate.Translate.AllocLocal(levelStack.Peek(), true);
-            Program.symbolTable = Program.symbolTable.Put(sym, expr.CheckType(Program.symbolTable, Program.typeTable).ToString(), Program.typeTable);
+            Program.symbolTable = Program.symbolTable.Put(sym, expr.CheckType(Program.symbolTable, Program.typeTable).ToString(), access, Program.typeTable);
             return new VarDecNode(true, option, expr, pos, sym);
         }
 

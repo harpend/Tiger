@@ -38,7 +38,8 @@ namespace Tiger.ANTLR.AST.Node
             Symbol s = symbolTable.Get(this.Symbol);
             if (Symbol != null)
             {
-                return s.type;
+                VarSym vs = s.entry as VarSym;
+                return vs.type;
             }
 
             throw new Exception(Error.TypeError.NonExistantType());

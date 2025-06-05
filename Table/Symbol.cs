@@ -46,7 +46,7 @@ namespace Tiger.Table
     }
     public class Symbol // finish separating into new IEntry for var and func
     {
-        IEntry entry;
+        public IEntry entry;
         private static readonly ImmutableDictionary<string, Symbol>.Builder dict = ImmutableDictionary.CreateBuilder<string, Symbol>();
         public override String ToString() { return entry.name; }
 

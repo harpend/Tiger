@@ -137,8 +137,9 @@ namespace Tiger.ANTLR.AST.Node
 
         public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
         {
-            Symbol fn = symbolTable.Get(this.FuncSymbol);
-            if (fn == null || !fn.isFunction) throw new Exception(Error.TypeError.NonExistantType());
+            Symbol s = symbolTable.Get(this.FuncSymbol);
+            FuncSym fn = s.entry as FuncSym;
+            if (fn == null || !s.IsFunction()) throw new Exception(Error.TypeError.NonExistantType());
             return fn.retType;
         }
     }

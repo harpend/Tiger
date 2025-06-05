@@ -13,6 +13,7 @@ namespace Tiger.Frame.Arch
     // label at which the functions machine code begins
     class x86_64 : IFrame
     {
+        private static int offset = 0;
         public Label name;
         public List<IAccess> formals;
         public IFrame NewFrame(Label name, LinkedList<bool> formals)
@@ -47,11 +48,16 @@ namespace Tiger.Frame.Arch
         }
         public List<IAccess> Formals()
         {
-           
+           return this.formals;
         }
-        public IAccess AllocLocal(bool formal)
+        public IAccess AllocLocal(bool escape)
         {
+            if (escape)
+            {
+                return new InFrame(this, offset--);
+            }
 
+            return new InReg(new Temp());
         }
     }
 }
