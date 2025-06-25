@@ -384,7 +384,7 @@ namespace Tiger.ANTLR.AST
             RecordTypeNode rNode = Visit(context.tyfields()) as RecordTypeNode;
             List<string> prms = new List<string>();
             LinkedList<bool> formals = new LinkedList<bool>();
-            rNode.Fields.ForEach(f => {prms.Add(f.TypeSymbol.ToString()); formals.Append(true); });
+            rNode.Fields.ForEach(f => {prms.Add(f.TypeSymbol.ToString()); formals.Append(false); });
             Label label = new Label();
             Level parent = levelStack.Peek();
             Level level = NewLevel(parent, label, formals);
@@ -404,7 +404,7 @@ namespace Tiger.ANTLR.AST
             RecordTypeNode rNode = Visit(context.tyfields()) as RecordTypeNode;
             List<string> prms = new List<string>();
             LinkedList<bool> formals = new LinkedList<bool>();
-            rNode.Fields.ForEach(f => { prms.Add(f.TypeSymbol.ToString()); formals.Append(true); });
+            rNode.Fields.ForEach(f => { prms.Add(f.TypeSymbol.ToString()); formals.Append(false); });
             Label label = new Label();
             Level parent = levelStack.Peek();
             Level level = NewLevel(parent, label, formals);

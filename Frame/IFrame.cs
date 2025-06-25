@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tiger.Frame
 {
-    // holds information about formal parameters and variables located in the frame
+    // Activation Record: contains local variables, formal parameters, return address and other temps.
     public interface IFrame
     {
         public IFrame NewFrame(Label name, LinkedList<bool> formals);
@@ -37,7 +37,7 @@ namespace Tiger.Frame
         }
     }
 
-    public class Label
+    public class Label // assembly label
     {
         static int count = 0;
         public string name { get; }
