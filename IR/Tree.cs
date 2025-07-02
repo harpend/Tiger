@@ -19,23 +19,38 @@ namespace Tiger.IR
     }
 
     // Expressions
-    public abstract class Expr { }
+    public class Expr : Stmt {
+        public Expr expr;
+        public Expr(Expr e) {
+            this.expr = e;
+        }    
+    }
 
-    public class Const : Expr {
+    public class Const : Expr
+    {
         public int c;
-        public Const(int c) { this.c = c; }
+        public Const(int c) : base(null)
+        {
+            this.c = c;
+        }
     }
 
     public class Name : Expr
     {
         public Frame.Label label;
-        public Name(Frame.Label label) { this.label = label; }
+        public Name(Frame.Label label) : base(null)
+        {
+            this.label = label;
+        }
     }
 
     public class Temp : Expr
     {
         public Frame.Temp temp;
-        public Temp(Frame.Temp temp) { this.temp = temp; }
+        public Temp(Frame.Temp temp) : base(null)
+        {
+            this.temp = temp;
+        }
     }
 
     public class BinOpExpr : Expr
@@ -43,7 +58,7 @@ namespace Tiger.IR
         public BinOp bo;
         public Expr expr1;
         public Expr expr2;
-        public BinOpExpr(BinOp bo, Expr expr1, Expr expr2)
+        public BinOpExpr(BinOp bo, Expr expr1, Expr expr2) : base(null)
         {
             this.bo = bo;
             this.expr1 = expr1;
@@ -54,25 +69,28 @@ namespace Tiger.IR
     public class Mem : Expr
     {
         public Expr expr;
-        public Mem(Expr expr) { this.expr = expr; }
+        public Mem(Expr expr) : base(null)
+        {
+            this.expr = expr;
+        }
     }
 
     public class Call : Expr
     {
         public Expr expr;
         public LinkedList<Expr> exprList;
-        public Call(LinkedList<Expr> exprList, Expr expr)
+        public Call(LinkedList<Expr> exprList, Expr expr) : base(null)
         {
             this.exprList = exprList;
             this.expr = expr;
         }
     }
 
-    public class Eseq : Expr 
+    public class Eseq : Expr
     {
         public Stmt stmt;
         public Expr expr;
-        public Eseq(Stmt stmt, Expr expr)
+        public Eseq(Stmt stmt, Expr expr) : base(null)
         {
             this.stmt = stmt;
             this.expr = expr;

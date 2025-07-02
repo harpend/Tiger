@@ -14,6 +14,10 @@ namespace Tiger.Frame
         public Label Name();
         public List<IAccess> Formals();
         public IAccess AllocLocal(bool formal);
+        public IR.Stmt ProcEntryExit1(IR.Stmt body);
+        public IR.Stmt ProcEntryExit2(IR.Stmt body);
+        public IR.Stmt ProcEntryExit3(IR.Stmt body);
+        public Temp RetVal();
     }
 
     public interface IAccess { }
@@ -54,6 +58,35 @@ namespace Tiger.Frame
         public Temp()
         {
             this.id = count++;
+        }
+
+        public Temp(int i)
+        {
+            this.id = i;
+        }
+    }
+
+    public interface Frag { }
+
+    public class Proc : Frag
+    {
+        public IR.Stmt stmt;
+        public IFrame frame;
+        public Proc(IR.Stmt stmt, IFrame frame)
+        {
+            this.stmt = stmt;
+            this.frame = frame;
+        }
+    }
+
+    public class String : Frag
+    {
+        public Label label;
+        public string str;
+        public String(Label label, string str)
+        {
+            this.label = label;
+            this.str = str;
         }
     }
 }
