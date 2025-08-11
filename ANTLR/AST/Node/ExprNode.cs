@@ -7,14 +7,17 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using Tiger.Table;
+using Tiger.Error;
+using Tiger.Semant;
 
 namespace Tiger.ANTLR.AST.Node
 {
-    abstract class ASTExprNode : ASTNode {
-        public abstract TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable);
+    public abstract class ASTExprNode : ASTNode {
+        public abstract Type.Type CheckType(Env env);
+        public abstract ExprTy TransExpr(Env env);
     }
 
-    class ExprsNode : ASTExprNode
+    public class ExprsNode : ASTExprNode
     {
         public List<ASTExprNode> Exprs { get; }
         public ExprsNode(List<ASTExprNode> exprs)
@@ -33,12 +36,18 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable) // not one type for this, therefore it should never be checked or maybe return the first type.
+        public override Type.Type CheckType(Semant.Env env) // not one type for this, therefore it should never be checked or maybe return the first type.
         {
-            throw new Exception(Error.TypeError.NonExistantType());
+            throw new Exception(Error.Error.NonExistantType);
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
-    class VarExprNode : ASTExprNode
+    public class VarExprNode : ASTExprNode
     {
         public ASTVarNode Var { get; }
         public VarExprNode(ASTVarNode var)
@@ -53,26 +62,38 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        public override Type.Type CheckType(Semant.Env env)
         {
-            return this.Var.CheckType(symbolTable, typeTable);
+            return this.Var.CheckType(env);
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
 
-    class NilExprNode : ASTExprNode {
+    public class NilExprNode : ASTExprNode {
         public override void printNode(string tab)
         {
             Console.WriteLine(tab + "Nil {");
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        public override Type.Type CheckType(Semant.Env env)
         {
-            return typeTable.Get("nil");
+            return (Type.Type)env.typeEnv.Get(Symbol.Symbol.Intern("nil"));
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
 
-    class IntExprNode : ASTExprNode
+    public class IntExprNode : ASTExprNode
     {
         public int Value { get; }
         public IntExprNode(int value)
@@ -85,13 +106,19 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "\tint: " + this.Value);
             Console.WriteLine(tab + "}");
         }
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        public override Type.Type CheckType(Semant.Env env)
         {
-            return typeTable.Get("int");
+            return (Type.Type)env.typeEnv.Get(Symbol.Symbol.Intern("int"));
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
 
-    class StringExprNode : ASTExprNode
+    public class StringExprNode : ASTExprNode
     {
         public string Value { get; }
         public StringExprNode(string value)
@@ -104,13 +131,19 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "\tstring: ", this.Value);
             Console.WriteLine(tab + "}");
         }
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        public override Type.Type CheckType(Semant.Env env)
         {
-            return typeTable.Get("string");
+            return (Type.Type)env.typeEnv.Get(Symbol.Symbol.Intern("string"));
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
 
-    class CallExprNode : ASTExprNode
+    public class CallExprNode : ASTExprNode
     {
         public string FuncSymbol { get; }
         public List<ASTExprNode> Args { get; }
@@ -135,16 +168,29 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        public override Type.Type CheckType(Env env)
         {
-            Symbol s = symbolTable.Get(this.FuncSymbol);
-            FuncSym fn = s.entry as FuncSym;
-            if (fn == null || !s.IsFunction()) throw new Exception(Error.TypeError.NonExistantType());
-            return fn.retType;
+            FunEntry funEntry = (FunEntry)env.varEnv.Get(Symbol.Symbol.Intern(this.FuncSymbol));
+            Type.Type tt = funEntry.result;
+            if (tt == Symbol.Symbol.Intern("void")) throw new Exception(Error.Error.NonExistantType);
+            for (int i = 0; i < funEntry.formals.Count; i++)
+            {
+                ASTExprNode e = this.Args[i];
+                tt = e.CheckType(env);
+                if (!tt.Equals(funEntry.formals[i])) throw new Exception(Error.Error.InconsistentFunc);
+            }
+            
+            return tt;
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
 
-    class OpExprNode : ASTExprNode
+    public class OpExprNode : ASTExprNode
     {
         public ASTExprNode Left { get; }
         public ASTExprNode Right { get; }
@@ -169,21 +215,27 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        public override Type.Type CheckType(Env env)
         {
-            TigerType leftType = this.Left.CheckType(symbolTable, typeTable);
-            TigerType rightType = this.Right.CheckType(symbolTable, typeTable);
-            if (leftType.typeName.Equals("string") && rightType.typeName.Equals("string")) {
+            Type.Type leftType = this.Left.CheckType(env);
+            Type.Type rightType = this.Right.CheckType(env);
+            if (leftType.ToString().Equals("string") && rightType.ToString().Equals("string")) {
                 return leftType;
-            } else if (leftType.Equals("int") && rightType.typeName.Equals("int")) {
+            } else if (leftType.ToString().Equals("int") && rightType.ToString().Equals("int")) {
                 return leftType;
             }
 
-            throw new Exception(Error.TypeError.InvalidOperation(leftType.typeName, rightType.typeName));
+            throw new Exception(Error.Error.InvalidOperation(this.Op.GetType().ToString(), leftType.ToString(), rightType.ToString()));
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
 
-    class RecordExprNode : ASTExprNode
+    public class RecordExprNode : ASTExprNode
     {
         public class RecordField
         {
@@ -225,15 +277,21 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        public override Type.Type CheckType(Env env)
         {
-            TigerType tt = typeTable.Get(this.TypeSymbol);
-            if (tt == null) throw new Exception(Error.TypeError.NonExistantType());
+            Type.Type tt = (Type.Type)env.typeEnv.Get(Symbol.Symbol.Intern(this.TypeSymbol));
+            if (tt == null) throw new Exception(Error.Error.NonExistantType);
             return tt;
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
 
-    class SeqExprNode : ASTExprNode // currently not used anywhere
+    public class SeqExprNode : ASTExprNode // currently not used anywhere
     {
         public class Sequence
         {
@@ -266,13 +324,19 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable) // not one type for this, therefore it should never be checked or maybe return the first type.
+        public override Type.Type CheckType(Semant.Env env) // not one type for this, therefore it should never be checked or maybe return the first type.
         {
-            throw new Exception(Error.TypeError.NonExistantType());
+            throw new Exception(Error.Error.NonExistantType);
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
 
-    class AssignExprNode : ASTExprNode
+    public class AssignExprNode : ASTExprNode
     {
         public ASTVarNode Var { get; }
         public ASTExprNode Expr { get; }
@@ -295,13 +359,19 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        public override Type.Type CheckType(Semant.Env env)
         {
-            throw new Exception(Error.TypeError.NonExistantType());
+            throw new Exception(Error.Error.NonExistantType);
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
 
-    class IfExprNode : ASTExprNode
+    public class IfExprNode : ASTExprNode
     {
         public ASTExprNode Test { get; }
         public ASTExprNode Then_ { get; }
@@ -333,21 +403,27 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        public override Type.Type CheckType(Semant.Env env)
         {
-            TigerType t1 = this.Test.CheckType(symbolTable, typeTable);
-            TigerType t2 = this.Then_.CheckType(symbolTable, typeTable);
-            TigerType t3 = this.Else_.CheckType(symbolTable, typeTable);
+            Type.Type t1 = this.Test.CheckType(env);
+            Type.Type t2 = this.Then_.CheckType(env);
+            Type.Type t3 = this.Else_.CheckType(env);
             if (t1 == t2 && t2 == t3)
             {
                 return t1;
             }
 
-            throw new Exception(Error.TypeError.NonExistantType());
+            throw new Exception(Error.Error.NonExistantType);
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
 
-    class WhileExprNode : ASTExprNode
+    public class WhileExprNode : ASTExprNode
     {
         public ASTExprNode Test { get; }
         public ASTExprNode Body { get; }
@@ -371,13 +447,19 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        public override Type.Type CheckType(Env env)
         {
-            throw new Exception(Error.TypeError.NonExistantType());
+            throw new Exception(Error.Error.NonExistantType);
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
 
-    class ForExprNode : ASTExprNode
+    public class ForExprNode : ASTExprNode
     {
         public VarExprNode Var { get; }
         public bool BoolRef { get; }
@@ -409,13 +491,19 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        public override Type.Type CheckType(Env env)
         {
-            throw new Exception(Error.TypeError.NonExistantType());
+            throw new Exception(Error.Error.NonExistantType);
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
 
-    class BreakExprNode : ASTExprNode
+    public class BreakExprNode : ASTExprNode
     {
         public int Pos { get; }
         public BreakExprNode(int pos) { this.Pos = pos; }
@@ -426,13 +514,19 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        public override Type.Type CheckType(Env env)
         {
-            throw new Exception(Error.TypeError.NonExistantType());
+            throw new Exception(Error.Error.NonExistantType);
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
 
-    class LetExprNode : ASTExprNode
+    public class LetExprNode : ASTExprNode
     {
         public DecsNode Decs { get; }
         public ExprsNode Body { get; }
@@ -454,21 +548,38 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable) 
+        public override Type.Type CheckType(Env env) 
         {
-            throw new Exception(Error.TypeError.NonExistantType());
+            foreach (ASTDecNode dec in this.Decs.Decs)
+            {
+                Type.Type tt = dec.CheckType(env);
+                if (tt == null) throw new Exception(Error.Error.NonExistantType);
+            }
+            throw new Exception(Error.Error.NonExistantType);
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            env.varEnv.BeginScope();
+            env.typeEnv.BeginScope();
+            Type.Type type = CheckType(env);
+            // add the decs to the environment and then discard them after the body is evaluated
+            // TODO: evaluate body
+            env.typeEnv.EndScope();
+            env.varEnv.EndScope();
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
 
-    class ArrayExprNode : ASTExprNode
+    public class ArrayExprNode : ASTExprNode
     {
-        public string Symbol { get; }
+        public string Sym { get; }
         public ASTExprNode Size { get; }
         public ASTExprNode Init { get; }
         public int Pos { get; }
         public ArrayExprNode(string symbol, ASTExprNode size, ASTExprNode init, int pos)
         {
-            this.Symbol = symbol;
+            this.Sym = symbol;
             this.Size = size;
             this.Init = init;
             this.Pos = pos;
@@ -477,7 +588,7 @@ namespace Tiger.ANTLR.AST.Node
         public override void printNode(string tab)
         {
             Console.WriteLine(tab + "ArrayExpr {");
-            Console.WriteLine(tab + "\tSymbol: " + this.Symbol);
+            Console.WriteLine(tab + "\tSymbol: " + this.Sym);
             Console.WriteLine(tab + "\tSize: ");
             this.Size.printNode(tab + "\t\t");
             Console.WriteLine(tab + "\tInit: ");
@@ -485,11 +596,18 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable)
+        public override Type.Type CheckType(Semant.Env env)
         {
-            TigerType tt = typeTable.Get(this.Symbol);
-            if (tt == null) throw new Exception(Error.TypeError.NonExistantType());
+            VarEntry varEntry = (VarEntry)env.varEnv.Get(Symbol.Symbol.Intern(this.Sym));
+            Type.Type tt = varEntry.type;
+            if (tt == null) throw new Exception(Error.Error.NonExistantType);
             return tt;
+        }
+
+        public override ExprTy TransExpr(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new Translate.DummyExpr());
         }
     }
     

@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiger.Semant;
+using Tiger.Type;
 
 namespace Tiger.ANTLR.AST.Node
 {
-    abstract class ASTDecNode : ASTNode { }
+    public abstract class ASTDecNode : ASTNode {
+        public abstract Type.Type CheckType(Env env);
+        public abstract ExprTy TransDec(Env env);
+    }
 
-    class DecsNode : ASTDecNode
+    public class DecsNode : ASTDecNode
     {
         public List<ASTDecNode> Decs { get; }
         public DecsNode(List<ASTDecNode> decs)
@@ -26,8 +31,23 @@ namespace Tiger.ANTLR.AST.Node
 
             Console.WriteLine(tab + "}");
         }
+
+        public override ExprTy TransDec(Env env)
+        {
+            foreach (var dec in this.Decs)
+            {
+                dec.TransDec(env);
+            }
+
+            return null;
+        }
+
+        public override Type.Type CheckType(Env env)
+        {
+            throw new Exception(Error.Error.NonExistantType);
+        }
     }
-    class VarDecNode : ASTDecNode
+    public class VarDecNode : ASTDecNode
     {
         public bool BoolRef { get; } // escape
         public class Option
@@ -74,65 +94,111 @@ namespace Tiger.ANTLR.AST.Node
 
             Console.WriteLine(tab + "}");
         }
-    }
 
-
-    class FuncDecNode : ASTDecNode
-    {
-        public List<FuncDec> FuncDecs { get; }
-        public FuncDecNode(List<FuncDec> funcDecs)
+        public override ExprTy TransDec(Env env)
         {
-            this.FuncDecs = funcDecs;
+            Type.Type tt = CheckType(env);
+            env.varEnv.Push(Symbol.Symbol.Intern(NameSymbol), new VarEntry(tt));
+            return new ExprTy(tt, new Translate.DummyExpr());
         }
 
-        public override void printNode(string tab)
+        public override Type.Type CheckType(Env env)
         {
-            Console.WriteLine(tab + "FuncDecNode {");
-
-            foreach (var funcDec in FuncDecs)
+            Type.Type tt = null;
+            Type.Type exprType = this.Init.CheckType(env);
+            if (this.Type != null)
             {
-                Console.WriteLine(tab + "\tFunction:");
-                funcDec.printNode(tab + "\t\t");
+                tt = (Type.Type)env.typeEnv.Get(Symbol.Symbol.Intern(this.Type.Symbol));
+                if (tt != exprType)
+                {
+                    throw new Exception(Error.Error.InconsistentType);
+                }
+
+                if (!(exprType is not NilType || tt is RecordType)) throw new Exception(Error.Error.NilType);
+            }
+            else
+            {
+                if (exprType is NilType) throw new Exception(Error.Error.NilType);
+                tt = exprType;
+            }
+            if (tt == null) throw new Exception(Error.Error.NonExistantType);
+            return tt;
+        }
+    }
+        public class FuncDecNode : ASTDecNode
+        {
+            public List<FuncDec> FuncDecs { get; }
+            public FuncDecNode(List<FuncDec> funcDecs)
+            {
+                this.FuncDecs = funcDecs;
             }
 
-            Console.WriteLine(tab + "}");
-        }
-    }
-
-    class TypeDecNode : ASTDecNode
-    {
-        public class TypeSubClass
-        {
-            public string NameSymbol { get; }
-            public ASTTypeNode Ty { get; }
-            public int Pos { get; }
-            public TypeSubClass(string nameSymbol, ASTTypeNode ty, int pos)
+            public override void printNode(string tab)
             {
-                NameSymbol = nameSymbol;
-                Ty = ty;
-                Pos = pos;
+                Console.WriteLine(tab + "FuncDecNode {");
+
+                foreach (var funcDec in FuncDecs)
+                {
+                    Console.WriteLine(tab + "\tFunction:");
+                    funcDec.printNode(tab + "\t\t");
+                }
+
+                Console.WriteLine(tab + "}");
+            }
+
+            public override Type.Type CheckType(Env env)
+            {
+                throw new Exception(Error.Error.NonExistantType);
+            }
+            public override ExprTy TransDec(Env env)
+            {
+                foreach (var funcDec in FuncDecs)
+                {
+                    funcDec.TransDec(env);
+                }
+
+                return new ExprTy(null, new Translate.DummyExpr());
             }
         }
-        public List<TypeSubClass> TypeSubs { get; }
 
-        public TypeDecNode(List<TypeSubClass> typeSubs)
+        public class TypeDecNode : ASTDecNode
         {
-            this.TypeSubs = typeSubs;
-        }
-
-        public override void printNode(string tab)
-        {
-            Console.WriteLine(tab + "TypeDecNode {");
-            foreach (var typeSub in TypeSubs)
+            public class TypeSubClass
             {
-                Console.WriteLine(tab + "\tName: " + typeSub.NameSymbol);
+                public string NameSymbol { get; }
+                public ASTTypeNode Ty { get; }
+                public int Pos { get; }
+                public TypeSubClass(string nameSymbol, ASTTypeNode ty, int pos)
+                {
+                    NameSymbol = nameSymbol;
+                    Ty = ty;
+                    Pos = pos;
+                }
+            }
+            //public List<TypeSubClass> TypeSubs { get; }
+            public TypeSubClass TypeSub { get; }
+
+            public TypeDecNode(TypeSubClass typeSub)
+            {
+                this.TypeSub = typeSub;
+            }
+
+            public override void printNode(string tab)
+            {
+                Console.WriteLine(tab + "TypeDecNode {");  
+                Console.WriteLine(tab + "\tName: " + TypeSub.NameSymbol);
                 Console.WriteLine(tab + "\tType: ");
-                typeSub.Ty.printNode(tab + "\t\t");  
+                TypeSub.Ty.printNode(tab + "\t\t");
+                Console.WriteLine(tab + "}");
             }
 
-            Console.WriteLine(tab + "}");
+            public override Type.Type CheckType(Env env)
+            {
+                return TypeSub.Ty.CheckType(env);
+            }
+            public override ExprTy TransDec(Env env)
+            {
+                return new ExprTy(null, new Translate.DummyExpr());
+            }
         }
-
     }
-
-}

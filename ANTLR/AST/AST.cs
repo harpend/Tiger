@@ -9,26 +9,20 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Tiger.ANTLR.AST.Node;
-using Tiger.Error;
-using Tiger.Frame;
-using Tiger.Table;
-using Tiger.Translate;
-using static Tiger.Translate.Translate;
 using Tut;
+using Error = Tiger.Error.Error;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Tiger.ANTLR.AST
 {
     class TigerVisitor : TigerBaseVisitor<ASTNode>
     {
         private static Stack<bool> loopStack = new Stack<bool>();
-        private static Stack<Level> levelStack = new Stack<Level>();
         private static HashSet<TigerParser.DecFunDecContext> processedFuncDecs = new HashSet<TigerParser.DecFunDecContext>();
         private static HashSet<TigerParser.TydecContext> processedTyDecs = new HashSet<TigerParser.TydecContext>();
         public override ASTNode VisitProgram([NotNull] TigerParser.ProgramContext context)
         {
             List<DecsNode> declarations = context.decs().Select(Visit).Cast<DecsNode>().ToList();
             List<ASTExprNode> expressions = context.expr().Select(Visit).Cast<ASTExprNode>().ToList();
-            levelStack.Push(GetOutermost()); 
             return new ProgramNode(declarations, expressions);
         }
         public override ASTNode VisitIntegerLiteral([NotNull] TigerParser.IntegerLiteralContext context)
@@ -226,7 +220,7 @@ namespace Tiger.ANTLR.AST
         public override ASTNode VisitForExpr([NotNull] TigerParser.ForExprContext context)
         {
             string varName = context.ID().GetText();
-            int pos = context.ID().Symbol.StartIndex; // Assuming position is based on line number
+            int pos = context.ID().Symbol.StartIndex;
             VarExprNode loopVar = new VarExprNode(new SimpleVarNode(varName, pos));
             loopStack.Push(true);
             ASTExprNode lo = Visit(context.expr()[0]) as ASTExprNode ;
@@ -246,7 +240,7 @@ namespace Tiger.ANTLR.AST
             }
             else
             {
-                Console.WriteLine(SemanticError.BreakPos());
+                Console.WriteLine(Error.Error.BreakError);
                 Environment.Exit(1);
             }
 
@@ -308,7 +302,6 @@ namespace Tiger.ANTLR.AST
             string id = p.ID().GetText();
             RecordTypeNode rtn =  Visit(context.tyfields()) as RecordTypeNode;
             List<string> fields = rtn.Fields.Select(field => field.TypeSymbol.ToString()).ToList();
-            Program.typeTable = Program.typeTable.PutRecord(id, fields);
             return rtn;
         }
 
@@ -330,31 +323,30 @@ namespace Tiger.ANTLR.AST
 
         public override ASTNode VisitTydec([NotNull] TigerParser.TydecContext context)
         {
-            if (processedTyDecs.Contains(context))
-            {
-                return null;
-            }
+            //if (processedTyDecs.Contains(context))
+            //{
+            //    return null;
+            //}
 
-            List<TypeDecNode.TypeSubClass> typeDecNodes = new List<TypeDecNode.TypeSubClass>();
-            // Loop through the children of the context to process the type declarations
-            do
-            {
-                string name = context.ID().GetText();
-                ASTTypeNode type = Visit(context.ty()) as ASTTypeNode;
-                int pos = context.ty().start.StartIndex;
-                // Create a TypeDecNode and add it to the list
-                TypeDecNode.TypeSubClass tsc = new TypeDecNode.TypeSubClass(name, type, pos);
-                typeDecNodes.Add(tsc);
-                if (!(type is RecordTypeNode))
-                {
-                    Program.typeTable = Program.typeTable.Put(name);
-                }
-                processedTyDecs.Add(context);
-                context = Helpers.GetRightTyDecSibling(context);
+            //List<TypeDecNode.TypeSubClass> typeDecNodes = new List<TypeDecNode.TypeSubClass>();
+            //// Loop through the children of the context to process the type declarations
+            //do
+            //{
+            //    string name = context.ID().GetText();
+            //    ASTTypeNode type = Visit(context.ty()) as ASTTypeNode;
+            //    int pos = context.ty().start.StartIndex;
+            //    // Create a TypeDecNode and add it to the list
+            //    TypeDecNode.TypeSubClass tsc = new TypeDecNode.TypeSubClass(name, type, pos);
+            //    typeDecNodes.Add(tsc);
+            //    processedTyDecs.Add(context);
+            //    context = Helpers.GetRightTyDecSibling(context);
 
-            } while (context != null && context is TigerParser.TydecContext);
-            
-            return new TypeDecNode(typeDecNodes);
+            //} while (context != null && context is TigerParser.TydecContext);
+            string name = context.ID().GetText();
+            ASTTypeNode type = Visit(context.ty()) as ASTTypeNode;
+            int pos = context.ty().start.StartIndex;
+            TypeDecNode.TypeSubClass tsc = new TypeDecNode.TypeSubClass(name, type, pos);
+            return new TypeDecNode(tsc);
         }
 
         public override ASTNode VisitDecFunDec([NotNull] TigerParser.DecFunDecContext context)
@@ -385,14 +377,8 @@ namespace Tiger.ANTLR.AST
             List<string> prms = new List<string>();
             LinkedList<bool> formals = new LinkedList<bool>();
             rNode.Fields.ForEach(f => {prms.Add(f.TypeSymbol.ToString()); formals.Append(false); });
-            Label label = new Label();
-            Level parent = levelStack.Peek();
-            Level level = NewLevel(parent, label, formals);
-            levelStack.Push(level);
             ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
-            levelStack.Pop();
             int pos = context.start.StartIndex;
-            Program.symbolTable = Program.symbolTable.PutFn(name, prms, "void", label, level, Program.typeTable);
             return new FuncDec(name, rNode.Fields, option, expr, pos);
         }
         public override ASTNode VisitTypeFuncDec([NotNull] TigerParser.TypeFuncDecContext context)
@@ -405,14 +391,8 @@ namespace Tiger.ANTLR.AST
             List<string> prms = new List<string>();
             LinkedList<bool> formals = new LinkedList<bool>();
             rNode.Fields.ForEach(f => { prms.Add(f.TypeSymbol.ToString()); formals.Append(false); });
-            Label label = new Label();
-            Level parent = levelStack.Peek();
-            Level level = NewLevel(parent, label, formals);
-            levelStack.Push(level);
             ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
-            levelStack.Pop();
             int pos = context.start.StartIndex;
-            Program.symbolTable = Program.symbolTable.PutFn(name, prms, typeString, label, level, Program.typeTable);
             return new FuncDec(name, rNode.Fields, option, expr, pos);
         }
         public override ASTNode VisitSimpleVarDec([NotNull] TigerParser.SimpleVarDecContext context)
@@ -423,9 +403,6 @@ namespace Tiger.ANTLR.AST
             string sym = context.ID().GetText();
             try
             {
-                string type = expr.CheckType(Program.symbolTable, Program.typeTable).ToString();
-                Access access = Translate.Translate.AllocLocal(levelStack.Peek(), true);
-                Program.symbolTable = Program.symbolTable.Put(sym, type, access, Program.typeTable);
                 return new VarDecNode(true, option, expr, pos, sym);
             } 
             catch (Exception ex) {
@@ -444,11 +421,6 @@ namespace Tiger.ANTLR.AST
             ASTExprNode expr = Visit(context.expr()) as ASTExprNode;
             int pos = context.start.StartIndex;
             string sym = context.ID().GetText();
-            if (!Program.typeTable.Exists(sym2)) throw new Exception(TypeError.Undeclared(sym2));
-            TigerType exprType = Program.typeTable.Get(expr.CheckType(Program.symbolTable, Program.typeTable).ToString());
-            if (!Program.typeTable.Get(sym2).Equals(exprType)) throw new Exception(TypeError.Mismatched(sym2, exprType.ToString()));
-            Access access = Translate.Translate.AllocLocal(levelStack.Peek(), true);
-            Program.symbolTable = Program.symbolTable.Put(sym, expr.CheckType(Program.symbolTable, Program.typeTable).ToString(), access, Program.typeTable);
             return new VarDecNode(true, option, expr, pos, sym);
         }
 

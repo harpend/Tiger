@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiger.Semant;
+using Tiger.Translate;
 
 namespace Tiger.ANTLR.AST.Node
 {
-    abstract class ASTNode {
+    public abstract class ASTNode {
         public abstract void printNode(string tab);
     }
-    class Field : ASTNode
+    public class Field : ASTNode
     {
         public string NameSymbol { get; }
         public bool BoolRef { get; }
@@ -30,7 +32,7 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
    }
-    class FuncDec : ASTNode
+    public class FuncDec : ASTNode
     {
         public string NameSymbol { get; }
         public List<Field> Fields { get; }
@@ -58,9 +60,44 @@ namespace Tiger.ANTLR.AST.Node
             this.Body.printNode(tab + "\t\t");
             Console.WriteLine(tab + "}");
         }
+
+        public ExprTy TransDec(Env env)
+        {
+            List<Type.Type> types = new List<Type.Type>();  
+            foreach (Field f in this.Fields)
+            {
+                Type.Type tt = (Type.Type)env.typeEnv.Get(Symbol.Symbol.Intern(f.TypeSymbol));
+                if (tt == null) throw new Exception(Error.Error.NonExistantType);
+                types.Add(tt);
+            }
+
+            Type.Type result = null;    
+            if (Option == null)
+            {
+                env.varEnv.Push(Symbol.Symbol.Intern(this.NameSymbol), new FunEntry(types, null));
+            } else
+            {
+                result = Option.CheckType(env);
+                env.varEnv.Push(Symbol.Symbol.Intern(this.NameSymbol), new FunEntry(types, result));
+            }
+
+            env.varEnv.BeginScope();
+            env.typeEnv.BeginScope();
+            foreach (Field f in this.Fields)
+            {
+                Type.Type tt = (Type.Type)env.typeEnv.Get(Symbol.Symbol.Intern(f.TypeSymbol));
+                if (tt == null) throw new Exception(Error.Error.NonExistantType);
+                env.varEnv.Push(Symbol.Symbol.Intern(f.NameSymbol), new VarEntry(tt));
+            }
+
+            // TODO: evaluate body
+            env.typeEnv.EndScope();
+            env.varEnv.EndScope();
+            return new ExprTy(result, new DummyExpr());
+        }
     }
 
-    class ProgramNode : ASTNode
+    public class ProgramNode : ASTNode
     {
         public List<DecsNode> Decs { get; }
         public List<ASTExprNode> Expressions { get; }
@@ -85,6 +122,22 @@ namespace Tiger.ANTLR.AST.Node
             }
             Console.WriteLine(tab+"]");
             Console.WriteLine(tab + "}");
+        }
+
+        public List<ExprTy> TransProg(Env env)
+        {
+            foreach (DecsNode dn in this.Decs)
+            {
+                dn.TransDec(env);
+            }
+
+            List<ExprTy> exprTyList = new List<ExprTy>();
+            foreach (ASTExprNode e in this.Expressions)
+            {
+                exprTyList.Add(e.TransExpr(env));
+            }
+
+            return exprTyList;
         }
     }
 }

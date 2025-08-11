@@ -1,99 +1,82 @@
-﻿using Antlr4.Runtime.Atn;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Tiger.Translate;
-using Tiger.Frame;
 
 namespace Tiger.Table
 {
-    public class SymbolTable 
-    { 
-        private readonly ImmutableSortedDictionary<string, Symbol> dict;
-        public SymbolTable() {
-            this.dict = ImmutableSortedDictionary<string, Symbol>.Empty;
-        }
-        
-        private SymbolTable(ImmutableSortedDictionary<string, Symbol> bindings) { 
-            this.dict = bindings;
-        }
-        public SymbolTable Update(IEnumerable<KeyValuePair<string, Symbol>> items) { // overwrites if already exists
-            return new SymbolTable(this.dict.SetItems(items));
-        }
-        public SymbolTable AddTable(SymbolTable super)
-        {
-            return new SymbolTable(this.dict.SetItems(super.dict));
-        }
-        public SymbolTable PutFn(string key, List<string> prms, string ret, Label label, Level level,TypeTable tt) // add other requirements later on such as scope
-        {
-            if (!tt.Exists(ret)) throw new Exception("Type doesn't exist");
-            List<TigerType> prmtypes = new List<TigerType>();
-            foreach (string prm in prms)
-            {
-                if (!tt.Exists(prm)) throw new Exception("Type doesn't exist");
-                prmtypes.Add(TigerType.type(prm));
-            }
-            TigerType typ = TigerType.type(ret);
-            Symbol symbol = Symbol.fnSymbol(key, prmtypes, typ, label, level);
-            return new SymbolTable(dict.SetItem(key, symbol));
-        }
-        public SymbolTable Put(string key, string type, Access access, TypeTable tt) // add other requirements later on such as scope
-        {
-            if (!tt.Exists(type)) throw new Exception("Type doesn't exist");
-            TigerType typ = TigerType.type(type);
-            Symbol symbol = Symbol.symbol(key, typ, access); 
-            return new SymbolTable(dict.SetItem(key, symbol));
-        }
-        public Symbol? Get(string key)
-        {
-            return this.dict.TryGetValue(key, out var value) ? value : null;
-        }
+    public class Binding
+    {
+        public Symbol.Symbol symbol { get; set; }
+        public object value { get; set; }
+        public Binding prevBinding { get; set; }
 
+        public Binding(Symbol.Symbol symbol, object value, Binding prevBinding = null)
+        {
+            this.symbol = symbol;
+            this.value = value;
+            this.prevBinding = prevBinding;
+        }
     }
-    
-    public class TypeTable 
-    { 
-        private readonly ImmutableSortedDictionary<string, TigerType> dict;
-        public TypeTable() {
-            this.dict = ImmutableSortedDictionary<string, TigerType>.Empty
-                .Add("int", TigerType.type("int"))
-                .Add("string", TigerType.type("string"))
-                .Add("void", TigerType.type("void"))
-                .Add("nil", TigerType.type("nil"));
-        }
-        
-        private TypeTable(ImmutableSortedDictionary<string, TigerType> bindings) { 
-            this.dict = bindings;
-        }
-        public TypeTable Update(IEnumerable<KeyValuePair<string, TigerType>> items) { // overwrites if already exists
-            return new TypeTable(this.dict.SetItems(items));
-        }
-        public TypeTable AddTable(TypeTable super)
+
+    // Hashtable that if a key is overwritten contains information to restore
+    public class Table
+    {
+        private Dictionary<Symbol.Symbol, Binding> bindings = new Dictionary<Symbol.Symbol, Binding>();
+        private Stack<Binding> curSymbols = new Stack<Binding>(); // symbols of the current scope
+        private Binding mark = new Binding(null, null); // mark for the current scope
+        public Table()
         {
-            return new TypeTable(this.dict.SetItems(super.dict));
+
         }
 
-        public TypeTable Put(string key)
+        public void Push(Symbol.Symbol s, object v)
         {
-            TigerType typ = TigerType.type(key);
-            return new TypeTable(dict.SetItem(key, typ));
-        }
-        public TypeTable PutRecord(string key, List<string> fields)
-        {
-            TigerType typ = TigerType.recordType(key, fields);
-            return new TypeTable(dict.SetItem(key, typ));
-        }
-        public bool Exists(string key)
-        {
-            return dict.ContainsKey(key);
-        } 
-        public TigerType? Get(string key)
-        {     
-            return this.dict.TryGetValue(key, out var value) ? value : null;
+            Binding b = new Binding(s, v, bindings[s]);
+            bindings.Add(s, b);
+            curSymbols.Push(b);
         }
 
+        public object Get(Symbol.Symbol s)
+        {
+            if (!bindings.ContainsKey(s))
+            {
+                throw new KeyNotFoundException($"Symbol {s.name} not found in the table.");
+            }
+
+            Binding b = bindings[s];
+            return b.value;
+        }
+
+        public void BeginScope()
+        {
+            mark = new Binding(null, null, mark);
+            curSymbols.Push(mark);
+        }
+
+        public void EndScope()
+        {
+            if (mark.prevBinding == null)
+            {
+                throw new InvalidOperationException("No scope to end");
+            } 
+
+            while (curSymbols.Count > 0 && curSymbols.Peek() != mark)
+            {
+                Binding b = curSymbols.Pop();
+                if (b.prevBinding != null)
+                {
+                    bindings[b.symbol] = b.prevBinding;
+                } else
+                {
+                    bindings.Remove(b.symbol);
+                }
+            }
+
+            curSymbols.Pop();
+            mark = mark.prevBinding;
+        }
     }
 }

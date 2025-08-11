@@ -2,14 +2,13 @@
 using Tiger.ANTLR;
 using Tiger.ANTLR.AST;
 using Tiger.ANTLR.AST.Node;
+using Tiger.Semant;
 using Tiger.Table;
 
 namespace Tut;
 
 public class Program
 {
-    public static TypeTable typeTable;
-    public static SymbolTable symbolTable;
     static void Main(string[] args)
     {
         var fileContents = File.ReadAllText("C:/Users/jackt/OneDrive/Documents/Compilers/Tiger/Tiger/Tests/test4.tgr");
@@ -28,17 +27,19 @@ public class Program
             return;
         }
         TigerVisitor visitor = new TigerVisitor();
-        typeTable = new TypeTable();
-        symbolTable = new SymbolTable();
-        ASTNode ast = visitor.Visit(program);
+        ProgramNode ast = (ProgramNode)visitor.Visit(program);
         if (ast == null)
         {
             Console.WriteLine("AST is null");
-        } else
-        {
-        PrintAST(ast);
+        } 
 
-        }
+        Semant semant = new Semant();
+        List<ExprTy> exprTyList = semant.TransProg(ast);
+        //else
+        //{
+        //PrintAST(ast);
+
+        //}
     }
 
     static void PrintAST(ASTNode node, int indent = 0)

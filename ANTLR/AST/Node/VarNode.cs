@@ -3,11 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tiger.Semant;
 using Tiger.Table;
+using Tiger.Symbol;
+using Tiger.Translate;
+using Tiger.Type;
 
 namespace Tiger.ANTLR.AST.Node
 {
-    abstract class ASTVarNode : ASTNode
+    public abstract class ASTVarNode : ASTNode
     {
         public int Pos { get; }
 
@@ -16,62 +20,83 @@ namespace Tiger.ANTLR.AST.Node
             this.Pos = pos;
         }
 
-        public abstract TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable);
+        public abstract Type.Type CheckType(Env env);
+        public abstract ExprTy TransVar(Env env);
     }
 
-    class SimpleVarNode : ASTVarNode
+    public class SimpleVarNode : ASTVarNode
     {
-        public string Symbol { get; }
+        public string Sym { get; }
         public SimpleVarNode(string symbol, int pos) : base(pos)
         {
-            this.Symbol = symbol;
+            this.Sym = symbol;
         }
         public override void printNode(string tab)
         {
             Console.WriteLine(tab + "SimpleVar{");
-            Console.WriteLine(tab + "\tSymbol: ", Symbol);
+            Console.WriteLine(tab + "\tSymbol: ", Sym);
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable) // not one type for this, therefore it should never be checked or maybe return the first type.
+        public override Type.Type CheckType(Env env) // not one type for this, therefore it should never be checked or maybe return the first type.
         {
-            Symbol s = symbolTable.Get(this.Symbol);
-            if (Symbol != null)
+            VarEntry ve = (VarEntry)env.varEnv.Get(Symbol.Symbol.Intern(Sym));
+            if (ve != null)
             {
-                VarSym vs = s.entry as VarSym;
-                return vs.type;
+                return ve.type;
             }
 
-            throw new Exception(Error.TypeError.NonExistantType());
+            throw new Exception(Error.Error.NonExistantType);
+        }
+
+        public override ExprTy TransVar(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new DummyExpr());
         }
     }
 
     class FieldVarNode : ASTVarNode
     {
         public ASTVarNode Var { get; }
-        public string Symbol { get; }
+        public string Sym { get; }
 
         public FieldVarNode(ASTVarNode var, string symbol, int pos) : base(pos)
         {
-            this.Symbol = symbol;
+            this.Sym = symbol;
             this.Var = var;
         }
 
         public override void printNode(string tab)
         {
             Console.WriteLine(tab + "FieldVar{");
-            Console.WriteLine(tab + "\tSymbol: ", Symbol);
+            Console.WriteLine(tab + "\tSymbol: ", Sym);
             Console.WriteLine(tab + "\tVar: ");
             this.Var.printNode(tab + "\t\t");
             Console.WriteLine(tab + "}");
         }
 
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable) // not one type for this, therefore it should never be checked or maybe return the first type.
+        public override Type.Type CheckType(Env env) // not one type for this, therefore it should never be checked or maybe return the first type.
         {
-            TigerType tt = this.Var.CheckType(symbolTable, typeTable);
-            TigerType ftt = tt.fields[this.Symbol];
-            if (ftt == null) throw new Exception(Error.TypeError.NonExistantType());
-            return ftt;
+            RecordType type = (RecordType)Var.CheckType(env);
+            if (type != null)
+            {
+                foreach (RecordField rf in type.recordFields)
+                {
+                    if (rf.name == Symbol.Symbol.Intern(Sym))
+                    {
+                        return rf.type;
+                    }
+                }
+            }
+
+            throw new Exception(Error.Error.NonExistantType); 
+        }
+
+        public override ExprTy TransVar(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new DummyExpr());
         }
     }
 
@@ -94,12 +119,23 @@ namespace Tiger.ANTLR.AST.Node
             this.Var.printNode(tab + "\t\t");
             Console.WriteLine(tab + "}");
         }
-        public override TigerType CheckType(SymbolTable symbolTable, TypeTable typeTable) // not one type for this, therefore it should never be checked or maybe return the first type.
+        public override Type.Type CheckType(Env env) // not one type for this, therefore it should never be checked or maybe return the first type.
         {
-            TigerType tt = this.Var.CheckType(symbolTable, typeTable);
-            TigerType ett = this.Expr.CheckType(symbolTable, typeTable);
-            if (ett != tt) throw new Exception(Error.TypeError.NonExistantType());
-            return tt;
+            ArrayType type = (ArrayType)Var.CheckType(env);
+            Type.Type type2 = Expr.CheckType(env);
+            
+            if (type != null && type2 != null && type2.Equals(env.typeEnv.Get(Symbol.Symbol.Intern("int"))))
+            {
+                return type.type;
+            }
+
+            throw new Exception(Error.Error.NonExistantType);
+        }
+
+        public override ExprTy TransVar(Env env)
+        {
+            Type.Type type = CheckType(env);
+            return new ExprTy(type, new DummyExpr());
         }
     }
 }
