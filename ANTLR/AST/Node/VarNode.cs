@@ -34,7 +34,7 @@ namespace Tiger.ANTLR.AST.Node
         public override void printNode(string tab)
         {
             Console.WriteLine(tab + "SimpleVar{");
-            Console.WriteLine(tab + "\tSymbol: ", Sym);
+            Console.WriteLine(tab + "\tSymbol: " + Sym);
             Console.WriteLine(tab + "}");
         }
 

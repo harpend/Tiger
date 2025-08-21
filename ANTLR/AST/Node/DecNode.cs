@@ -198,6 +198,7 @@ namespace Tiger.ANTLR.AST.Node
             }
             public override ExprTy TransDec(Env env)
             {
+                env.typeEnv.Push(Symbol.Symbol.Intern(TypeSub.NameSymbol), CheckType(env));
                 return new ExprTy(null, new Translate.DummyExpr());
             }
         }

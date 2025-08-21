@@ -34,7 +34,8 @@ namespace Tiger.Table
 
         public void Push(Symbol.Symbol s, object v)
         {
-            Binding b = new Binding(s, v, bindings[s]);
+            Binding previousBinding = bindings.ContainsKey(s) ? bindings[s] : null;
+            Binding b = new Binding(s, v, previousBinding);
             bindings.Add(s, b);
             curSymbols.Push(b);
         }

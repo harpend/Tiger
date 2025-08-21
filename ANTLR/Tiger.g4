@@ -62,9 +62,9 @@ expr: lvalue	#LeftVal
       | expr OR expr						     # OrExpr
 	  | LPAREN expr RPAREN						# ParenNestExpr
 	  | lvalue ASGN expr						# Assignment
-	  | IF expr THEN expr (ELSE expr)?			# IfExpr
-	  | WHILE expr DO expr						# WhileExpr
-	  | FOR ID ASGN expr TO expr DO expr		# ForExpr
+	  | IF expr THEN exprs (ELSE exprs)?			# IfExpr
+	  | WHILE expr DO exprs						# WhileExpr
+	  | FOR ID ASGN expr TO expr DO exprs		# ForExpr
 	  | BREAK									# BreakExpr
 	  |	LET decs IN exprs END					# LetExpr
 	  ;

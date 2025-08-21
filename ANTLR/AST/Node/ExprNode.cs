@@ -43,8 +43,12 @@ namespace Tiger.ANTLR.AST.Node
 
         public override ExprTy TransExpr(Env env)
         {
-            Type.Type type = CheckType(env);
-            return new ExprTy(type, new Translate.DummyExpr());
+            foreach (ASTExprNode expr in Exprs)
+            {
+                expr.TransExpr(env);
+            }
+
+            return new ExprTy(null, new Translate.DummyExpr());
         }
     }
     public class VarExprNode : ASTExprNode
@@ -550,24 +554,24 @@ namespace Tiger.ANTLR.AST.Node
 
         public override Type.Type CheckType(Env env) 
         {
-            foreach (ASTDecNode dec in this.Decs.Decs)
-            {
-                Type.Type tt = dec.CheckType(env);
-                if (tt == null) throw new Exception(Error.Error.NonExistantType);
-            }
-            throw new Exception(Error.Error.NonExistantType);
+            throw new Exception(Error.Error.NonExistantType); // as a let expr is not a type/does not return one
         }
 
         public override ExprTy TransExpr(Env env)
         {
             env.varEnv.BeginScope();
             env.typeEnv.BeginScope();
-            Type.Type type = CheckType(env);
+            foreach (ASTDecNode dec in this.Decs.Decs)
+            {
+                ExprTy et = dec.TransDec(env);
+                if (et == null) throw new Exception(Error.Error.NonExistantType);
+            }
+
+            ExprTy etBody = Body.TransExpr(env);
             // add the decs to the environment and then discard them after the body is evaluated
-            // TODO: evaluate body
             env.typeEnv.EndScope();
             env.varEnv.EndScope();
-            return new ExprTy(type, new Translate.DummyExpr());
+            return new ExprTy(null, new Translate.DummyExpr());
         }
     }
 
@@ -598,8 +602,7 @@ namespace Tiger.ANTLR.AST.Node
 
         public override Type.Type CheckType(Semant.Env env)
         {
-            VarEntry varEntry = (VarEntry)env.varEnv.Get(Symbol.Symbol.Intern(this.Sym));
-            Type.Type tt = varEntry.type;
+            Type.Type tt = (Type.Type)env.typeEnv.Get(Symbol.Symbol.Intern(this.Sym));
             if (tt == null) throw new Exception(Error.Error.NonExistantType);
             return tt;
         }

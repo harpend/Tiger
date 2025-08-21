@@ -1184,33 +1184,35 @@ public partial class TigerParser : Parser {
 	public ExprsContext exprs() {
 		ExprsContext _localctx = new ExprsContext(_ctx, State);
 		EnterRule(_localctx, 22, RULE_exprs);
-		int _la;
 		try {
+			int _alt;
 			EnterOuterAlt(_localctx, 1);
 			{
 			State = 134;
 			_errHandler.Sync(this);
-			_la = _input.La(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << INT) | (1L << STRING) | (1L << WHILE) | (1L << FOR) | (1L << BREAK) | (1L << LET) | (1L << IF) | (1L << NIL) | (1L << MINUS) | (1L << LPAREN) | (1L << ID) | (1L << INTLIT) | (1L << STRLIT))) != 0)) {
+			switch ( Interpreter.AdaptivePredict(_input,12,_ctx) ) {
+			case 1:
 				{
 				State = 126; expr(0);
 				State = 131;
 				_errHandler.Sync(this);
-				_la = _input.La(1);
-				while (_la==SC) {
-					{
-					{
-					State = 127; Match(SC);
-					State = 128; expr(0);
-					}
+				_alt = Interpreter.AdaptivePredict(_input,11,_ctx);
+				while ( _alt!=2 && _alt!=global::Antlr4.Runtime.Atn.ATN.InvalidAltNumber ) {
+					if ( _alt==1 ) {
+						{
+						{
+						State = 127; Match(SC);
+						State = 128; expr(0);
+						}
+						} 
 					}
 					State = 133;
 					_errHandler.Sync(this);
-					_la = _input.La(1);
+					_alt = Interpreter.AdaptivePredict(_input,11,_ctx);
 				}
 				}
+				break;
 			}
-
 			}
 		}
 		catch (RecognitionException re) {
@@ -1261,13 +1263,13 @@ public partial class TigerParser : Parser {
 	}
 	public partial class WhileExprContext : ExprContext {
 		public ITerminalNode WHILE() { return GetToken(TigerParser.WHILE, 0); }
-		public ExprContext[] expr() {
-			return GetRuleContexts<ExprContext>();
-		}
-		public ExprContext expr(int i) {
-			return GetRuleContext<ExprContext>(i);
+		public ExprContext expr() {
+			return GetRuleContext<ExprContext>(0);
 		}
 		public ITerminalNode DO() { return GetToken(TigerParser.DO, 0); }
+		public ExprsContext exprs() {
+			return GetRuleContext<ExprsContext>(0);
+		}
 		public WhileExprContext(ExprContext context) { CopyFrom(context); }
 		public override void EnterRule(IParseTreeListener listener) {
 			ITigerListener typedListener = listener as ITigerListener;
@@ -1285,13 +1287,16 @@ public partial class TigerParser : Parser {
 	}
 	public partial class IfExprContext : ExprContext {
 		public ITerminalNode IF() { return GetToken(TigerParser.IF, 0); }
-		public ExprContext[] expr() {
-			return GetRuleContexts<ExprContext>();
-		}
-		public ExprContext expr(int i) {
-			return GetRuleContext<ExprContext>(i);
+		public ExprContext expr() {
+			return GetRuleContext<ExprContext>(0);
 		}
 		public ITerminalNode THEN() { return GetToken(TigerParser.THEN, 0); }
+		public ExprsContext[] exprs() {
+			return GetRuleContexts<ExprsContext>();
+		}
+		public ExprsContext exprs(int i) {
+			return GetRuleContext<ExprsContext>(i);
+		}
 		public ITerminalNode ELSE() { return GetToken(TigerParser.ELSE, 0); }
 		public IfExprContext(ExprContext context) { CopyFrom(context); }
 		public override void EnterRule(IParseTreeListener listener) {
@@ -1789,6 +1794,9 @@ public partial class TigerParser : Parser {
 		}
 		public ITerminalNode TO() { return GetToken(TigerParser.TO, 0); }
 		public ITerminalNode DO() { return GetToken(TigerParser.DO, 0); }
+		public ExprsContext exprs() {
+			return GetRuleContext<ExprsContext>(0);
+		}
 		public ForExprContext(ExprContext context) { CopyFrom(context); }
 		public override void EnterRule(IParseTreeListener listener) {
 			ITigerListener typedListener = listener as ITigerListener;
@@ -2044,14 +2052,14 @@ public partial class TigerParser : Parser {
 				State = 189; Match(IF);
 				State = 190; expr(0);
 				State = 191; Match(THEN);
-				State = 192; expr(0);
+				State = 192; exprs();
 				State = 195;
 				_errHandler.Sync(this);
 				switch ( Interpreter.AdaptivePredict(_input,17,_ctx) ) {
 				case 1:
 					{
 					State = 193; Match(ELSE);
-					State = 194; expr(0);
+					State = 194; exprs();
 					}
 					break;
 				}
@@ -2066,7 +2074,7 @@ public partial class TigerParser : Parser {
 				State = 197; Match(WHILE);
 				State = 198; expr(0);
 				State = 199; Match(DO);
-				State = 200; expr(4);
+				State = 200; exprs();
 				}
 				break;
 
@@ -2082,7 +2090,7 @@ public partial class TigerParser : Parser {
 				State = 206; Match(TO);
 				State = 207; expr(0);
 				State = 208; Match(DO);
-				State = 209; expr(3);
+				State = 209; exprs();
 				}
 				break;
 
@@ -2389,12 +2397,12 @@ public partial class TigerParser : Parser {
 		"\a(\x2\x2\xB8\xB9\x5\x1A\xE\x2\xB9\xBA\a)\x2\x2\xBA\xDD\x3\x2\x2\x2\xBB"+
 		"\xBC\x5\x16\f\x2\xBC\xBD\a$\x2\x2\xBD\xBE\x5\x1A\xE\b\xBE\xDD\x3\x2\x2"+
 		"\x2\xBF\xC0\a\x12\x2\x2\xC0\xC1\x5\x1A\xE\x2\xC1\xC2\a\x13\x2\x2\xC2\xC5"+
-		"\x5\x1A\xE\x2\xC3\xC4\a\x14\x2\x2\xC4\xC6\x5\x1A\xE\x2\xC5\xC3\x3\x2\x2"+
+		"\x5\x18\r\x2\xC3\xC4\a\x14\x2\x2\xC4\xC6\x5\x18\r\x2\xC5\xC3\x3\x2\x2"+
 		"\x2\xC5\xC6\x3\x2\x2\x2\xC6\xDD\x3\x2\x2\x2\xC7\xC8\a\a\x2\x2\xC8\xC9"+
-		"\x5\x1A\xE\x2\xC9\xCA\a\x15\x2\x2\xCA\xCB\x5\x1A\xE\x6\xCB\xDD\x3\x2\x2"+
+		"\x5\x1A\xE\x2\xC9\xCA\a\x15\x2\x2\xCA\xCB\x5\x18\r\x2\xCB\xDD\x3\x2\x2"+
 		"\x2\xCC\xCD\a\b\x2\x2\xCD\xCE\a/\x2\x2\xCE\xCF\a$\x2\x2\xCF\xD0\x5\x1A"+
 		"\xE\x2\xD0\xD1\a\t\x2\x2\xD1\xD2\x5\x1A\xE\x2\xD2\xD3\a\x15\x2\x2\xD3"+
-		"\xD4\x5\x1A\xE\x5\xD4\xDD\x3\x2\x2\x2\xD5\xDD\a\n\x2\x2\xD6\xD7\a\v\x2"+
+		"\xD4\x5\x18\r\x2\xD4\xDD\x3\x2\x2\x2\xD5\xDD\a\n\x2\x2\xD6\xD7\a\v\x2"+
 		"\x2\xD7\xD8\x5\x4\x3\x2\xD8\xD9\a\f\x2\x2\xD9\xDA\x5\x18\r\x2\xDA\xDB"+
 		"\a\r\x2\x2\xDB\xDD\x3\x2\x2\x2\xDC\x8A\x3\x2\x2\x2\xDC\x8C\x3\x2\x2\x2"+
 		"\xDC\x8D\x3\x2\x2\x2\xDC\x8E\x3\x2\x2\x2\xDC\x8F\x3\x2\x2\x2\xDC\x9C\x3"+

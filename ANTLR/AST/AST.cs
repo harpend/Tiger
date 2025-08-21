@@ -14,7 +14,7 @@ using Error = Tiger.Error.Error;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace Tiger.ANTLR.AST
 {
-    class TigerVisitor : TigerBaseVisitor<ASTNode>
+    public class TigerVisitor : TigerBaseVisitor<ASTNode>
     {
         private static Stack<bool> loopStack = new Stack<bool>();
         private static HashSet<TigerParser.DecFunDecContext> processedFuncDecs = new HashSet<TigerParser.DecFunDecContext>();
@@ -197,12 +197,12 @@ namespace Tiger.ANTLR.AST
 
         public override ASTNode VisitIfExpr([NotNull] TigerParser.IfExprContext context)
         {
-            ASTExprNode test = Visit(context.expr()[0]) as ASTExprNode;
-            ASTExprNode then_ = Visit(context.expr()[1]) as ASTExprNode;
+            ASTExprNode test = Visit(context.expr()) as ASTExprNode;
+            ASTExprNode then_ = Visit(context.exprs()[0]) as ASTExprNode;
             ASTExprNode else_ = null;
-            if (context.expr().Length > 2)
+            if (context.exprs().Length > 1)
             {
-                else_ = Visit(context.expr()[2]) as ASTExprNode;
+                else_ = Visit(context.exprs()[1]) as ASTExprNode;
             }
             return new IfExprNode(test, then_, else_);
         }
@@ -210,8 +210,8 @@ namespace Tiger.ANTLR.AST
         public override ASTNode VisitWhileExpr([NotNull] TigerParser.WhileExprContext context)
         {
             loopStack.Push(true);
-            ASTExprNode test = Visit(context.expr()[0]) as ASTExprNode;
-            ASTExprNode body = Visit(context.expr()[1]) as ASTExprNode;
+            ASTExprNode test = Visit(context.expr()) as ASTExprNode;
+            ASTExprNode body = Visit(context.exprs()) as ASTExprNode;
             loopStack.Pop();    
             int pos = context.Start.StopIndex;
             return new WhileExprNode(test, pos, body);
@@ -225,7 +225,7 @@ namespace Tiger.ANTLR.AST
             loopStack.Push(true);
             ASTExprNode lo = Visit(context.expr()[0]) as ASTExprNode ;
             ASTExprNode hi = Visit(context.expr()[1]) as ASTExprNode ;
-            ASTExprNode body = Visit(context.expr()[2]) as ASTExprNode;
+            ASTExprNode body = Visit(context.exprs()) as ASTExprNode;
             loopStack.Pop();
             pos = context.Start.StartIndex;
             bool escape = true;
@@ -284,14 +284,14 @@ namespace Tiger.ANTLR.AST
 
         public override ASTNode VisitTyTypeId([NotNull] TigerParser.TyTypeIdContext context)
         {
-            string symbol = context.typeid().ID().GetText();
+            string symbol = context.typeid().GetText();
             int pos = context.Start.StartIndex;
             return new NameTypeNode(symbol, pos);
         }
 
         public override ASTNode VisitTyArray([NotNull] TigerParser.TyArrayContext context)
         {
-            string symbol = context.typeid().ID().GetText();
+            string symbol = context.typeid().GetText();
             int pos = context.Start.StartIndex;
             return new ArrayTypeNode(symbol, pos);
         }
@@ -372,7 +372,7 @@ namespace Tiger.ANTLR.AST
 
         public override ASTNode VisitSimpleFuncDec([NotNull] TigerParser.SimpleFuncDecContext context) {
             string name = context.ID().GetText();
-            SimpleVarNode option = null;
+            NameTypeNode option = null;
             RecordTypeNode rNode = Visit(context.tyfields()) as RecordTypeNode;
             List<string> prms = new List<string>();
             LinkedList<bool> formals = new LinkedList<bool>();
@@ -386,7 +386,7 @@ namespace Tiger.ANTLR.AST
             string name = context.ID().GetText();
             string typeString = context.typeid().GetText();
             int pos2 = context.typeid().start.StartIndex;
-            SimpleVarNode option = new SimpleVarNode(typeString, pos2);
+            NameTypeNode option = new NameTypeNode(typeString, pos2);
             RecordTypeNode rNode = Visit(context.tyfields()) as RecordTypeNode;
             List<string> prms = new List<string>();
             LinkedList<bool> formals = new LinkedList<bool>();

@@ -36,10 +36,10 @@ namespace Tiger.ANTLR.AST.Node
     {
         public string NameSymbol { get; }
         public List<Field> Fields { get; }
-        public SimpleVarNode Option { get; }
+        public NameTypeNode Option { get; }
         public ASTExprNode Body { get; }
         public int Pos { get; }
-        public FuncDec(string nameSymbol, List<Field> fields, SimpleVarNode option, ASTExprNode body, int pos)
+        public FuncDec(string nameSymbol, List<Field> fields, NameTypeNode option, ASTExprNode body, int pos)
         {
             this.NameSymbol = nameSymbol;
             this.Fields = fields;
