@@ -264,9 +264,6 @@ namespace Tiger.ANTLR.AST
         }
         public override ASTNode VisitDecs([NotNull] TigerParser.DecsContext context)
         {
-            //List<ASTDecNode> decs = context.dec()
-            //    .Select(exprCtx => Visit(exprCtx) as ASTDecNode)
-            //    .ToList();
             List<ASTDecNode> decs = new List<ASTDecNode> ();
             foreach (TigerParser.DecContext decCtx in context.dec())
             {
@@ -323,25 +320,6 @@ namespace Tiger.ANTLR.AST
 
         public override ASTNode VisitTydec([NotNull] TigerParser.TydecContext context)
         {
-            //if (processedTyDecs.Contains(context))
-            //{
-            //    return null;
-            //}
-
-            //List<TypeDecNode.TypeSubClass> typeDecNodes = new List<TypeDecNode.TypeSubClass>();
-            //// Loop through the children of the context to process the type declarations
-            //do
-            //{
-            //    string name = context.ID().GetText();
-            //    ASTTypeNode type = Visit(context.ty()) as ASTTypeNode;
-            //    int pos = context.ty().start.StartIndex;
-            //    // Create a TypeDecNode and add it to the list
-            //    TypeDecNode.TypeSubClass tsc = new TypeDecNode.TypeSubClass(name, type, pos);
-            //    typeDecNodes.Add(tsc);
-            //    processedTyDecs.Add(context);
-            //    context = Helpers.GetRightTyDecSibling(context);
-
-            //} while (context != null && context is TigerParser.TydecContext);
             string name = context.ID().GetText();
             ASTTypeNode type = Visit(context.ty()) as ASTTypeNode;
             int pos = context.ty().start.StartIndex;

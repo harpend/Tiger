@@ -539,19 +539,6 @@ public interface ITigerListener : IParseTreeListener {
 	void ExitLeftVal([NotNull] TigerParser.LeftValContext context);
 
 	/// <summary>
-	/// Enter a parse tree produced by the <c>NegationExpr</c>
-	/// labeled alternative in <see cref="TigerParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterNegationExpr([NotNull] TigerParser.NegationExprContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>NegationExpr</c>
-	/// labeled alternative in <see cref="TigerParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitNegationExpr([NotNull] TigerParser.NegationExprContext context);
-
-	/// <summary>
 	/// Enter a parse tree produced by the <c>BreakExpr</c>
 	/// labeled alternative in <see cref="TigerParser.expr"/>.
 	/// </summary>
@@ -563,6 +550,19 @@ public interface ITigerListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitBreakExpr([NotNull] TigerParser.BreakExprContext context);
+
+	/// <summary>
+	/// Enter a parse tree produced by the <c>NegationExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterNegationExpr([NotNull] TigerParser.NegationExprContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>NegationExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitNegationExpr([NotNull] TigerParser.NegationExprContext context);
 
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="TigerParser.program"/>.

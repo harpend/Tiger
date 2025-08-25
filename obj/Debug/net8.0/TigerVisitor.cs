@@ -345,20 +345,20 @@ public interface ITigerVisitor<Result> : IParseTreeVisitor<Result> {
 	Result VisitLeftVal([NotNull] TigerParser.LeftValContext context);
 
 	/// <summary>
-	/// Visit a parse tree produced by the <c>NegationExpr</c>
-	/// labeled alternative in <see cref="TigerParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitNegationExpr([NotNull] TigerParser.NegationExprContext context);
-
-	/// <summary>
 	/// Visit a parse tree produced by the <c>BreakExpr</c>
 	/// labeled alternative in <see cref="TigerParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitBreakExpr([NotNull] TigerParser.BreakExprContext context);
+
+	/// <summary>
+	/// Visit a parse tree produced by the <c>NegationExpr</c>
+	/// labeled alternative in <see cref="TigerParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitNegationExpr([NotNull] TigerParser.NegationExprContext context);
 
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="TigerParser.program"/>.

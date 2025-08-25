@@ -38,10 +38,11 @@ lvalue: ID # LvalID
 		| lvalue LBRACKET expr RBRACKET # LvalNest
 		;
 
-exprs: (expr (SC expr)*)?;
+exprs: (expr SC (expr SC)*)?;
 
 expr: lvalue	#LeftVal
 	  | NIL		#Nil
+	  | BREAK	# BreakExpr
 	  | INTLIT	#IntegerLiteral
 	  | STRLIT	#StringLiteral
 	  | ID LPAREN (expr (COMMA expr)*)? RPAREN  # FunctionCall
@@ -65,7 +66,6 @@ expr: lvalue	#LeftVal
 	  | IF expr THEN exprs (ELSE exprs)?			# IfExpr
 	  | WHILE expr DO exprs						# WhileExpr
 	  | FOR ID ASGN expr TO expr DO exprs		# ForExpr
-	  | BREAK									# BreakExpr
 	  |	LET decs IN exprs END					# LetExpr
 	  ;
 

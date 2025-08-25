@@ -66,5 +66,11 @@ namespace Tiger.Semant
 
             return type;
         }
+
+        // only to be used for testing
+        public Env GetEnv()
+        {
+            return env;
+        }
     }
 }
