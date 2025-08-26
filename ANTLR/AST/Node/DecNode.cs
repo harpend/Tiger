@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiger.Semant;
+using Tiger.Translate;
 using Tiger.Type;
 
 namespace Tiger.ANTLR.AST.Node
 {
     public abstract class ASTDecNode : ASTNode {
         public abstract Type.Type CheckType(Env env);
-        public abstract ExprTy TransDec(Env env);
+        public abstract ExprTy TransDec(Env env, Stack<Level> levelStack);
     }
 
     public class DecsNode : ASTDecNode
@@ -32,11 +33,11 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override ExprTy TransDec(Env env)
+        public override ExprTy TransDec(Env env, Stack<Level> levelStack)
         {
             foreach (var dec in this.Decs)
             {
-                dec.TransDec(env);
+                dec.TransDec(env, levelStack);
             }
 
             return null;
@@ -95,10 +96,11 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public override ExprTy TransDec(Env env)
+        public override ExprTy TransDec(Env env, Stack<Level> levelStack)
         {
+            Access a = Translate.Translate.AllocLocal(true, levelStack.Peek());
             Type.Type tt = CheckType(env);
-            env.varEnv.Push(Symbol.Symbol.Intern(NameSymbol), new VarEntry(tt));
+            env.varEnv.Push(Symbol.Symbol.Intern(NameSymbol), new VarEntry(tt, a));
             return new ExprTy(tt, new Translate.DummyExpr());
         }
 
@@ -150,11 +152,11 @@ namespace Tiger.ANTLR.AST.Node
             {
                 throw new Exception(Error.Error.NonExistantType);
             }
-            public override ExprTy TransDec(Env env)
+            public override ExprTy TransDec(Env env, Stack<Level> levelStack)
             {
                 foreach (var funcDec in FuncDecs)
                 {
-                    funcDec.TransDec(env);
+                    funcDec.TransDec(env, levelStack);
                 }
 
                 return new ExprTy(null, new Translate.DummyExpr());
@@ -196,7 +198,7 @@ namespace Tiger.ANTLR.AST.Node
             {
                 return TypeSub.Ty.CheckType(env);
             }
-            public override ExprTy TransDec(Env env)
+            public override ExprTy TransDec(Env env, Stack<Level> levelStack)
             {
                 env.typeEnv.Push(Symbol.Symbol.Intern(TypeSub.NameSymbol), CheckType(env));
                 return new ExprTy(null, new Translate.DummyExpr());

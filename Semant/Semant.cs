@@ -4,34 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Tiger.ANTLR.AST.Node;
+using Tiger.Translate;
 
 namespace Tiger.Semant
 {
     public class Semant
     {
         private Env env = new Env();
+        private Stack<Level> levelStack = new Stack<Level>();
         public Semant()
         {
             env = new Env();
+            levelStack.Push(Translate.Translate.Outermost); // represents the global level
         }
 
         public List<ExprTy> TransProg(ProgramNode pn)
         {
-            return pn.TransProg(env);
+            return pn.TransProg(env, levelStack);
         }
         public ExprTy TransVar(ASTVarNode var)
         {
-            return var.TransVar(env);
+            return var.TransVar(env, levelStack);
         }
 
         public ExprTy TransExpr(ASTExprNode expr)
         {
-            return expr.TransExpr(env);
+            return expr.TransExpr(env, levelStack);
         }
 
         public void TransDec(ASTDecNode dec)
         {
-            dec.TransDec(env);
+            dec.TransDec(env, levelStack); // TODO: TransDec should handle levels as well
         }
 
         public Type.Type TransType(ASTTypeNode typeNode)

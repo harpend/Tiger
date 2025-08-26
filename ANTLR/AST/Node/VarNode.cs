@@ -21,7 +21,7 @@ namespace Tiger.ANTLR.AST.Node
         }
 
         public abstract Type.Type CheckType(Env env);
-        public abstract ExprTy TransVar(Env env);
+        public abstract ExprTy TransVar(Env env, Stack<Level> levelStack);
     }
 
     public class SimpleVarNode : ASTVarNode
@@ -49,7 +49,7 @@ namespace Tiger.ANTLR.AST.Node
             throw new Exception(Error.Error.NonExistantType);
         }
 
-        public override ExprTy TransVar(Env env)
+        public override ExprTy TransVar(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new DummyExpr());
@@ -93,7 +93,7 @@ namespace Tiger.ANTLR.AST.Node
             throw new Exception(Error.Error.NonExistantType); 
         }
 
-        public override ExprTy TransVar(Env env)
+        public override ExprTy TransVar(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new DummyExpr());
@@ -132,7 +132,7 @@ namespace Tiger.ANTLR.AST.Node
             throw new Exception(Error.Error.NonExistantType);
         }
 
-        public override ExprTy TransVar(Env env)
+        public override ExprTy TransVar(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new DummyExpr());

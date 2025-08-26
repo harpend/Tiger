@@ -14,7 +14,7 @@ namespace Tiger.Frame.Arch
 
     public class x64Frame : IFrame
     {
-        private int Offset = 0;
+        private int Offset = 0; // assumes all locals are of size 8
         
         // fized regs
         private Temp.Temp RBP = new Temp.Temp();

@@ -6,15 +6,16 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using Tiger.Table;
 using Tiger.Error;
 using Tiger.Semant;
+using Tiger.Table;
+using Tiger.Translate;
 
 namespace Tiger.ANTLR.AST.Node
 {
     public abstract class ASTExprNode : ASTNode {
         public abstract Type.Type CheckType(Env env);
-        public abstract ExprTy TransExpr(Env env);
+        public abstract ExprTy TransExpr(Env env, Stack<Level> levelStack);
     }
 
     public class ExprsNode : ASTExprNode
@@ -41,11 +42,11 @@ namespace Tiger.ANTLR.AST.Node
             throw new Exception(Error.Error.NonExistantType);
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             foreach (ASTExprNode expr in Exprs)
             {
-                expr.TransExpr(env);
+                expr.TransExpr(env, levelStack);
             }
 
             return new ExprTy(null, new Translate.DummyExpr());
@@ -71,7 +72,7 @@ namespace Tiger.ANTLR.AST.Node
             return this.Var.CheckType(env);
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new Translate.DummyExpr());
@@ -90,7 +91,7 @@ namespace Tiger.ANTLR.AST.Node
             return (Type.Type)env.typeEnv.Get(Symbol.Symbol.Intern("nil"));
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new Translate.DummyExpr());
@@ -115,7 +116,7 @@ namespace Tiger.ANTLR.AST.Node
             return (Type.Type)env.typeEnv.Get(Symbol.Symbol.Intern("int"));
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new Translate.DummyExpr());
@@ -140,7 +141,7 @@ namespace Tiger.ANTLR.AST.Node
             return (Type.Type)env.typeEnv.Get(Symbol.Symbol.Intern("string"));
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new Translate.DummyExpr());
@@ -187,7 +188,7 @@ namespace Tiger.ANTLR.AST.Node
             return tt;
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new Translate.DummyExpr());
@@ -232,7 +233,7 @@ namespace Tiger.ANTLR.AST.Node
             throw new Exception(Error.Error.InvalidOperation(this.Op.GetType().ToString(), leftType.ToString(), rightType.ToString()));
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new Translate.DummyExpr());
@@ -288,7 +289,7 @@ namespace Tiger.ANTLR.AST.Node
             return tt;
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new Translate.DummyExpr());
@@ -333,7 +334,7 @@ namespace Tiger.ANTLR.AST.Node
             throw new Exception(Error.Error.NonExistantType);
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new Translate.DummyExpr());
@@ -368,7 +369,7 @@ namespace Tiger.ANTLR.AST.Node
             throw new Exception(Error.Error.NonExistantType);
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new Translate.DummyExpr());
@@ -420,7 +421,7 @@ namespace Tiger.ANTLR.AST.Node
             throw new Exception(Error.Error.NonExistantType);
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new Translate.DummyExpr());
@@ -456,7 +457,7 @@ namespace Tiger.ANTLR.AST.Node
             throw new Exception(Error.Error.NonExistantType);
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new Translate.DummyExpr());
@@ -500,7 +501,7 @@ namespace Tiger.ANTLR.AST.Node
             throw new Exception(Error.Error.NonExistantType);
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new Translate.DummyExpr());
@@ -523,7 +524,7 @@ namespace Tiger.ANTLR.AST.Node
             throw new Exception(Error.Error.NonExistantType);
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new Translate.DummyExpr());
@@ -557,17 +558,17 @@ namespace Tiger.ANTLR.AST.Node
             throw new Exception(Error.Error.NonExistantType); // as a let expr is not a type/does not return one
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             env.varEnv.BeginScope();
             env.typeEnv.BeginScope();
             foreach (ASTDecNode dec in this.Decs.Decs)
             {
-                ExprTy et = dec.TransDec(env);
+                ExprTy et = dec.TransDec(env, levelStack);
                 if (et == null) throw new Exception(Error.Error.NonExistantType);
             }
 
-            ExprTy etBody = Body.TransExpr(env);
+            ExprTy etBody = Body.TransExpr(env, levelStack);
             // add the decs to the environment and then discard them after the body is evaluated
             env.typeEnv.EndScope();
             env.varEnv.EndScope();
@@ -607,7 +608,7 @@ namespace Tiger.ANTLR.AST.Node
             return tt;
         }
 
-        public override ExprTy TransExpr(Env env)
+        public override ExprTy TransExpr(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
             return new ExprTy(type, new Translate.DummyExpr());

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using Tiger.Semant;
@@ -61,38 +62,46 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public ExprTy TransDec(Env env)
+        public ExprTy TransDec(Env env, Stack<Level> levelStack)
         {
-            List<Type.Type> types = new List<Type.Type>();  
+            List<Type.Type> types = new List<Type.Type>();
+            List<bool> formals = new List<bool>();
             foreach (Field f in this.Fields)
             {
                 Type.Type tt = (Type.Type)env.typeEnv.Get(Symbol.Symbol.Intern(f.TypeSymbol));
                 if (tt == null) throw new Exception(Error.Error.NonExistantType);
                 types.Add(tt);
+                formals.Add(true); // currently assumes all params escape
             }
 
+            Frame.Temp.Label label = new Frame.Temp.Label();
+            levelStack.Push(Translate.Translate.NewLevel(levelStack.Peek(), label, formals));
             Type.Type result = null;    
             if (Option == null)
             {
-                env.varEnv.Push(Symbol.Symbol.Intern(this.NameSymbol), new FunEntry(types, null));
+                env.varEnv.Push(Symbol.Symbol.Intern(this.NameSymbol), new FunEntry(types, null, label, levelStack.Peek()));
             } else
             {
                 result = Option.CheckType(env);
-                env.varEnv.Push(Symbol.Symbol.Intern(this.NameSymbol), new FunEntry(types, result));
+                env.varEnv.Push(Symbol.Symbol.Intern(this.NameSymbol), new FunEntry(types, result, label, levelStack.Peek()));
             }
 
             env.varEnv.BeginScope();
             env.typeEnv.BeginScope();
-            foreach (Field f in this.Fields)
+            List<Access> fs = Translate.Translate.Formals(levelStack.Peek());
+            for (int i = 0; i< this.Fields.Count; i++)
             {
+                Field f = this.Fields[i];
                 Type.Type tt = (Type.Type)env.typeEnv.Get(Symbol.Symbol.Intern(f.TypeSymbol));
                 if (tt == null) throw new Exception(Error.Error.NonExistantType);
-                env.varEnv.Push(Symbol.Symbol.Intern(f.NameSymbol), new VarEntry(tt));
+                Access a = fs[i + 1]; // +1 due to the static link
+                env.varEnv.Push(Symbol.Symbol.Intern(f.NameSymbol), new VarEntry(tt, a));
             }
 
             // TODO: evaluate body
             env.typeEnv.EndScope();
             env.varEnv.EndScope();
+            levelStack.Pop();
             return new ExprTy(result, new DummyExpr());
         }
     }
@@ -124,17 +133,17 @@ namespace Tiger.ANTLR.AST.Node
             Console.WriteLine(tab + "}");
         }
 
-        public List<ExprTy> TransProg(Env env)
+        public List<ExprTy> TransProg(Env env, Stack<Level> levelStack)
         {
             foreach (DecsNode dn in this.Decs)
             {
-                dn.TransDec(env);
+                dn.TransDec(env, levelStack);
             }
 
             List<ExprTy> exprTyList = new List<ExprTy>();
             foreach (ASTExprNode e in this.Expressions)
             {
-                exprTyList.Add(e.TransExpr(env));
+                exprTyList.Add(e.TransExpr(env, levelStack));
             }
 
             return exprTyList;
