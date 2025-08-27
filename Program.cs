@@ -33,6 +33,7 @@ public class Program
             Console.WriteLine("AST is null");
         } 
 
+        // TODO: add findEscape which adds another stage to parse the ast separately to find escaping variables
         Semant semant = new Semant();
         List<ExprTy> exprTyList = semant.TransProg(ast);
         //else
