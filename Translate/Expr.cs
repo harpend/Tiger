@@ -12,36 +12,36 @@ namespace Tiger.Translate
 {
     public interface IExpr
     {
-        public Tree.Expr UnEx();
-        public Tree.Stmt UnNx();
-        public Func<Frame.Temp.Label, Frame.Temp.Label, Tree.Stmt> UnCx();
+        public Expr UnEx();
+        public Stmt UnNx();
+        public Func<Frame.Temp.Label, Frame.Temp.Label, Stmt> UnCx();
     }
 
     public class Ex : IExpr
     {
-        public Tree.Expr Expr { get; set; }
-        public Ex(Tree.Expr expr)
+        public Expr Expr { get; set; }
+        public Ex(Expr expr)
         {
             Expr = expr;
         }
 
-        public Tree.Expr UnEx()
+        public Expr UnEx()
         {
             return Expr;
         }
 
-        public Tree.Stmt UnNx()
+        public Stmt UnNx()
         {
             return Expr;
         }
 
-        public Func<Frame.Temp.Label, Frame.Temp.Label, Tree.Stmt> UnCx()
+        public Func<Frame.Temp.Label, Frame.Temp.Label, Stmt> UnCx()
         {
             return (t, f) =>
-                new Tree.CJump(
+                new CJump(
                     Tree.RelOp.NE,
                     Expr,
-                    new Tree.Const(0),
+                    new Const(0),
                     t,
                     f
                 );
@@ -49,23 +49,23 @@ namespace Tiger.Translate
 
         public class Nx : IExpr
         {
-            public Tree.Stmt Stmt { get; set; }
-            public Nx(Tree.Stmt stmt)
+            public Stmt Stmt { get; set; }
+            public Nx(Stmt stmt)
             {
                 Stmt = stmt;
             }
 
-            public Tree.Expr UnEx()
+            public Expr UnEx()
             {
                 return new Eseq(Stmt, new Const(0));
             }
 
-            public Tree.Stmt UnNx()
+            public Stmt UnNx()
             {
                 return Stmt;
             }
 
-            public Func<Frame.Temp.Label, Frame.Temp.Label, Tree.Stmt> UnCx()
+            public Func<Frame.Temp.Label, Frame.Temp.Label, Stmt> UnCx()
             {
                 throw new Exception("UnNx should not be called on Nx");
             }
@@ -73,9 +73,9 @@ namespace Tiger.Translate
 
         public class Cx : IExpr
         {
-            public Func<Frame.Temp.Label, Frame.Temp.Label, Tree.Stmt> GenStmt { get; }
-            public Cx(Func<Frame.Temp.Label, Frame.Temp.Label, Tree.Stmt> genStmt) => GenStmt = genStmt;
-            public Tree.Expr UnEx()
+            public Func<Frame.Temp.Label, Frame.Temp.Label, Stmt> GenStmt { get; }
+            public Cx(Func<Frame.Temp.Label, Frame.Temp.Label, Stmt> genStmt) => GenStmt = genStmt;
+            public Expr UnEx()
             {
                 Frame.Temp.Temp r = new Frame.Temp.Temp();
                 Frame.Temp.Label t = new Frame.Temp.Label();
@@ -87,12 +87,12 @@ namespace Tiger.Translate
                             new Tree.Temp(r));
             }
 
-            public Func<Frame.Temp.Label, Frame.Temp.Label, Tree.Stmt> UnCx()
+            public Func<Frame.Temp.Label, Frame.Temp.Label, Stmt> UnCx()
             {
                 return GenStmt;
             }
 
-            public Tree.Stmt UnNx()
+            public Stmt UnNx()
             {
                 return UnEx();
             }

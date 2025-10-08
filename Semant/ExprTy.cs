@@ -9,9 +9,9 @@ namespace Tiger.Semant
 {
     public class ExprTy
     {
-        public Translate.Expr expr { get; set; }
+        public Translate.IExpr expr { get; set; }
         public Type.Type type { get; set; }
-        public ExprTy(Type.Type type, Translate.Expr expr)
+        public ExprTy(Type.Type type, Translate.IExpr expr)
         {
             this.type = type;
             this.expr = expr;

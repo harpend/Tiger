@@ -11,5 +11,7 @@ namespace Tiger.Frame
         public Temp.Label GetName();
         public List<IAccess> GetFormals();
         public IAccess AllocLocal(bool escaped);
+
+        public Temp.Temp GetFP();
     }
 }

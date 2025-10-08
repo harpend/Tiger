@@ -8,7 +8,7 @@ namespace Tiger.Frame
 {
     public class InReg : IAccess
     {
-        Temp.Temp Reg {  get; set; }
+        public Temp.Temp Reg {  get; set; }
         public InReg() { 
             Reg = new Temp.Temp();
         }

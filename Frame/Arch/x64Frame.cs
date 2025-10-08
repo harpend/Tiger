@@ -16,18 +16,18 @@ namespace Tiger.Frame.Arch
     {
         private int Offset = 0; // assumes all locals are of size 8
         
-        // fized regs
-        private Temp.Temp RBP = new Temp.Temp();
-        private Temp.Temp RSP = new Temp.Temp();
-        private Temp.Temp RAX = new Temp.Temp();
+        // fixed regs
+        private static Temp.Temp RBP = new Temp.Temp(0);
+        private static Temp.Temp RSP = new Temp.Temp(1);
+        private static Temp.Temp RAX = new Temp.Temp(2);
 
-        private Temp.Temp[] argRegs = new Temp.Temp[] { 
-            new Temp.Temp(), // RDI
-            new Temp.Temp(), // RSI
-            new Temp.Temp(), // RDX
-            new Temp.Temp(), // RCX
-            new Temp.Temp(), // R8
-            new Temp.Temp()  // R9
+        private static Temp.Temp[] argRegs = new Temp.Temp[] { 
+            new Temp.Temp(3), // RDI
+            new Temp.Temp(4), // RSI
+            new Temp.Temp(5), // RDX
+            new Temp.Temp(6), // RCX
+            new Temp.Temp(7), // R8
+            new Temp.Temp(8)  // R9
         };
 
         private Temp.Label Name {  get; set; }
@@ -72,5 +72,10 @@ namespace Tiger.Frame.Arch
                 return new InReg();
             }
         }
+
+        public Temp.Temp GetFP()
+        {
+            return RBP;
+        } 
     }
 }

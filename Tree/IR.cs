@@ -123,11 +123,11 @@ namespace Tiger.Tree
     public class Jump : Stmt
     {
         public Expr expr;
-        public LinkedList<Temp> tempList;
-        public Jump(Expr expr, LinkedList<Temp> tempList)
+        public LinkedList<Label> labelList;
+        public Jump(Expr expr, LinkedList<Label> labelList)
         {
             this.expr = expr;
-            this.tempList = tempList;
+            this.labelList = labelList;
         }
     }
 

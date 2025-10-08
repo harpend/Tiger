@@ -15,5 +15,10 @@ namespace Tiger.Frame.Temp
             Name = "L" + GlobalCount;
             GlobalCount++;
         }
+
+        public Label(string name)
+        {
+            Name = name;
+        }
     }
 }

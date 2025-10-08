@@ -8,6 +8,8 @@ using Tiger.Table;
 using Tiger.Symbol;
 using Tiger.Translate;
 using Tiger.Type;
+using Tiger.Tree;
+using Tiger.Frame;
 
 namespace Tiger.ANTLR.AST.Node
 {
@@ -52,7 +54,22 @@ namespace Tiger.ANTLR.AST.Node
         public override ExprTy TransVar(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
-            return new ExprTy(type, new DummyExpr());
+            VarEntry ve = (VarEntry)env.varEnv.Get(Symbol.Symbol.Intern(Sym));
+            Level l = levelStack.Peek();
+            Expr expr = new Temp(l.Frame.GetFP());
+            while (!l.Equals(ve.access.level))
+            {
+                List<Access> accesses = Translate.Translate.Formals(l);
+                Access link = accesses.First();
+                InFrame inf = (InFrame)link.fAccess;
+                expr = new Mem(new BinOpExpr(BinOp.PLUS, expr, new Const(inf.Offset)));
+                l = link.level;
+            }
+
+            // after adding the offset to all the static links, add the offset to the variable
+            InFrame inf2 = (InFrame)ve.access.fAccess;
+            expr = new Mem(new BinOpExpr(BinOp.PLUS, expr, new Const(inf2.Offset)));
+            return new ExprTy(type, new Ex(expr));
         }
     }
 
@@ -84,7 +101,7 @@ namespace Tiger.ANTLR.AST.Node
                 foreach (RecordField rf in type.recordFields)
                 {
                     if (rf.name == Symbol.Symbol.Intern(Sym))
-                    {
+                    {                   
                         return rf.type;
                     }
                 }
@@ -96,7 +113,21 @@ namespace Tiger.ANTLR.AST.Node
         public override ExprTy TransVar(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
-            return new ExprTy(type, new DummyExpr());
+            ExprTy exprTy = Var.TransVar(env, levelStack);
+            RecordType rtype = (RecordType)type;
+            int i = 0;
+            for (; i < rtype.recordFields.Count; i++) {
+                RecordField rf = rtype.recordFields[i];
+                if (rf.name == Symbol.Symbol.Intern(Sym))
+                {
+                    break;
+                }
+            }
+            
+            Expr offset = new BinOpExpr(BinOp.MUL, new Const(i), new Const(8)); // this wouldn't work if variables were not constant size
+            Expr address = new BinOpExpr(BinOp.PLUS, exprTy.expr.UnEx(), offset);
+            Expr expr = new Mem(address);
+            return new ExprTy(type, new Ex(expr));
         }
     }
 
@@ -135,7 +166,12 @@ namespace Tiger.ANTLR.AST.Node
         public override ExprTy TransVar(Env env, Stack<Level> levelStack)
         {
             Type.Type type = CheckType(env);
-            return new ExprTy(type, new DummyExpr());
+            ExprTy exprTy = Var.TransVar(env, levelStack);
+            ExprTy indexExprTy = Expr.TransExpr(env, levelStack);
+            Expr offset = new BinOpExpr(BinOp.MUL, indexExprTy.expr.UnEx(), new Const(8));
+            Expr address = new BinOpExpr(BinOp.PLUS, exprTy.expr.UnEx(), offset);
+            Expr expr = new Mem(address);
+            return new ExprTy(type, new Ex(expr));
         }
     }
 }
